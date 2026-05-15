@@ -1,5 +1,5 @@
-import { DepartmentSignupPlaceholder } from "@/components/department/department-signup-placeholder";
+import { DepartmentSignupWorkflow } from "@/components/department/signup/department-signup-workflow";
 
 export default function DepartmentSignupPage() {
-  return <DepartmentSignupPlaceholder />;
+  return <DepartmentSignupWorkflow />;
 }

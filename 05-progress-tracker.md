@@ -35,7 +35,7 @@ Status values:
 
 | ID | Task Group | Owner | Status | Notes |
 | --- | --- | --- | --- | --- |
-| TG-B1 | Department signup and pending approval | Dev B | Not Started | Department self-registration |
+| TG-B1 | Department signup and pending approval | Dev B | Complete | Signup/pending workflow, stepper UX, mock pending state, and admin queue record added and QA checked |
 | TG-B2 | Department dashboard | Dev B | Not Started | Plan, credits, jobs, applicant summary |
 | TG-B3 | Department Profile builder | Dev B | Not Started | Draft, approval, dynamic sections |
 | TG-B4 | Department Job Post builder | Dev B | Not Started | Templates, drafts, approvals |

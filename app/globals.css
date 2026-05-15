@@ -53,3 +53,64 @@ textarea {
   min-height: 100vh;
   background: var(--background);
 }
+
+@keyframes gb-step-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gb-check-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gb-progress-number-enter {
+  from {
+    opacity: 0.55;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gb-step-panel-motion {
+  animation: gb-step-panel-enter 220ms ease-out both;
+}
+
+.gb-check-motion {
+  animation: gb-check-enter 240ms ease-out both;
+}
+
+.gb-progress-number-motion {
+  animation: gb-progress-number-enter 220ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gb-step-panel-motion,
+  .gb-check-motion,
+  .gb-progress-number-motion {
+    animation: none;
+  }
+}

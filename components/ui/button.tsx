@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -9,7 +9,8 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   iconRight?: ReactNode;
 };
 
-export function Button({ href, variant = "primary", iconLeft, iconRight, className, children, ...props }: ButtonProps) {
+export function Button({ href, variant = "primary", iconLeft, iconRight, className, children, style, ...props }: ButtonProps) {
+  const foregroundStyle: CSSProperties = variant === "primary" ? { ...style, color: "#ffffff" } : { ...style };
   const classes = cn(
     "inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-5 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[color:var(--blue)] focus:ring-offset-2",
     variant === "primary" && "bg-[color:var(--blue-deep)] text-white hover:bg-[color:var(--navy)]",
@@ -28,14 +29,14 @@ export function Button({ href, variant = "primary", iconLeft, iconRight, classNa
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} style={foregroundStyle}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button className={classes} {...props}>
+    <button className={classes} style={foregroundStyle} {...props}>
       {content}
     </button>
   );
