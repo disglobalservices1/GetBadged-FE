@@ -149,11 +149,11 @@ export function getPendingDepartmentApprovalViewModel() {
     timeline: [
       {
         label: "Registration received",
-        description: "Your department details and primary admin account are in the GB Admin approval queue.",
+        description: "Your department details and primary admin account are in the GetBadged approval queue.",
         status: "complete" as const
       },
       {
-        label: "GB Admin verification",
+        label: "GetBadged verification",
         description: "GetBadged verifies the department identity, admin contact, and requested plan.",
         status: "in_progress" as const
       },

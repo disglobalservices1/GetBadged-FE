@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/common/app-shell";
-import { adminNavItems } from "@/lib/routes/navigation";
 
 type AdminLayoutProps = {
   children: React.ReactNode;
@@ -7,7 +6,7 @@ type AdminLayoutProps = {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
-    <AppShell navItems={adminNavItems} roleLabel="GB Admin">
+    <AppShell navRole="admin" roleLabel="GB Admin">
       {children}
     </AppShell>
   );
