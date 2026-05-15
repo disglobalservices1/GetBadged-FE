@@ -117,6 +117,8 @@ common/
 - Do not expose protected Badge Pool fields.
 - Do not show department notes or private files to candidates.
 - Use icons with labels or accessible names.
+- In cards and stat panels, place icons to the left of the title/heading text, not as a standalone top element.
+- Icon/title cards must use `32px` top padding consistently across all pages.
 
 ## Error Handling & API Response Rules
 

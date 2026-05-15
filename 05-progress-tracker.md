@@ -20,7 +20,7 @@ Status values:
 
 | ID | Task Group | Owner | Status | Notes |
 | --- | --- | --- | --- | --- |
-| TG-A1 | Public marketing shell | Dev A | Not Started | Public home/about/resources |
+| TG-A1 | Public marketing shell | Dev A | Done | Public home/about/resources |
 | TG-A2 | Public department and job browse | Dev A | Not Started | Department/job list and detail pages |
 | TG-A3 | Auth and candidate free signup | Dev A | Not Started | Shared login, candidate signup |
 | TG-A4 | Candidate dashboard | Dev A | Not Started | Overview, tokens, eligibility, limited state |

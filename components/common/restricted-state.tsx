@@ -12,7 +12,7 @@ export function RestrictedState({
 }: RestrictedStateProps) {
   return (
     <Card>
-      <CardContent className="flex items-start gap-4 p-6">
+      <CardContent className="flex items-start gap-4 px-6 pb-6 pt-8">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-[color:var(--danger)]">
           <ShieldAlert className="h-5 w-5" />
         </div>

@@ -366,6 +366,8 @@ Card style:
 - Small radius
 - Light shadow only if needed
 - Icon in navy
+- Card icons must sit to the left of the title/heading text in the same row. Icon, title, and any right-side number/status should be vertically center aligned; workflow card icons may use about 7px top offset to match the reference visual balance.
+- Cards with icon/title header rows must use `32px` top padding everywhere. Do not use tighter default card padding for these cards.
 - Green check icons for positive bullet lists
 - Gold used for job type labels or brand accent, not large backgrounds
 
@@ -380,7 +382,7 @@ Do not:
 Primary:
 
 - Navy/blue fill
-- White text
+- White text, always. Primary blue buttons and blue link-buttons must never render dark/black text.
 - Optional right arrow icon
 - Compact but easy to click
 
@@ -400,6 +402,7 @@ Icon/action buttons:
 - Use simple outline icons, preferably lucide-react.
 - Icons should feel civic/administrative: user, shield, calendar, document, graduation cap, building, message, archive, download, briefcase.
 - Use icons consistently in rails, quick summaries, metadata, and cards.
+- In cards and stat panels, align icons beside the heading/title text, then place supporting text below the heading row.
 
 ## Tables
 
