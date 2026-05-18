@@ -1,5 +1,13 @@
-import { CandidateSignupPlaceholder } from "@/components/candidate/candidate-signup-placeholder";
+import { CandidateSignupForm } from "@/components/auth/candidate-signup-form";
 
-export default function CandidateSignupPage() {
-  return <CandidateSignupPlaceholder />;
+type CandidateSignupPageProps = {
+  searchParams?: Promise<{
+    jobId?: string;
+  }>;
+};
+
+export default async function CandidateSignupPage({ searchParams }: CandidateSignupPageProps) {
+  const params = await searchParams;
+
+  return <CandidateSignupForm jobId={params?.jobId} />;
 }

@@ -53,3 +53,30 @@ export type JobPost = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type PublicJobSummary = Pick<
+  JobPost,
+  | "id"
+  | "departmentId"
+  | "departmentName"
+  | "title"
+  | "jobType"
+  | "positionCategory"
+  | "city"
+  | "state"
+  | "employmentType"
+  | "postedAt"
+  | "hiringTimeline"
+  | "numberOfOpenings"
+> & {
+  departmentSlug: string;
+  coverImageUrl?: string;
+};
+
+export type PublicJobDetail = JobPost & {
+  departmentSlug: string;
+  departmentLogoUrl?: string;
+  departmentCoverImageUrl?: string;
+  departmentProfileIntro: string;
+  whyJoin: string[];
+};

@@ -368,6 +368,7 @@ Card style:
 - Icon in navy
 - Card icons must sit to the left of the title/heading text in the same row. Icon, title, and any right-side number/status should be vertically center aligned; workflow card icons may use about 7px top offset to match the reference visual balance.
 - Cards with icon/title header rows must use `32px` top padding everywhere. Do not use tighter default card padding for these cards.
+- List cards with a left media/image column must also start media at `32px` from the card top, matching the text column. Do not flush images to the top border unless the whole card is intentionally image-led.
 - Green check icons for positive bullet lists
 - Gold used for job type labels or brand accent, not large backgrounds
 
@@ -391,6 +392,11 @@ Secondary:
 - White background
 - Navy border/text
 - Used for `Save & Exit`, `Save Draft`, `Previous`, `Save Job`
+
+Dropdown/select controls:
+
+- Standard dropdown height is `56px` (`min-h-14`) so filter bars and form selects feel substantial without becoming oversized.
+- Use a custom chevron with `16px` right spacing; do not rely on inconsistent native browser arrow placement.
 
 Icon/action buttons:
 

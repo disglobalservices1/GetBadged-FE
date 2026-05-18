@@ -22,3 +22,45 @@ export type Department = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type PublicDepartmentSummary = Pick<
+  Department,
+  "id" | "departmentName" | "slug" | "city" | "state" | "logoUrl" | "coverImageUrl"
+> & {
+  profileIntro: string;
+  activeJobCount: number;
+  departmentType: string;
+  hiringTimeline: string;
+  openPositions: string;
+};
+
+export type DepartmentProfileHighlight = {
+  label: string;
+  value: string;
+};
+
+export type DepartmentProfileSection = {
+  id: string;
+  title: string;
+  summary: string;
+  highlights: DepartmentProfileHighlight[];
+};
+
+export type PublicDepartmentProfile = Department & {
+  profileIntro: string;
+  activeJobCount: number;
+  departmentType: string;
+  hiringTimeline: string;
+  openPositions: string;
+  chiefName: string;
+  chiefSwornIn: string;
+  population: string;
+  departmentSize: string;
+  patrolOfficers: string;
+  callVolume: string;
+  communityType: string;
+  badgeImageUrl: string;
+  whyJoin: string[];
+  media: string[];
+  sections: DepartmentProfileSection[];
+};

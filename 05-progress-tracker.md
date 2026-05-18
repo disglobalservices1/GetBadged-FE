@@ -21,9 +21,9 @@ Status values:
 | ID | Task Group | Owner | Status | Notes |
 | --- | --- | --- | --- | --- |
 | TG-A1 | Public marketing shell | Dev A | Done | Public home/about/resources |
-| TG-A2 | Public department and job browse | Dev A | Not Started | Department/job list and detail pages |
-| TG-A3 | Auth and candidate free signup | Dev A | Not Started | Shared login, candidate signup |
-| TG-A4 | Candidate dashboard | Dev A | Not Started | Overview, tokens, eligibility, limited state |
+| TG-A2 | Public department and job browse | Dev A | Done | Department/job list and detail pages with filters and public-safe mock data |
+| TG-A3 | Auth and candidate free signup | Dev A | Done | Shared login, candidate signup, forgot password placeholder, department signup shell |
+| TG-A4 | Candidate dashboard | Dev A | Done | Overview, tokens, eligibility checklist, activity, Badge Requests, applications, limited free state |
 | TG-A5 | Candidate profile wizard | Dev A | Not Started | Autosave, progress rail, all profile steps |
 | TG-A6 | Candidate documents | Dev A | Not Started | PDF uploads by category |
 | TG-A7 | Candidate exam registration | Dev A | Not Started | ELR exam browse/register UI |

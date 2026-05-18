@@ -341,6 +341,32 @@ type PublicDepartmentSummary = Pick<
 > & {
   profileIntro: string;
   activeJobCount: number;
+  departmentType: string;
+  hiringTimeline: string;
+  openPositions: string;
+};
+```
+
+Public Department Profile mock/detail fields used by public browse:
+
+```ts
+type PublicDepartmentProfile = Department & {
+  profileIntro: string;
+  activeJobCount: number;
+  departmentType: string;
+  hiringTimeline: string;
+  openPositions: string;
+  chiefName: string;
+  chiefSwornIn: string;
+  population: string;
+  departmentSize: string;
+  patrolOfficers: string;
+  callVolume: string;
+  communityType: string;
+  badgeImageUrl: string;
+  whyJoin: string[];
+  media: string[];
+  sections: DepartmentProfileSection[];
 };
 ```
 
@@ -465,6 +491,37 @@ type SalaryRange = {
   topStepSalary?: number;
   academySalary?: number;
   payFrequency?: 'hourly' | 'weekly' | 'bi_weekly' | 'monthly' | 'annually';
+};
+```
+
+Public-safe job browse/detail fields used before backend APIs:
+
+```ts
+type PublicJobSummary = Pick<
+  JobPost,
+  | 'id'
+  | 'departmentId'
+  | 'departmentName'
+  | 'title'
+  | 'jobType'
+  | 'positionCategory'
+  | 'city'
+  | 'state'
+  | 'employmentType'
+  | 'postedAt'
+  | 'hiringTimeline'
+  | 'numberOfOpenings'
+> & {
+  departmentSlug: string;
+  coverImageUrl?: string;
+};
+
+type PublicJobDetail = JobPost & {
+  departmentSlug: string;
+  departmentLogoUrl?: string;
+  departmentCoverImageUrl?: string;
+  departmentProfileIntro: string;
+  whyJoin: string[];
 };
 ```
 

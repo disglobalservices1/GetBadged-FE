@@ -1,14 +1,14 @@
-import { Building2 } from "lucide-react";
-import { EmptyState } from "@/components/common/empty-state";
+import { DepartmentBrowsePage } from "@/components/public/department-browse-page";
 
-export default function PublicDepartmentsPage() {
-  return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
-      <EmptyState
-        icon={<Building2 size={28} />}
-        title="Public department browse foundation"
-        description="TG-A2 will build the Department Profile browse and detail experience here."
-      />
-    </div>
-  );
+type PublicDepartmentsPageProps = {
+  searchParams?: Promise<{
+    city?: string;
+    departmentType?: string;
+  }>;
+};
+
+export default async function PublicDepartmentsPage({ searchParams }: PublicDepartmentsPageProps) {
+  const filters = await searchParams;
+
+  return <DepartmentBrowsePage filters={filters} />;
 }
