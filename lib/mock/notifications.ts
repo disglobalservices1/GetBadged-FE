@@ -18,7 +18,7 @@ export const mockNotifications: Notification[] = [
     type: "approval_returned",
     title: "Job post needs revisions",
     body: "Certified Police Officer needs additional salary details before approval.",
-    linkHref: "/department/jobs/job_2/edit",
+    linkHref: "/department/jobs/job_5/edit",
     createdAt: "2026-05-14T13:00:00.000Z"
   },
   {

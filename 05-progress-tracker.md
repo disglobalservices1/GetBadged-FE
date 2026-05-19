@@ -39,7 +39,7 @@ Status values:
 | TG-B2 | Department dashboard | Dev B | Complete | Department overview, plan/credits, jobs, applicants, approvals, messages, notifications, responsive drawer nav, active-route states, and restricted-state model reviewed |
 | TG-B3 | Department Profile builder | Dev B | Complete | Draft/edit profile, dynamic sections, media slots, revisions/admin notes, and mock save/submit approval behavior reviewed |
 | TG-B4 | Department Job Post builder | Dev B | Complete | Templates, drafts, approvals |
-| TG-B5 | Department Badge Pool | Dev B | Not Started | Anonymous pool, filters, send Badge |
+| TG-B5 | Department Badge Pool | Dev B | Complete | Anonymous pool, dropdown filters, badge credits, send Badge modal, sent state, and privacy checklist reviewed on desktop and small screens |
 | TG-B6 | Department Applicant Pools | Dev B | Not Started | Per-job/combined pool, full app view |
 | TG-B7 | Department status, archive, exports | Dev B | Not Started | Bulk updates, CSV exports |
 | TG-B8 | Department messages and notifications | Dev B | Not Started | Compose/history/templates |
@@ -61,7 +61,7 @@ Status values:
 | Shared message model | Done | Two-way message thread/message types and mock file added |
 | Shared audit log model | Done | Audit log type and mock file added |
 | Responsive QA | Not Started | Desktop/tablet/mobile |
-| Badge Pool privacy QA | Not Started | No protected fields pre-consent |
+| Badge Pool privacy QA | Complete | Verified no name, email, phone, street address, date of birth, last 4 SSN, gender, or ethnicity appears pre-consent |
 | Mock-to-API readiness pass | Not Started | Replace mock data with REST clients later |
 
 ## Decisions Logged

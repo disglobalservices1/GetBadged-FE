@@ -130,7 +130,7 @@ export const mockJobPosts: PublicJobDetail[] = [
     updatedAt: "2026-05-15T08:00:00.000Z"
   },
   {
-    id: "job_2",
+    id: "job_5",
     departmentId: "department_1",
     departmentName: "Westview Police Department",
     departmentSlug: "westview-police-department",
@@ -158,7 +158,7 @@ export const mockJobPosts: PublicJobDetail[] = [
     updatedAt: "2026-05-14T12:00:00.000Z"
   },
   {
-    id: "job_3",
+    id: "job_6",
     departmentId: "department_1",
     departmentName: "Westview Police Department",
     departmentSlug: "westview-police-department",
