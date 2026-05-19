@@ -1,5 +1,5 @@
-import { DepartmentSignupShell } from "@/components/auth/department-signup-shell";
+import { DepartmentSignupWorkflow } from "@/components/department/signup/department-signup-workflow";
 
 export default function DepartmentSignupPage() {
-  return <DepartmentSignupShell />;
+  return <DepartmentSignupWorkflow />;
 }

@@ -17,6 +17,7 @@ type JobBrowsePageProps = {
 export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
   const jobs = getPublicJobs(filters);
   const filterOptions = getJobFilterOptions();
+  const filterFormKey = `${filters.city ?? ""}-${filters.jobType ?? ""}-${filters.departmentId ?? ""}`;
 
   return (
     <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10">
@@ -35,7 +36,7 @@ export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
         </div>
       </section>
 
-      <form className="grid gap-4 rounded-lg border border-[color:var(--border-muted)] bg-white p-4 md:grid-cols-4" action="/jobs">
+      <form key={filterFormKey} className="grid gap-4 rounded-lg border border-[color:var(--border-muted)] bg-white p-4 md:grid-cols-4" action="/jobs">
         <Select label="City" name="city" defaultValue={filters.city ?? ""} options={[{ label: "All cities", value: "" }, ...filterOptions.cities.map((city) => ({ label: city, value: city }))]} />
         <Select
           label="Job type"

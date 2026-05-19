@@ -35,10 +35,10 @@ Status values:
 
 | ID | Task Group | Owner | Status | Notes |
 | --- | --- | --- | --- | --- |
-| TG-B1 | Department signup and pending approval | Dev B | Not Started | Department self-registration |
-| TG-B2 | Department dashboard | Dev B | Not Started | Plan, credits, jobs, applicant summary |
-| TG-B3 | Department Profile builder | Dev B | Not Started | Draft, approval, dynamic sections |
-| TG-B4 | Department Job Post builder | Dev B | Not Started | Templates, drafts, approvals |
+| TG-B1 | Department signup and pending approval | Dev B | Complete | Signup/pending workflow, stepper UX, mock pending state, and admin queue record added and QA checked |
+| TG-B2 | Department dashboard | Dev B | Complete | Department overview, plan/credits, jobs, applicants, approvals, messages, notifications, responsive drawer nav, active-route states, and restricted-state model reviewed |
+| TG-B3 | Department Profile builder | Dev B | Complete | Draft/edit profile, dynamic sections, media slots, revisions/admin notes, and mock save/submit approval behavior reviewed |
+| TG-B4 | Department Job Post builder | Dev B | Complete | Templates, drafts, approvals |
 | TG-B5 | Department Badge Pool | Dev B | Not Started | Anonymous pool, filters, send Badge |
 | TG-B6 | Department Applicant Pools | Dev B | Not Started | Per-job/combined pool, full app view |
 | TG-B7 | Department status, archive, exports | Dev B | Not Started | Bulk updates, CSV exports |

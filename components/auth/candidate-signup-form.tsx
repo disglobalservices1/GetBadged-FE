@@ -63,17 +63,27 @@ export function CandidateSignupForm({ jobId }: CandidateSignupFormProps) {
           <CardContent>
             <form className="grid gap-4" onSubmit={submitSignup}>
               <div className="grid gap-4 md:grid-cols-2">
-                <Input label="First name" value={form.firstName} onChange={(event) => updateField("firstName", event.target.value)} error={errors.firstName} />
-                <Input label="Last name" value={form.lastName} onChange={(event) => updateField("lastName", event.target.value)} error={errors.lastName} />
+                <Input label="First name *" value={form.firstName} onChange={(event) => updateField("firstName", event.target.value)} error={errors.firstName} />
+                <Input label="Last name *" value={form.lastName} onChange={(event) => updateField("lastName", event.target.value)} error={errors.lastName} />
               </div>
               <div className="grid gap-4 md:grid-cols-2">
-                <Input label="Email" value={form.email} onChange={(event) => updateField("email", event.target.value)} error={errors.email} type="email" />
-                <Input label="Phone" value={form.phone} onChange={(event) => updateField("phone", event.target.value)} error={errors.phone} placeholder="(617) 555-1234" />
-              </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                <Input label="Password" value={form.password} onChange={(event) => updateField("password", event.target.value)} error={errors.password} type="password" />
+                <Input label="Email *" value={form.email} onChange={(event) => updateField("email", event.target.value)} error={errors.email} type="email" />
                 <Input
-                  label="Confirm password"
+                  label="Phone *"
+                  value={form.phone}
+                  onChange={(event) => updateField("phone", event.target.value)}
+                  error={errors.phone}
+                  placeholder="(617) 555-1234"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  format="phone"
+                />
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Input label="Password *" value={form.password} onChange={(event) => updateField("password", event.target.value)} error={errors.password} type="password" />
+                <Input
+                  label="Confirm password *"
                   value={form.confirmPassword}
                   onChange={(event) => updateField("confirmPassword", event.target.value)}
                   error={errors.confirmPassword}

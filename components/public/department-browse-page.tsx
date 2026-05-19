@@ -16,6 +16,7 @@ type DepartmentBrowsePageProps = {
 export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps) {
   const departments = getPublicDepartments(filters);
   const filterOptions = getDepartmentFilterOptions();
+  const filterFormKey = `${filters.city ?? ""}-${filters.departmentType ?? ""}`;
 
   return (
     <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10">
@@ -34,7 +35,7 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
         </div>
       </section>
 
-      <form className="grid gap-4 rounded-lg border border-[color:var(--border-muted)] bg-white p-4 md:grid-cols-3" action="/departments">
+      <form key={filterFormKey} className="grid gap-4 rounded-lg border border-[color:var(--border-muted)] bg-white p-4 md:grid-cols-3" action="/departments">
         <Select
           label="City"
           name="city"
@@ -101,7 +102,7 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
 
                 <p className="max-w-3xl text-sm leading-6 text-[color:var(--muted)]">{department.profileIntro}</p>
 
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid grid-cols-3 gap-3">
                   <MetaItem icon={<Users className="h-4 w-4" />} label="Open positions" value={department.openPositions} />
                   <MetaItem icon={<Clock className="h-4 w-4" />} label="Hiring timeline" value={department.hiringTimeline} />
                   <MetaItem icon={<Building2 className="h-4 w-4" />} label="Active jobs" value={`${department.activeJobCount}`} />
@@ -126,9 +127,9 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
 
 function MetaItem({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-start gap-2 rounded-md border border-[color:var(--border-muted)] p-3">
+    <div className="flex min-w-0 flex-col gap-2 rounded-md border border-[color:var(--border-muted)] p-3 sm:flex-row sm:items-start">
       <div className="mt-0.5 text-[color:var(--blue)]">{icon}</div>
-      <div>
+      <div className="min-w-0">
         <p className="text-xs font-bold uppercase text-slate-500">{label}</p>
         <p className="mt-1 text-sm font-semibold text-[color:var(--navy)]">{value}</p>
       </div>

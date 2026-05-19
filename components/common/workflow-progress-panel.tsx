@@ -11,7 +11,9 @@ export function WorkflowProgressPanel({ percent, children }: WorkflowProgressPan
       <div className="grid gap-3">
         <h2 className="text-sm font-bold uppercase text-[color:var(--navy)]">Your Progress</h2>
         <div className="flex items-end gap-2">
-          <span className="text-4xl font-bold text-[color:var(--success)]">{percent}%</span>
+          <span key={percent} className="gb-progress-number-motion text-4xl font-bold text-[color:var(--success)]">
+            {percent}%
+          </span>
           <span className="pb-1 text-sm font-semibold text-slate-600">Complete</span>
         </div>
         <Progress value={percent} />

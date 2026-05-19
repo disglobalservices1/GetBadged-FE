@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/common/app-shell";
-import { candidateNavItems } from "@/lib/routes/navigation";
 
 type CandidateLayoutProps = {
   children: React.ReactNode;
@@ -7,7 +6,7 @@ type CandidateLayoutProps = {
 
 export default function CandidateLayout({ children }: CandidateLayoutProps) {
   return (
-    <AppShell navItems={candidateNavItems} roleLabel="Candidate">
+    <AppShell navRole="candidate" roleLabel="Candidate">
       {children}
     </AppShell>
   );

@@ -24,3 +24,17 @@ export type TemplateSection = {
   order: number;
   isActive: boolean;
 };
+
+export type TemplateField = {
+  id: string;
+  sectionId: string;
+  fieldKey: string;
+  label: string;
+  fieldType: TemplateFieldType;
+  isRequired: boolean;
+  options?: string[];
+  helpText?: string;
+  visibilityRules?: Record<string, unknown>;
+  order: number;
+  isActive: boolean;
+};

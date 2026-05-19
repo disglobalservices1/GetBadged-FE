@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusChip } from "@/components/ui/status-chip";
 import { getJobsForDepartment } from "@/features/public/directory";
 import type { PublicDepartmentProfile } from "@/types/department";
+import { SmoothScrollButton } from "./smooth-scroll-button";
 
 type DepartmentDetailPageProps = {
   department: PublicDepartmentProfile;
@@ -38,9 +39,9 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
                   </p>
                 </div>
                 <p className="text-sm leading-6 text-[color:var(--muted)]">{department.profileIntro}</p>
-                <Button href="#media" variant="secondary">
+                <SmoothScrollButton targetId="media" variant="secondary" className="whitespace-nowrap">
                   View department media
-                </Button>
+                </SmoothScrollButton>
               </div>
               <div className="overflow-hidden rounded-lg">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -77,7 +78,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
             </CardContent>
           </Card>
 
-          <section id="media" className="grid gap-4">
+          <section id="media" className="grid scroll-mt-24 gap-4">
             <h2 className="text-2xl font-bold text-[color:var(--navy)]">Explore {department.city}</h2>
             <div className="grid gap-4 md:grid-cols-3">
               {department.media.map((imageUrl, index) => (

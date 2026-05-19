@@ -17,7 +17,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
 
   return (
     <div className="mx-auto grid max-w-6xl gap-8 px-6 py-8">
-      <nav className="text-sm font-semibold text-[color:var(--muted)]">
+      <nav className="text-xs font-semibold text-[color:var(--muted)] sm:text-sm">
         <a href="/jobs" className="text-[color:var(--blue)]">
           Jobs
         </a>{" "}
@@ -29,12 +29,12 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
           <Card>
             <CardContent className="grid gap-6 p-6 lg:grid-cols-[1fr_360px]">
               <div className="grid content-start gap-5">
-                <div className="flex items-start gap-4">
+                <div className="flex flex-col items-start gap-4 sm:flex-row">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={departmentLogoUrl} alt={`${job.departmentName} logo`} className="h-28 w-28 rounded-lg object-cover" />
+                  <img src={departmentLogoUrl} alt={`${job.departmentName} logo`} className="h-20 w-20 rounded-lg object-cover sm:h-28 sm:w-28" />
                   <div>
                     <StatusChip label={formatEmploymentType(job.employmentType)} tone="warning" />
-                    <h1 className="mt-3 text-4xl font-extrabold leading-tight text-[color:var(--navy)]">{job.title}</h1>
+                    <h1 className="mt-3 text-2xl font-extrabold leading-tight text-[color:var(--navy)] sm:text-3xl lg:text-4xl">{job.title}</h1>
                     <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-[color:var(--muted)]">
                       <MapPin className="h-4 w-4" />
                       {job.city}, {job.state}
@@ -119,7 +119,6 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
               <Meta icon={<BriefcaseBusiness className="h-4 w-4" />} label="Job type" value={formatJobType(job.jobType)} />
               <Meta icon={<Building2 className="h-4 w-4" />} label="Department" value={job.departmentName} />
               <Meta icon={<MapPin className="h-4 w-4" />} label="Location" value={`${job.city}, ${job.state}`} />
-              <Button href={`/auth/signup/candidate?jobId=${job.id}`}>Apply now</Button>
             </CardContent>
           </Card>
 
@@ -150,7 +149,9 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
           <div className="grid gap-4 md:grid-cols-3">
             {relatedJobs.map((relatedJob) => (
               <a key={relatedJob.id} href={`/jobs/${relatedJob.id}`} className="grid gap-3 rounded-lg border border-[color:var(--border-muted)] bg-white p-5 hover:bg-[color:var(--surface-muted)]">
-                <StatusChip label={formatEmploymentType(relatedJob.employmentType)} tone="success" />
+                <div className="w-fit">
+                  <StatusChip label={formatEmploymentType(relatedJob.employmentType)} tone="success" />
+                </div>
                 <h3 className="font-bold text-[color:var(--navy)]">{relatedJob.title}</h3>
                 <span className="inline-flex items-center gap-2 text-sm font-bold text-[color:var(--blue)]">
                   View details <ArrowRight className="h-4 w-4" />

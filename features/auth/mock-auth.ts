@@ -60,12 +60,12 @@ export function validateCandidateSignupForm(form: CandidateSignupFormState): Fie
     errors.email = "Enter a valid email address.";
   }
 
-  if (form.phone.trim().length < 10) {
+  if (form.phone.replace(/\D/g, "").length !== 10) {
     errors.phone = "Enter a valid phone number.";
   }
 
-  if (form.password.length < 8) {
-    errors.password = "Password must be at least 8 characters.";
+  if (!isValidPassword(form.password)) {
+    errors.password = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
   }
 
   if (form.confirmPassword !== form.password) {
@@ -85,4 +85,8 @@ export function hasErrors<T extends Record<string, unknown>>(errors: FieldErrors
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
+function isValidPassword(value: string) {
+  return value.length >= 8 && /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[^A-Za-z0-9]/.test(value);
 }
