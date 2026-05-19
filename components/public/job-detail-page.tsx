@@ -27,7 +27,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
       <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <div className="grid gap-6">
           <Card>
-            <CardContent className="grid gap-6 p-6 lg:grid-cols-[1fr_360px]">
+            <CardContent className="grid gap-6 !p-8 lg:grid-cols-[1fr_360px]">
               <div className="grid content-start gap-5">
                 <div className="flex flex-col items-start gap-4 sm:flex-row">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

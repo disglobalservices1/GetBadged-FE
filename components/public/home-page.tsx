@@ -68,7 +68,7 @@ export function HomePage() {
       <section className="mx-auto grid max-w-6xl gap-4 px-6 py-8 md:grid-cols-2">
         {publicAudienceCards.map((card) => (
           <Card key={card.title}>
-            <CardContent className="grid gap-5 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-5 !p-5">
               <div className="flex items-start gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
                   <card.icon className="h-6 w-6" />
@@ -94,10 +94,10 @@ export function HomePage() {
         <div className="grid gap-4 md:grid-cols-4">
           {publicWorkflowSteps.map((step, index) => (
             <Card key={step.title}>
-              <CardContent className="grid gap-4 px-5 pb-5 pt-8">
+              <CardContent className="grid gap-4 !p-5">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="mt-[7px] flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
                       <step.icon className="h-5 w-5" />
                     </div>
                     <h3 className="font-bold text-[color:var(--navy)]">{step.title}</h3>
@@ -113,7 +113,7 @@ export function HomePage() {
 
       <section className="mx-auto grid max-w-6xl gap-4 px-6 py-10 md:grid-cols-3">
         {publicTrustCards.map((card) => (
-          <div key={card.title} className="rounded-lg border border-[color:var(--border-muted)] bg-white px-5 pb-5 pt-8">
+          <div key={card.title} className="rounded-lg border border-[color:var(--border-muted)] bg-white p-5">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
                 <card.icon className="h-5 w-5" />

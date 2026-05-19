@@ -118,6 +118,7 @@ common/
 - Do not show department notes or private files to candidates.
 - Use icons with labels or accessible names.
 - In cards and stat panels, place icons to the left of the title/heading text, not as a standalone top element.
+- For dashboard/summary metric cards, use the shared `components/common/stat-card.tsx` `StatCard` component instead of recreating custom metric cards. This keeps icon placement, value alignment, and `20px` all-side padding consistent across Candidate, Department, Admin, and public summary views.
 - Icon/title cards must use `32px` top padding consistently across all pages.
 
 ## Error Handling & API Response Rules

@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusChip } from "@/components/ui/status-chip";
 import { getJobsForDepartment } from "@/features/public/directory";
 import type { PublicDepartmentProfile } from "@/types/department";
+import { DepartmentMediaCarousel } from "./department-media-carousel";
 import { SmoothScrollButton } from "./smooth-scroll-button";
 
 type DepartmentDetailPageProps = {
@@ -25,7 +26,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
       <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <div className="grid gap-6">
           <Card>
-            <CardContent className="grid gap-6 p-6 lg:grid-cols-[180px_1fr_320px]">
+            <CardContent className="grid gap-6 !p-8 lg:grid-cols-[180px_1fr_320px]">
               <div className="flex items-start justify-center lg:justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={department.badgeImageUrl} alt={`${department.departmentName} badge`} className="h-36 w-36 rounded-lg object-cover" />
@@ -80,14 +81,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
 
           <section id="media" className="grid scroll-mt-24 gap-4">
             <h2 className="text-2xl font-bold text-[color:var(--navy)]">Explore {department.city}</h2>
-            <div className="grid gap-4 md:grid-cols-3">
-              {department.media.map((imageUrl, index) => (
-                <div key={imageUrl} className="overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={imageUrl} alt={`${department.departmentName} media ${index + 1}`} className="h-44 w-full object-cover" />
-                </div>
-              ))}
-            </div>
+            <DepartmentMediaCarousel departmentName={department.departmentName} images={department.media} />
           </section>
 
           <section id="sections" className="grid gap-4 md:grid-cols-3">
