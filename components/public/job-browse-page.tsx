@@ -20,7 +20,7 @@ export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
   const filterFormKey = `${filters.city ?? ""}-${filters.jobType ?? ""}-${filters.departmentId ?? ""}`;
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 py-10">
       <section className="grid gap-3">
         <p className="text-sm font-bold uppercase text-[color:var(--blue)]">Available positions</p>
         <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -58,7 +58,7 @@ export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
       <section className="grid gap-4 md:grid-cols-2">
         {jobs.length === 0 ? (
           <Card className="md:col-span-2">
-            <CardContent className="grid gap-3 px-6 pb-6 pt-8 text-center">
+            <CardContent className="grid gap-3 px-4 sm:px-6 pb-6 pt-8 text-center">
               <h2 className="text-xl font-bold text-[color:var(--navy)]">No jobs match those filters.</h2>
               <p className="text-sm leading-6 text-[color:var(--muted)]">Try another city, department, or job type to broaden the results.</p>
               <div>
@@ -71,7 +71,7 @@ export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
         ) : null}
         {jobs.map((job) => (
           <Card key={job.id}>
-            <CardContent className="grid gap-5 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-5 px-4 sm:px-6 pb-6 pt-8">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 items-start gap-3">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">

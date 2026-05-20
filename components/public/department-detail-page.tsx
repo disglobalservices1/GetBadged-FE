@@ -15,7 +15,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
   const jobs = getJobsForDepartment(department.id);
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-8">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 py-8">
       <nav className="text-sm font-semibold text-[color:var(--muted)]">
         <a href="/departments" className="text-[color:var(--blue)]">
           Departments
@@ -52,7 +52,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
           </Card>
 
           <Card>
-            <CardContent className="grid gap-6 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-6 px-4 sm:px-6 pb-6 pt-8">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">

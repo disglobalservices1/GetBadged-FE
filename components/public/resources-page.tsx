@@ -4,7 +4,7 @@ import { resourceGroups } from "@/features/public/marketing-content";
 
 export function ResourcesPageContent() {
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12">
+    <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 py-12">
       <section className="grid gap-3">
         <p className="text-sm font-bold uppercase text-[color:var(--blue)]">Resources</p>
         <h1 className="max-w-3xl text-4xl font-extrabold text-[color:var(--navy)]">Guides for every side of the GetBadged workflow.</h1>
@@ -16,7 +16,7 @@ export function ResourcesPageContent() {
       <section className="grid gap-5 md:grid-cols-3">
         {resourceGroups.map((group) => (
           <Card key={group.title}>
-            <CardContent className="grid gap-5 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-5 px-4 sm:px-6 pb-6 pt-8">
               <div className="flex items-start gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
                   <group.icon className="h-6 w-6" />

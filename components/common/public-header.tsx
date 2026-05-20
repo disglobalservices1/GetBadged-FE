@@ -20,7 +20,7 @@ export function PublicHeader() {
 
   return (
     <header className="border-b border-[color:var(--border-muted)] bg-white">
-      <div className="mx-auto grid max-w-6xl gap-4 px-6 py-4">
+      <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 py-4">
         <div className="flex min-h-20 items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <button

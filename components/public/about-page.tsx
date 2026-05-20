@@ -5,7 +5,7 @@ import { aboutPrinciples } from "@/features/public/marketing-content";
 
 export function AboutPageContent() {
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12">
+    <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 py-12">
       <section className="grid gap-4">
         <p className="text-sm font-bold uppercase text-[color:var(--blue)]">About GetBadged</p>
         <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-[color:var(--navy)]">
@@ -19,7 +19,7 @@ export function AboutPageContent() {
       <section className="grid gap-4 md:grid-cols-2">
         {aboutPrinciples.map((principle) => (
           <Card key={principle.title}>
-            <CardContent className="grid gap-4 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-4 px-4 sm:px-6 pb-6 pt-8">
               <div className="flex items-start gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
                   <principle.icon className="h-6 w-6" />

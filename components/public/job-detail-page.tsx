@@ -123,7 +123,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
   const activeMedia = useMemo(() => mediaItems.find((item) => item.id === activeMediaId) ?? mediaItems[0], [activeMediaId]);
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 py-6">
       <nav className="flex flex-wrap items-center gap-2 text-xs font-bold text-[color:var(--muted)]">
         <a href="/" className="text-[color:var(--blue)]">
           Home
@@ -229,7 +229,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
 
         <aside className="grid content-start gap-5">
           <Card>
-            <CardContent className="grid gap-6 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-6 px-4 sm:px-6 pb-6 pt-8">
               <h2 className="text-lg font-extrabold uppercase text-[color:var(--navy)]">Job Details</h2>
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-2">
                 <SidebarMeta icon={<BriefcaseIcon />} label="Job Type" value={formatEmploymentType(job.employmentType)} />
@@ -243,7 +243,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
           </Card>
 
           <Card>
-            <CardContent className="grid gap-5 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-5 px-4 sm:px-6 pb-6 pt-8">
               <h2 className="text-lg font-extrabold uppercase text-[color:var(--navy)]">Why join Westview?</h2>
               <ul className="grid gap-4">
                 {job.whyJoin.map((reason) => (
