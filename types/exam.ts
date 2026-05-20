@@ -17,3 +17,23 @@ export type ExamSitting = {
   status: "draft" | "published" | "closed" | "completed" | "cancelled";
   customConfirmationSendAt?: string;
 };
+
+export type CandidateExamRegistration = {
+  id: string;
+  candidateProfileId: string;
+  examSittingId: string;
+  status: "registered" | "checked_in" | "completed" | "cancelled" | "no_show";
+  purchaseId?: string;
+  registeredAt: string;
+  acknowledgementAcceptedAt?: string;
+};
+
+export type CandidateExamScore = {
+  id: string;
+  candidateProfileId: string;
+  examSittingId: string;
+  scorePercent: number;
+  status: "pending_verification" | "verified" | "expired";
+  scoredAt: string;
+  validUntil?: string;
+};

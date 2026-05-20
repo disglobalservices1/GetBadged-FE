@@ -17,6 +17,7 @@ export const candidateNavItems: NavItem[] = [
   { label: "Dashboard", href: "/candidate", icon: LayoutDashboard },
   { label: "Candidate Profile", href: "/candidate/profile", icon: Users },
   { label: "Supporting Documents", href: "/candidate/documents", icon: FileText },
+  { label: "Exam Registration", href: "/candidate/exams", icon: ClipboardList },
   { label: "Browse Jobs", href: "/candidate/jobs", icon: BriefcaseBusiness },
   { label: "Badge Requests", href: "/candidate/badge-requests", icon: BadgeCheck },
   { label: "Submitted Applications", href: "/candidate/applications", icon: ClipboardList },
