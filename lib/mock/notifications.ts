@@ -22,6 +22,27 @@ export const mockNotifications: Notification[] = [
     createdAt: "2026-05-14T13:00:00.000Z"
   },
   {
+    id: "notification_department_badge_accepted_1",
+    recipientUserId: "user_department_admin_1",
+    recipientRole: "department_admin",
+    type: "badge_accepted",
+    title: "Badge Request accepted",
+    body: "Avery Cole accepted Westview's Badge Request for Lateral Police Officer.",
+    linkHref: "/department/messages/message_thread_2",
+    readAt: "2026-05-14T17:00:00.000Z",
+    createdAt: "2026-05-14T16:20:00.000Z"
+  },
+  {
+    id: "notification_department_message_1",
+    recipientUserId: "user_department_admin_1",
+    recipientRole: "department_admin",
+    type: "system",
+    title: "Unread candidate message",
+    body: "Jordan Smith replied in Application follow-up.",
+    linkHref: "/department/messages/message_thread_1",
+    createdAt: "2026-05-15T10:10:00.000Z"
+  },
+  {
     id: "notification_admin_department_pending_1",
     recipientUserId: "user_gb_admin_1",
     recipientRole: "gb_admin",

@@ -1,0 +1,100 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { Bell, CheckCircle2, ClipboardList } from "lucide-react";
+import { PageHeader } from "@/components/common/page-header";
+import { StatCard } from "@/components/common/stat-card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select } from "@/components/ui/select";
+import { StatusChip } from "@/components/ui/status-chip";
+import type { DepartmentNotification } from "@/features/department/notifications/get-mock-department-notifications";
+
+type NotificationFilter = "all" | "unread" | string;
+
+export function DepartmentNotifications({ model }: { model: { notifications: DepartmentNotification[]; stats: { total: number; unread: number; applicationEvents: number } } }) {
+  const [notifications, setNotifications] = useState(model.notifications);
+  const [filter, setFilter] = useState<NotificationFilter>("all");
+
+  const typeOptions = useMemo(() => {
+    const types = Array.from(new Set(model.notifications.map((notification) => notification.type)));
+    return [
+      { label: "All notifications", value: "all" },
+      { label: "Unread only", value: "unread" },
+      ...types.map((type) => ({ label: type.replace(/_/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase()), value: type }))
+    ];
+  }, [model.notifications]);
+
+  const filteredNotifications = notifications.filter((notification) => {
+    if (filter === "all") return true;
+    if (filter === "unread") return !notification.readAt;
+    return notification.type === filter;
+  });
+
+  const unreadCount = notifications.filter((notification) => !notification.readAt).length;
+
+  function markRead(id: string) {
+    setNotifications((current) => current.map((notification) => (notification.id === id ? { ...notification, readAt: new Date().toISOString() } : notification)));
+  }
+
+  function markAllRead() {
+    setNotifications((current) => current.map((notification) => ({ ...notification, readAt: notification.readAt ?? new Date().toISOString() })));
+  }
+
+  return (
+    <div className="grid gap-6">
+      <PageHeader eyebrow="Notifications" title="Notification center" description="Review department alerts, approval updates, application events, and account notices." />
+
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard icon={<Bell className="h-5 w-5" />} label="Total Notices" value={notifications.length} detail="Department notifications" />
+        <StatCard icon={<CheckCircle2 className="h-5 w-5" />} label="Unread" value={unreadCount} detail="Need department attention" />
+        <StatCard icon={<ClipboardList className="h-5 w-5" />} label="Application Events" value={model.stats.applicationEvents} detail="Applications and Badge activity" />
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Notification filters</CardTitle>
+          <p className="mt-1 text-sm leading-6 text-[color:var(--muted)]">Filter department alerts by unread state or event type.</p>
+        </CardHeader>
+        <CardContent>
+          <Select label="View" value={filter} onChange={(event) => setFilter(event.target.value)} options={typeOptions} className="max-w-sm" />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+          <CardTitle>Recent notifications</CardTitle>
+          <Button type="button" variant="secondary" onClick={markAllRead} disabled={unreadCount === 0} className="w-fit">
+            Mark all read
+          </Button>
+        </CardHeader>
+        <CardContent className="grid gap-3">
+          {filteredNotifications.map((notification) => (
+            <div key={notification.id} className="flex flex-wrap items-start justify-between gap-4 rounded-md border border-[color:var(--border-muted)] p-4">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-bold text-[color:var(--navy)]">{notification.title}</p>
+                  <StatusChip label={notification.readAt ? "Read" : "Unread"} tone={notification.readAt ? "muted" : "navy"} />
+                  <StatusChip label={notification.typeLabel} tone="muted" />
+                </div>
+                <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{notification.body}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-slate-500">{notification.createdAtLabel}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {notification.linkHref ? (
+                  <Button href={notification.linkHref} variant="secondary" className="min-h-10 px-3">
+                    Open
+                  </Button>
+                ) : null}
+                <Button type="button" variant="ghost" className="min-h-10 px-3" onClick={() => markRead(notification.id)} disabled={Boolean(notification.readAt)}>
+                  Mark read
+                </Button>
+              </div>
+            </div>
+          ))}
+          {filteredNotifications.length === 0 ? <p className="text-sm leading-6 text-[color:var(--muted)]">No notifications match this filter.</p> : null}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
