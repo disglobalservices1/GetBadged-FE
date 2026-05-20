@@ -72,14 +72,16 @@ export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
         {jobs.map((job) => (
           <Card key={job.id}>
             <CardContent className="grid gap-5 px-6 pb-6 pt-8">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex min-w-0 items-start gap-3">
+              <div className="flex min-w-0 items-start justify-between gap-4">
+                <div className="flex min-w-0 flex-1 items-start gap-3">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
                     <BriefcaseBusiness className="h-6 w-6" />
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1 overflow-hidden">
                     <StatusChip label={formatEmploymentType(job.employmentType)} tone="success" />
-                    <h2 className="mt-3 text-2xl font-bold text-[color:var(--navy)]">{job.title}</h2>
+                    <h2 className="mt-3 block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-bold text-[color:var(--navy)]" title={job.title}>
+                      {job.title}
+                    </h2>
                     <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-[color:var(--muted)]">
                       <MapPin className="h-4 w-4" />
                       {job.city}, {job.state}

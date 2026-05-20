@@ -444,6 +444,7 @@ Mobile:
 - Forms become single-column.
 - Sticky primary action can appear at bottom.
 - Text must not overflow buttons, cards, or sidebars.
+- Job card titles in browse/list cards must stay on one line with ellipsis so card heights remain aligned.
 
 ## Accessibility
 

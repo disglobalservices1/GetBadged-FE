@@ -33,13 +33,15 @@ function CandidateJobCard({ match }: { match: CandidateJobMatch }) {
     <Card>
       <CardContent className="grid gap-5 px-6 pb-6 pt-8 xl:grid-cols-[1fr_auto] xl:items-center">
         <div className="grid gap-4">
-          <div className="flex items-start gap-3">
+          <div className="flex min-w-0 items-start gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
               {match.alreadyApplied ? <Lock className="h-6 w-6" /> : <BriefcaseBusiness className="h-6 w-6" />}
             </div>
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-xl font-bold text-[color:var(--navy)]">{match.job.title}</h2>
+            <div className="min-w-0 flex-1 overflow-hidden">
+              <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
+                <h2 className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-xl font-bold text-[color:var(--navy)]" title={match.job.title}>
+                  {match.job.title}
+                </h2>
                 <StatusChip label={label} tone={tone} />
                 <StatusChip label={formatJobTypeLabel(match.job.jobType)} tone="muted" />
               </div>
