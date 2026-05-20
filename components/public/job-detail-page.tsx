@@ -123,7 +123,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
   const activeMedia = useMemo(() => mediaItems.find((item) => item.id === activeMediaId) ?? mediaItems[0], [activeMediaId]);
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 py-6">
       <nav className="flex flex-wrap items-center gap-2 text-xs font-bold text-[color:var(--muted)]">
         <a href="/" className="text-[color:var(--blue)]">
           Home
@@ -140,7 +140,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
         <span>{job.title}</span>
       </nav>
 
-      <section className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_520px]">
+      <section className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_30vw] 2xl:grid-cols-[minmax(0,1fr)_576px]">
         <div className="grid gap-7 md:grid-cols-[180px_minmax(0,1fr)]">
           <WestviewBadge />
           <div className="grid content-start gap-5">
@@ -173,12 +173,12 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
           </div>
         </div>
 
-        <div className="grid content-start gap-4">
+        <div className="grid min-w-0 content-start gap-4">
           <div className="overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={activeMedia.imageUrl} alt={activeMedia.label} className="aspect-[16/10] w-full object-cover" />
           </div>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid min-w-0 grid-cols-5 gap-3">
             {mediaItems.map((item, index) => (
               <button
                 key={item.id}
@@ -201,16 +201,16 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <Card>
-          <div className="flex overflow-x-auto border-b border-[color:var(--border-muted)] px-4">
+      <section className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <Card className="min-w-0 overflow-hidden">
+          <div className="flex max-w-full overflow-x-auto border-b border-[color:var(--border-muted)] px-2 sm:px-4">
             {tabItems.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "relative min-h-16 shrink-0 px-5 text-sm font-extrabold uppercase text-[color:var(--navy)] transition hover:text-[color:var(--blue)]",
+                  "relative min-h-16 shrink-0 px-4 text-sm font-extrabold uppercase text-[color:var(--navy)] transition hover:text-[color:var(--blue)] sm:px-5",
                   activeTab === tab.id && "text-[color:var(--blue-deep)]"
                 )}
               >
@@ -229,7 +229,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
 
         <aside className="grid content-start gap-5">
           <Card>
-            <CardContent className="grid gap-6 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-6 px-4 sm:px-6 pb-6 pt-8">
               <h2 className="text-lg font-extrabold uppercase text-[color:var(--navy)]">Job Details</h2>
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-2">
                 <SidebarMeta icon={<BriefcaseIcon />} label="Job Type" value={formatEmploymentType(job.employmentType)} />
@@ -243,7 +243,7 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
           </Card>
 
           <Card>
-            <CardContent className="grid gap-5 px-6 pb-6 pt-8">
+            <CardContent className="grid gap-5 px-4 sm:px-6 pb-6 pt-8">
               <h2 className="text-lg font-extrabold uppercase text-[color:var(--navy)]">Why join Westview?</h2>
               <ul className="grid gap-4">
                 {job.whyJoin.map((reason) => (
@@ -316,14 +316,9 @@ export function JobDetailPage({ job }: JobDetailPageProps) {
 
 function WestviewBadge() {
   return (
-    <div className="mx-auto grid h-44 w-36 place-items-center rounded-[26px_26px_36px_36px] border-4 border-[color:var(--gold)] bg-[color:var(--navy)] p-3 text-center text-white shadow-sm md:mx-0 md:h-56 md:w-44">
-      <div className="grid gap-2">
-        <p className="text-xl font-extrabold uppercase tracking-[0.14em] md:text-2xl">Westview</p>
-        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-4 border-[color:var(--gold)] bg-blue-100 text-[color:var(--navy)] md:h-20 md:w-20">
-          <Landmark className="h-9 w-9" />
-        </div>
-        <p className="text-xl font-extrabold uppercase tracking-[0.18em] md:text-2xl">Mass.</p>
-      </div>
+    <div className="mx-auto grid justify-items-center md:mx-0">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/images/westview-police-badge.png" alt="Westview Police Mass. badge" className="h-auto w-36 object-contain drop-shadow-sm md:w-44" />
     </div>
   );
 }

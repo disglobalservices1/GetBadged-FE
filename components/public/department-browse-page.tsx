@@ -19,7 +19,7 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
   const filterFormKey = `${filters.city ?? ""}-${filters.departmentType ?? ""}`;
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 py-10">
       <section className="grid gap-3">
         <p className="text-sm font-bold uppercase text-[color:var(--blue)]">Departments</p>
         <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -61,7 +61,7 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
       <section className="grid gap-5">
         {departments.length === 0 ? (
           <Card>
-            <CardContent className="grid gap-3 px-6 pb-6 pt-8 text-center">
+            <CardContent className="grid gap-3 px-4 sm:px-6 pb-6 pt-8 text-center">
               <h2 className="text-xl font-bold text-[color:var(--navy)]">No departments match those filters.</h2>
               <p className="text-sm leading-6 text-[color:var(--muted)]">Try another city or department type to broaden the results.</p>
               <div>
@@ -75,7 +75,7 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
         {departments.map((department) => (
           <Card key={department.id} className="overflow-hidden">
             <CardContent className="grid gap-0 p-0 md:grid-cols-[260px_1fr]">
-              <div className="px-6 pb-0 pt-8 md:pb-6 md:pr-0">
+              <div className="px-4 sm:px-6 pb-0 pt-8 md:pb-6 md:pr-0">
                 <div className="h-56 overflow-hidden rounded-md bg-slate-200">
                 {department.coverImageUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -83,7 +83,7 @@ export function DepartmentBrowsePage({ filters = {} }: DepartmentBrowsePageProps
                 ) : null}
                 </div>
               </div>
-              <div className="grid gap-5 px-6 pb-6 pt-8">
+              <div className="grid gap-5 px-4 sm:px-6 pb-6 pt-8">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 items-start gap-4">
                     <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">

@@ -22,7 +22,7 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
         <AppShellNav navRole={navRole} roleLabel={roleLabel} />
       </aside>
       <div className="flex min-w-0 flex-col">
-        <header className="gb-app-shell-header flex h-16 items-center justify-between border-b border-[color:var(--border-muted)] bg-white px-6">
+        <header className="gb-app-shell-header flex h-16 items-center justify-between border-b border-[color:var(--border-muted)] bg-white px-4 sm:px-6">
           <div className="flex items-center gap-3">
             <div className="lg:hidden">
               <AppShellNav navRole={navRole} roleLabel={roleLabel} />
@@ -37,7 +37,7 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
             <LogOut className="h-5 w-5" />
           </div>
         </header>
-        <main className="gb-app-shell-main flex-1 p-6">{children}</main>
+        <main className="gb-app-shell-main flex-1 p-4 sm:p-6">{children}</main>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { publicAudienceCards, publicHeroStats, publicTrustCards, publicWorkflowS
 export function HomePage() {
   return (
     <div className="bg-[color:var(--background)]">
-      <section className="mx-auto grid max-w-6xl gap-10 px-6 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <section className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div className="grid gap-7">
           <div className="grid gap-4">
             <p className="text-sm font-bold uppercase text-[color:var(--blue)]">Massachusetts public-safety recruiting</p>
@@ -65,7 +65,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-4 px-6 py-8 md:grid-cols-2">
+      <section className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 py-8 md:grid-cols-2">
         {publicAudienceCards.map((card) => (
           <Card key={card.title}>
             <CardContent className="grid gap-5 !p-5">
@@ -86,7 +86,7 @@ export function HomePage() {
         ))}
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-6 px-6 py-10">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 py-10">
         <div className="grid gap-2">
           <p className="text-sm font-bold uppercase text-[color:var(--blue)]">How it works</p>
           <h2 className="text-3xl font-bold text-[color:var(--navy)]">A clear workflow from profile to hiring process.</h2>
@@ -111,7 +111,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-4 px-6 py-10 md:grid-cols-3">
+      <section className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 py-10 md:grid-cols-3">
         {publicTrustCards.map((card) => (
           <div key={card.title} className="rounded-lg border border-[color:var(--border-muted)] bg-white p-5">
             <div className="flex items-center gap-3">
