@@ -24,10 +24,10 @@ Status values:
 | TG-A2 | Public department and job browse | Dev A | Done | Department/job list and detail pages with filters and public-safe mock data |
 | TG-A3 | Auth and candidate free signup | Dev A | Done | Shared login, candidate signup, forgot password placeholder, department signup shell |
 | TG-A4 | Candidate dashboard | Dev A | Done | Overview, tokens, eligibility checklist, activity, Badge Requests, applications, limited free state |
-| TG-A5 | Candidate profile wizard | Dev A | Not Started | Autosave, progress rail, all profile steps |
-| TG-A6 | Candidate documents | Dev A | Not Started | PDF uploads by category |
-| TG-A7 | Candidate exam registration | Dev A | Not Started | ELR exam browse/register UI |
-| TG-A8 | Candidate jobs and direct apply | Dev A | Not Started | Eligibility, consent, token use |
+| TG-A5 | Candidate profile wizard | Dev A | Done | Wizard shell, autosave label, progress rail, all profile steps |
+| TG-A6 | Candidate documents | Dev A | Done | PDF upload shell, categories, required/optional states, eligibility blockers |
+| TG-A7 | Candidate exam registration | Dev A | Done | ELR exam browse/detail, online/in-person states, acknowledgements, mock checkout and score status |
+| TG-A8 | Candidate jobs and direct apply | Dev A | Done | Personalized jobs, eligibility indicators, consent, token balance, duplicate and success states |
 | TG-A9 | Badge Requests and submitted applications | Dev A | Not Started | Accept Badge, application history |
 | TG-A10 | Candidate messages, notifications, settings | Dev A | Not Started | Candidate communication/settings |
 
