@@ -1,10 +1,28 @@
-import { FileText, LockKeyhole, StickyNote, UserRound } from "lucide-react";
-import { ApplicationReviewActions } from "@/components/department/applicants/application-review-actions";
+import {
+  Archive,
+  BadgeCheck,
+  BookOpen,
+  BriefcaseBusiness,
+  ChevronDown,
+  Download,
+  FileText,
+  GraduationCap,
+  Mail,
+  MessageSquareText,
+  NotebookText,
+  Paperclip,
+  ShieldCheck,
+  ShieldQuestion,
+  Star,
+  UserRound
+} from "lucide-react";
 import { EmptyState } from "@/components/common/empty-state";
-import { PageHeader } from "@/components/common/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Logo } from "@/components/common/logo";
+import { Button } from "@/components/ui/button";
 import { StatusChip } from "@/components/ui/status-chip";
 import type { DepartmentApplicationDetailViewModel } from "@/features/department/applicants/get-mock-department-applicant-pool";
+import { cn } from "@/lib/utils/cn";
+import type { CandidateProfile } from "@/types/candidate";
 
 export function DepartmentApplicationDetail({ model }: { model: DepartmentApplicationDetailViewModel | null }) {
   if (!model) {
@@ -18,173 +36,257 @@ export function DepartmentApplicationDetail({ model }: { model: DepartmentApplic
   }
 
   const { application } = model;
-  const contactHidden = shouldHideContact(application.status);
+  const candidate = application.candidate;
+  const displayStatus = application.isNewForDepartment ? "New application" : application.statusLabel;
 
   return (
-    <div className="gb-print-package grid gap-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <PageHeader
-          eyebrow="Application review"
-          title={application.candidateName}
-          description={`${application.jobLabel} | ${application.sourceLabel} | Submitted ${application.submittedAtLabel}`}
-        />
-        <ApplicationReviewActions model={model} />
-      </div>
-
-      <Card>
-        <CardHeader className="flex items-start justify-between gap-4">
-          <div>
-            <CardTitle>Application status</CardTitle>
-            <p className="mt-1 text-sm leading-6 text-[color:var(--muted)]">Department-only review state for this application package.</p>
+    <div className="gb-print-package mx-auto max-w-7xl">
+      <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-5 shadow-sm sm:p-6 lg:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-5 pb-5">
+          <div className="grid gap-7">
+            <Logo />
+            <div>
+              <h1 className="text-2xl font-extrabold uppercase leading-tight text-[color:var(--blue-deep)] sm:text-3xl">
+                {application.candidateName}
+              </h1>
+              <p className="mt-1 text-sm font-bold text-[color:var(--gold)]">
+                {trackLabel(candidate.track)} | {application.jobType === "entry_level" ? "New Recruit" : application.sourceLabel}
+              </p>
+            </div>
           </div>
-          <StatusChip label={application.statusLabel} tone={application.statusTone} />
-        </CardHeader>
-      </Card>
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Candidate profile</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-4">
-              <InfoItem label="Name" value={application.candidateName} />
-              <InfoItem label="Email" value={contactHidden ? "Hidden until candidate membership is active" : application.candidate.email} />
-              <InfoItem label="Phone" value={contactHidden ? "Hidden until candidate membership is active" : application.candidate.phone} />
-              <InfoItem label="Location" value={`${application.candidate.city}, ${application.candidate.state} ${application.candidate.zipCode}`} />
-              <InfoItem label="Track" value={application.candidate.track} />
-              <InfoItem label="Membership" value={application.candidate.membershipStatus} />
-              <InfoItem label="Education" value={application.candidate.highestEducation ?? "Not provided"} />
-              <InfoItem label="Credentials" value={application.candidate.credentials.length ? application.candidate.credentials.join(", ").toUpperCase() : "None listed"} />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Cover letter</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm leading-6 text-[color:var(--muted)]">{application.coverLetterText ?? "No cover letter was submitted with this application."}</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Documents</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-3 sm:grid-cols-2">
-              {model.documents.map((document) => (
-                <div key={document.id} className="flex items-start justify-between gap-3 rounded-md border border-[color:var(--border-muted)] p-3">
-                  <div className="flex items-start gap-3">
-                    <FileText className="mt-0.5 h-5 w-5 text-[color:var(--blue)]" />
-                    <div>
-                      <p className="text-sm font-bold text-[color:var(--navy)]">{document.label}</p>
-                      <p className="mt-1 text-xs text-[color:var(--muted)]">{document.fileName}</p>
-                    </div>
-                  </div>
-                  <StatusChip label={document.status.replace(/_/g, " ")} tone={document.status === "received" ? "success" : "warning"} />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Change log</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-3">
-              {model.changeLog.map((entry) => (
-                <div key={entry.id} className="rounded-md border border-[color:var(--border-muted)] p-3">
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <p className="text-sm font-bold text-[color:var(--navy)]">{entry.action}</p>
-                    <p className="text-xs font-semibold text-slate-500">{formatDate(entry.createdAt)}</p>
-                  </div>
-                  <p className="mt-1 text-xs font-semibold text-slate-600">{entry.actorName}</p>
-                  <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">{entry.detail}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          <div className="grid justify-items-start gap-3 sm:justify-items-end">
+            <div className="text-left sm:text-right">
+              <p className="text-sm font-extrabold uppercase text-[color:var(--blue-deep)]">Candidate application</p>
+              <p className="mt-1 text-xs font-semibold text-slate-600">Application ID: {application.id.replace("application_", "GB-25-000")}</p>
+              <p className="text-xs font-semibold text-slate-600">Submitted: {formatCompactDate(application.submittedAt)}</p>
+            </div>
+            <div className="rounded-md bg-[color:var(--blue-deep)] px-5 py-3 text-center text-white">
+              <p className="text-[10px] font-extrabold uppercase tracking-wide">Application status</p>
+              <p className="mt-1 text-sm font-extrabold uppercase">{displayStatus}</p>
+            </div>
+          </div>
         </div>
 
-        <div className="grid content-start gap-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <UserRound className="h-5 w-5 text-[color:var(--blue)]" />
-                <CardTitle>Application source</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="grid gap-3">
-              <InfoItem label="Source" value={application.sourceLabel} compact />
-              <InfoItem label="Job" value={application.jobLabel} compact />
-              <InfoItem label="Viewed" value={application.viewedAtLabel} compact />
-            </CardContent>
-          </Card>
+        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+          <main className="min-w-0">
+            <ContactInformation candidate={candidate} />
+            <ReviewSectionRows model={model} />
+          </main>
 
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <StickyNote className="h-5 w-5 text-[color:var(--blue)]" />
-                <CardTitle>Department notes</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="grid gap-3">
-              {model.notes.map((note) => (
-                <div key={note.id} className="rounded-md bg-slate-50 p-3">
-                  <p className="text-sm leading-6 text-slate-700">{note.body}</p>
-                  <p className="mt-2 text-xs font-semibold text-slate-500">
-                    {note.authorName} | {formatDate(note.createdAt)}
-                  </p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <LockKeyhole className="h-5 w-5 text-[color:var(--blue)]" />
-                <CardTitle>Private files</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="grid gap-3">
-              {model.privateFiles.length > 0 ? (
-                model.privateFiles.map((file) => (
-                  <div key={file.id} className="rounded-md border border-[color:var(--border-muted)] p-3">
-                    <p className="text-sm font-bold text-[color:var(--navy)]">{file.label}</p>
-                    <p className="mt-1 text-xs text-[color:var(--muted)]">{file.fileName}</p>
-                    <p className="mt-2 text-xs font-semibold text-slate-500">
-                      {file.uploadedByName} | {formatDate(file.uploadedAt)}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm leading-6 text-[color:var(--muted)]">No department-private files have been attached yet.</p>
-              )}
-            </CardContent>
-          </Card>
+          <aside className="grid content-start gap-4 lg:order-last">
+            <QuickSummary candidate={candidate} />
+            <QuickActions />
+          </aside>
         </div>
-      </div>
+
+        <p className="mt-10 text-xs leading-5 text-[color:var(--navy)]">
+          This candidate profile is confidential and intended for authorized personnel only.
+          <br />
+          © 2026 GetBadged. All rights reserved.
+        </p>
+      </section>
     </div>
   );
 }
 
-function InfoItem({ label, value, compact = false }: { label: string; value: string; compact?: boolean }) {
+function ContactInformation({ candidate }: { candidate: CandidateProfile }) {
+  const fields = [
+    {
+      label: "Address",
+      value: `${candidate.streetAddress}\n${candidate.city}, ${candidate.state} ${candidate.zipCode}`
+    },
+    { label: "Gender", value: formatValue(candidate.gender) },
+    { label: "Phone", value: candidate.phone },
+    { label: "Ethnicity", value: candidate.ethnicity ?? "Not provided" },
+    { label: "Date of Birth", value: formatProfileDate(candidate.dateOfBirth) },
+    { label: "Multilingual", value: candidate.isMultilingual ? `Yes - ${candidate.languages.join(", ")}` : "No" },
+    { label: "Last 4 of SSN", value: candidate.last4Ssn },
+    { label: "Willing to Relocate", value: yesNo(candidate.isWillingToRelocate) },
+    { label: "U.S. Citizen", value: yesNo(candidate.isUsCitizen) },
+    { label: "Education", value: candidate.highestEducation ?? "Not provided" },
+    { label: "Valid Driver's License", value: yesNo(candidate.hasValidDriversLicense) }
+  ];
+
   return (
-    <div className={compact ? "grid min-w-0 gap-1" : "min-w-0 rounded-md border border-[color:var(--border-muted)] p-3"}>
-      <p className="text-xs font-bold uppercase text-slate-500">{label}</p>
-      <p className="mt-1 break-words text-sm font-semibold leading-6 text-[color:var(--navy)]">{value}</p>
+    <section>
+      <SectionHeading icon={<UserRound className="h-5 w-5" />} title="Contact information" />
+      <div className="grid gap-x-8 gap-y-5 py-5 sm:grid-cols-2">
+        {fields.map((field) => (
+          <div key={field.label} className="grid min-w-0 grid-cols-[120px_minmax(0,1fr)] gap-3 text-sm">
+            <p className="font-extrabold text-[color:var(--blue-deep)]">{field.label}:</p>
+            <p className="whitespace-pre-line font-semibold leading-5 text-slate-700">{field.value}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ReviewSectionRows({ model }: { model: DepartmentApplicationDetailViewModel }) {
+  const { application } = model;
+  const rows = [
+    {
+      title: "Training & Experience",
+      icon: <BadgeCheck className="h-5 w-5" />,
+      content: [
+        labelValue("Academy", application.candidate.academyType ?? "Not provided"),
+        labelValue("Prior public safety", application.candidate.priorPublicSafetyDetails ?? yesNo(application.candidate.hasPriorPublicSafetyExperience)),
+        labelValue("Additional skills", application.candidate.additionalSkills ?? "Not provided")
+      ]
+    },
+    {
+      title: "Background",
+      icon: <BriefcaseBusiness className="h-5 w-5" />,
+      content: [
+        labelValue("Military", application.candidate.hasMilitaryService ? "U.S. Army - Veteran" : "No military service listed"),
+        labelValue("Driver's license", yesNo(application.candidate.hasValidDriversLicense)),
+        labelValue("LTC eligibility", formatValue(application.candidate.ltcEligibility))
+      ]
+    },
+    {
+      title: "Certifications & Credentials",
+      icon: <ShieldCheck className="h-5 w-5" />,
+      content: [
+        labelValue("Credentials", application.candidate.credentials.length ? application.candidate.credentials.join(", ").toUpperCase() : "None listed"),
+        labelValue("POST status", application.candidate.hasActivePostCertification ? "POST Certified" : "Not POST Certified")
+      ]
+    },
+    {
+      title: "Essay Responses",
+      icon: <MessageSquareText className="h-5 w-5" />,
+      content: [application.coverLetterText ?? "No cover letter or essay response was submitted with this application."]
+    },
+    {
+      title: "Attachments",
+      icon: <Paperclip className="h-5 w-5" />,
+      content: model.documents.map((document) => `${document.label}: ${document.fileName}`)
+    },
+    {
+      title: "Internal Notes",
+      icon: <NotebookText className="h-5 w-5" />,
+      content: model.notes.length ? model.notes.map((note) => `${note.authorName}: ${note.body}`) : ["No internal notes have been added."]
+    }
+  ];
+
+  return (
+    <div className="mt-2">
+      {rows.map((row) => (
+        <details key={row.title} className="group border-t border-[color:var(--blue-deep)] last:border-b">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[color:var(--blue-deep)] marker:hidden">
+            <span className="flex items-center gap-3 text-sm font-extrabold uppercase">
+              {row.icon}
+              {row.title}
+            </span>
+            <ChevronDown className="h-4 w-4 transition group-open:rotate-180" />
+          </summary>
+          <div className="grid gap-2 pb-4 pl-8 text-sm font-semibold leading-6 text-slate-700">
+            {row.content.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
+          </div>
+        </details>
+      ))}
     </div>
   );
 }
 
-function formatDate(value: string) {
-  const date = new Date(value);
-  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getUTCMonth()];
-  return `${month} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+function QuickSummary({ candidate }: { candidate: CandidateProfile }) {
+  const items = [
+    { icon: <BookOpen className="h-4 w-4" />, label: "Exam Score", value: candidate.track === "ELR" ? "82.09%" : "Not applicable" },
+    { icon: <GraduationCap className="h-4 w-4" />, label: "Education", value: candidate.highestEducation ?? "Not provided" },
+    { icon: <ShieldCheck className="h-4 w-4" />, label: "FT Academy", value: candidate.academyType ?? "Not provided" },
+    { icon: <ShieldQuestion className="h-4 w-4" />, label: "POST Status", value: candidate.hasActivePostCertification ? "POST Certified" : "Not POST Certified" },
+    { icon: <Star className="h-4 w-4" />, label: "Military", value: candidate.hasMilitaryService ? "U.S. Army - Veteran" : "None listed" },
+    {
+      icon: <BadgeCheck className="h-4 w-4" />,
+      label: "Certifications",
+      value: candidate.credentials.length ? candidate.credentials.join(", ").toUpperCase() : "None listed"
+    },
+    { icon: <ShieldCheck className="h-4 w-4" />, label: "Languages", value: candidate.languages.length ? candidate.languages.join(", ") : "None listed" }
+  ];
+
+  return (
+    <section className="rounded-md border border-slate-300 bg-slate-50 p-4">
+      <h2 className="border-b border-slate-300 pb-2 text-sm font-extrabold uppercase text-[color:var(--blue-deep)]">Quick summary</h2>
+      <div className="mt-4 grid gap-4">
+        {items.map((item) => (
+          <div key={item.label} className="grid grid-cols-[20px_minmax(0,1fr)] gap-3">
+            <span className="text-[color:var(--blue-deep)]">{item.icon}</span>
+            <div>
+              <p className="text-xs font-extrabold text-[color:var(--blue-deep)]">{item.label}</p>
+              <p className="mt-0.5 text-xs font-semibold leading-5 text-slate-700">{item.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
-function shouldHideContact(status: string) {
-  return status === "inactive_membership" || status === "no_longer_meets_requirements";
+function QuickActions() {
+  const actions = [
+    { label: "Download PDF", icon: <Download className="h-4 w-4" /> },
+    { label: "Message Candidate", icon: <Mail className="h-4 w-4" /> },
+    { label: "Add Internal Note", icon: <NotebookText className="h-4 w-4" /> },
+    { label: "Archive Application", icon: <Archive className="h-4 w-4" /> }
+  ];
+
+  return (
+    <section className="rounded-md border border-slate-300 bg-slate-50 p-4">
+      <h2 className="border-b border-slate-300 pb-2 text-sm font-extrabold uppercase text-[color:var(--blue-deep)]">Quick actions</h2>
+      <div className="mt-4 grid gap-3">
+        {actions.map((action) => (
+          <Button key={action.label} type="button" variant="secondary" iconLeft={action.icon} className="w-full justify-start border-slate-300 px-3 text-xs text-[color:var(--navy)]">
+            {action.label}
+          </Button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SectionHeading({ title, icon }: { title: string; icon: React.ReactNode }) {
+  return (
+    <div className="border-y border-[color:var(--blue-deep)] py-3">
+      <h2 className="flex items-center gap-3 text-sm font-extrabold uppercase text-[color:var(--blue-deep)]">
+        {icon}
+        {title}
+      </h2>
+    </div>
+  );
+}
+
+function labelValue(label: string, value: string) {
+  return `${label}: ${value}`;
+}
+
+function formatCompactDate(value: string) {
+  const date = new Date(value);
+  return `${String(date.getUTCMonth() + 1).padStart(2, "0")}/${String(date.getUTCDate()).padStart(2, "0")}/${date.getUTCFullYear()}`;
+}
+
+function formatProfileDate(value: string) {
+  const date = new Date(`${value}T00:00:00.000Z`);
+  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getUTCMonth()];
+  return `${date.getUTCDate()}/${month}/${date.getUTCFullYear()}`;
+}
+
+function trackLabel(track: CandidateProfile["track"]) {
+  if (track === "ELR") return "Entry Level";
+  if (track === "CXO") return "Certified Officer";
+  return "Operations";
+}
+
+function yesNo(value: boolean | null) {
+  if (value === null) return "Not provided";
+  return value ? "Yes" : "No";
+}
+
+function formatValue(value: string | null | undefined) {
+  if (!value) return "Not provided";
+  return value
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
