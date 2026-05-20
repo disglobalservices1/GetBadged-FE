@@ -40,8 +40,8 @@ Status values:
 | TG-B3 | Department Profile builder | Dev B | Complete | Draft/edit profile, dynamic sections, media slots, revisions/admin notes, and mock save/submit approval behavior reviewed |
 | TG-B4 | Department Job Post builder | Dev B | Complete | Templates, drafts, approvals |
 | TG-B5 | Department Badge Pool | Dev B | Complete | Anonymous pool, dropdown filters, badge credits, send Badge modal, sent state, and privacy checklist reviewed on desktop and small screens |
-| TG-B6 | Department Applicant Pools | Dev B | Not Started | Per-job/combined pool, full app view |
-| TG-B7 | Department status, archive, exports | Dev B | Not Started | Bulk updates, CSV exports |
+| TG-B6 | Department Applicant Pools | Dev B | Complete | Reviewed applicant pool list/detail flow with filters, full application view, notes, private files, change log, print view, and mock download package |
+| TG-B7 | Department status, archive, exports | Dev B | Complete | Reviewed inline/bulk status updates, archive/unarchive, archived filters, export modal, CSV mock generation, reports exports, and inactive contact hiding |
 | TG-B8 | Department messages and notifications | Dev B | Not Started | Compose/history/templates |
 | TG-B9 | GB Admin dashboard and approvals | Dev B | Not Started | Department/profile/job approvals |
 | TG-B10 | GB Admin users, roles, impersonation | Dev B | Not Started | User management, audit |

@@ -13,8 +13,8 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
   const session = getMockSession();
 
   return (
-    <div className="grid min-h-screen bg-[color:var(--background)] lg:grid-cols-[280px_1fr]">
-      <aside className="hidden border-r border-[color:var(--border-muted)] bg-white lg:block">
+    <div className="gb-app-shell grid min-h-screen bg-[color:var(--background)] lg:grid-cols-[280px_1fr]">
+      <aside className="gb-app-shell-sidebar hidden border-r border-[color:var(--border-muted)] bg-white lg:block">
         <div className="border-b border-[color:var(--border-muted)] p-6">
           <Logo />
           <p className="mt-4 text-xs font-bold uppercase text-slate-500">{roleLabel}</p>
@@ -22,7 +22,7 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
         <AppShellNav navRole={navRole} roleLabel={roleLabel} />
       </aside>
       <div className="flex min-w-0 flex-col">
-        <header className="flex h-16 items-center justify-between border-b border-[color:var(--border-muted)] bg-white px-6">
+        <header className="gb-app-shell-header flex h-16 items-center justify-between border-b border-[color:var(--border-muted)] bg-white px-6">
           <div className="flex items-center gap-3">
             <div className="lg:hidden">
               <AppShellNav navRole={navRole} roleLabel={roleLabel} />
@@ -37,7 +37,7 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
             <LogOut className="h-5 w-5" />
           </div>
         </header>
-        <main className="flex-1 p-6">{children}</main>
+        <main className="gb-app-shell-main flex-1 p-6">{children}</main>
       </div>
     </div>
   );

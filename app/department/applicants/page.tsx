@@ -1,15 +1,6 @@
-import { ClipboardList } from "lucide-react";
-import { DepartmentFeaturePlaceholder } from "@/components/department/department-feature-placeholder";
+import { DepartmentApplicantPool } from "@/components/department/applicants/department-applicant-pool";
+import { getMockDepartmentApplicantPool } from "@/features/department/applicants/get-mock-department-applicant-pool";
 
 export default function DepartmentApplicantsPage() {
-  return (
-    <DepartmentFeaturePlaceholder
-      eyebrow="Applicant pool"
-      title="Applicant Pool"
-      description="Review direct applications, accepted badges, and candidates awaiting department action."
-      emptyTitle="Applicant review tools are coming"
-      emptyDescription="The route is ready so the workspace keeps its layout while applicant pool workflows are completed."
-      icon={<ClipboardList className="h-8 w-8" />}
-    />
-  );
+  return <DepartmentApplicantPool model={getMockDepartmentApplicantPool()} />;
 }

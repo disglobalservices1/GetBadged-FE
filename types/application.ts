@@ -36,3 +36,32 @@ export type Application = {
   badgeRequestId?: string;
   tokenLedgerEntryId?: string;
 };
+
+export type DepartmentApplicationNote = {
+  id: string;
+  applicationId: string;
+  authorUserId: string;
+  authorName: string;
+  body: string;
+  createdAt: string;
+};
+
+export type DepartmentApplicationPrivateFile = {
+  id: string;
+  applicationId: string;
+  label: string;
+  fileName: string;
+  fileUrl: string;
+  uploadedByUserId: string;
+  uploadedByName: string;
+  uploadedAt: string;
+};
+
+export type ApplicationChangeLogEntry = {
+  id: string;
+  applicationId: string;
+  actorName: string;
+  action: string;
+  detail: string;
+  createdAt: string;
+};

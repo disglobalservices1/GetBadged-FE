@@ -118,3 +118,69 @@ textarea {
     animation: none;
   }
 }
+
+@media print {
+  @page {
+    margin: 0.55in;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    color: #001f3f;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .gb-app-shell-sidebar,
+  .gb-app-shell-header,
+  .gb-print-hide {
+    display: none !important;
+  }
+
+  .gb-app-shell {
+    display: block !important;
+    min-height: auto !important;
+    width: 100% !important;
+    background: #ffffff !important;
+  }
+
+  .gb-app-shell-main {
+    display: block !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+  }
+
+  .gb-print-package {
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .gb-print-package section {
+    break-inside: avoid;
+    border-color: #cfd6e3 !important;
+    box-shadow: none !important;
+  }
+
+  .gb-print-package h1 {
+    font-size: 28px !important;
+    line-height: 1.15 !important;
+  }
+
+  .gb-print-package h2 {
+    font-size: 16px !important;
+  }
+
+  .gb-print-package p {
+    color: #344054;
+  }
+
+  .gb-print-package [class*="xl:grid-cols-"] {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -16,12 +16,12 @@ export function Select({ label, error, options, className, id, ...props }: Selec
   const inputId = id ?? props.name ?? label?.toLowerCase().replace(/\s+/g, "-");
 
   return (
-    <label className="grid content-start gap-2 text-sm font-semibold text-slate-700" htmlFor={inputId}>
+    <label className="grid min-w-0 content-start gap-2 text-sm font-semibold text-slate-700" htmlFor={inputId}>
       {label}
       <select
         id={inputId}
         className={cn(
-          "h-11 rounded-md border border-[color:var(--border)] bg-white px-3 text-sm text-slate-950 outline-none transition focus:border-[color:var(--blue)] focus:ring-2 focus:ring-[rgba(27,51,181,0.12)]",
+          "h-11 w-full min-w-0 rounded-md border border-[color:var(--border)] bg-white px-3 text-sm text-slate-950 outline-none transition focus:border-[color:var(--blue)] focus:ring-2 focus:ring-[rgba(27,51,181,0.12)]",
           error && "border-[color:var(--danger)] focus:border-[color:var(--danger)]",
           className
         )}

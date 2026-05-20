@@ -16,6 +16,7 @@ export function Button({ href, variant = "primary", iconLeft, iconRight, classNa
     variant === "primary" && "bg-[color:var(--blue-deep)] text-white hover:bg-[color:var(--navy)]",
     variant === "secondary" && "border border-[color:var(--blue-deep)] bg-white text-[color:var(--blue-deep)] hover:bg-[color:var(--surface-muted)]",
     variant === "ghost" && "bg-transparent text-[color:var(--blue-deep)] hover:bg-[color:var(--surface-muted)]",
+    "disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:hover:bg-slate-100",
     className
   );
 
