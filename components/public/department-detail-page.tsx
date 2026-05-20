@@ -23,6 +23,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getJobsForDepartment, formatEmploymentType, formatPostedDate } from "@/features/public/directory";
 import type { PublicDepartmentProfile, PublicDepartmentProfileSection } from "@/types/department";
 import type { PublicJobSummary } from "@/types/job";
+import { DepartmentHeroMedia } from "./department-hero-media";
 
 type DepartmentDetailPageProps = {
   department: PublicDepartmentProfile;
@@ -55,7 +56,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
   const jobs = getJobsForDepartment(department.id).slice(0, 4);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8">
       <nav className="mb-7 flex flex-wrap items-center gap-2 text-xs font-bold text-[color:var(--navy)]">
         <a href="/" className="hover:text-[color:var(--blue)]">
           Home
@@ -72,7 +73,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
         <main className="grid min-w-0 gap-5">
           <section className="grid gap-8 lg:grid-cols-[230px_minmax(220px,1fr)_minmax(340px,440px)]">
             <div className="flex items-start justify-center lg:justify-start">
-              <DepartmentBadge departmentName={department.departmentName} />
+              <DepartmentBadge departmentName={department.departmentName} badgeImageUrl={department.badgeImageUrl} />
             </div>
 
             <div className="grid content-start gap-5 pt-2">
@@ -94,7 +95,7 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
               </Button>
             </div>
 
-            <HeroMedia department={department} />
+            <DepartmentHeroMedia departmentName={department.departmentName} coverImageUrl={department.coverImageUrl ?? ""} media={department.media} />
           </section>
 
           <Card>
@@ -160,38 +161,11 @@ export function DepartmentDetailPage({ department }: DepartmentDetailPageProps) 
   );
 }
 
-function DepartmentBadge({ departmentName }: { departmentName: string }) {
+function DepartmentBadge({ departmentName, badgeImageUrl }: { departmentName: string; badgeImageUrl: string }) {
   return (
-    <div
-      aria-label={`${departmentName} badge`}
-      className="grid h-64 w-52 place-items-center bg-[color:var(--navy)] px-5 py-8 text-center text-white shadow-sm"
-      style={{ clipPath: "polygon(50% 0%, 94% 14%, 88% 72%, 50% 100%, 12% 72%, 6% 14%)" }}
-    >
-      <div className="grid h-full w-full place-items-center rounded-[42%] border-4 border-[#f5b82e] px-4">
-        <div>
-          <p className="text-2xl font-extrabold leading-none tracking-[0.1em]">WESTVIEW</p>
-          <p className="mt-1 text-xl font-extrabold leading-none tracking-[0.1em]">POLICE</p>
-          <div className="mx-auto my-4 grid h-16 w-16 place-items-center rounded-full border-2 border-[#f5b82e] bg-[#2f6f83]">
-            <ShieldCheck className="h-8 w-8 text-[#f5b82e]" />
-          </div>
-          <p className="text-2xl font-extrabold leading-none tracking-[0.1em]">MASS.</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function HeroMedia({ department }: { department: PublicDepartmentProfile }) {
-  return (
-    <div className="relative overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white shadow-sm">
+    <div className="flex items-start justify-center lg:justify-start">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={department.coverImageUrl} alt={`${department.departmentName} station`} className="h-64 w-full object-cover sm:h-80 lg:h-full" />
-      <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-3">
-        {[0, 1, 2, 3].map((dot) => (
-          <span key={dot} className="h-3 w-3 rounded-full bg-white/80 shadow-sm" />
-        ))}
-      </div>
-      <span className="absolute bottom-4 right-4 rounded-md bg-black/70 px-3 py-1.5 text-sm font-bold text-white">1 / 6</span>
+      <img src={badgeImageUrl} alt={`${departmentName} badge`} className="h-64 w-auto object-contain" />
     </div>
   );
 }
@@ -200,9 +174,9 @@ function DepartmentSidebar({ department, jobs }: { department: PublicDepartmentP
   return (
     <aside className="grid content-start gap-5 lg:sticky lg:top-6">
       <Card className="overflow-hidden">
-        <div className="bg-[color:var(--navy)] px-6 py-5 text-white">
-          <div className="flex items-center gap-4">
-            <BriefcaseBusiness className="h-7 w-7" />
+        <div className="bg-[color:var(--navy)] px-5 py-3.5 text-white">
+          <div className="flex items-center gap-3">
+            <BriefcaseBusiness className="h-5 w-5" />
             <SectionHeading inverse>Available positions</SectionHeading>
           </div>
         </div>
@@ -255,20 +229,20 @@ function DepartmentSidebar({ department, jobs }: { department: PublicDepartmentP
 
 function SidebarJobCard({ job }: { job: PublicJobSummary }) {
   return (
-    <a href={`/jobs/${job.id}`} className="grid gap-4 border-b border-[color:var(--border-muted)] px-6 py-6 last:border-b-0 hover:bg-[color:var(--surface-muted)]">
-      <h3 className="text-lg font-extrabold leading-snug text-[color:var(--navy)]">{job.title}</h3>
-      <span className="w-fit rounded-md bg-green-100 px-3 py-1 text-sm font-bold text-green-800">{formatEmploymentType(job.employmentType)}</span>
-      <p className="flex items-center gap-3 text-sm font-bold text-[color:var(--muted)]">
-        <MapPin className="h-4 w-4 text-[color:var(--navy)]" />
+    <a href={`/jobs/${job.id}`} className="grid gap-2.5 border-b border-[color:var(--border-muted)] px-5 py-4 last:border-b-0 hover:bg-[color:var(--surface-muted)]">
+      <h3 className="text-sm font-extrabold leading-snug text-[color:var(--navy)]">{job.title}</h3>
+      <span className="w-fit rounded-md bg-green-100 px-2 py-0.5 text-[11px] font-bold text-green-800">{formatEmploymentType(job.employmentType)}</span>
+      <p className="flex items-center gap-2.5 text-[11px] font-bold text-[color:var(--muted)]">
+        <MapPin className="h-3.5 w-3.5 text-[color:var(--navy)]" />
         {job.city}, {job.state}
       </p>
-      <p className="flex items-center gap-3 text-sm font-bold text-[color:var(--muted)]">
-        <CalendarDays className="h-4 w-4 text-[color:var(--navy)]" />
+      <p className="flex items-center gap-2.5 text-[11px] font-bold text-[color:var(--muted)]">
+        <CalendarDays className="h-3.5 w-3.5 text-[color:var(--navy)]" />
         Posted {formatPostedDate(job.postedAt)}
       </p>
-      <span className="inline-flex items-center justify-center gap-4 text-xs font-extrabold uppercase text-[color:var(--blue-deep)]">
+      <span className="inline-flex items-center justify-center gap-3 pt-1 text-[11px] font-extrabold uppercase text-[color:var(--blue-deep)]">
         View details
-        <ArrowRight className="h-5 w-5" />
+        <ArrowRight className="h-4 w-4" />
       </span>
     </a>
   );
@@ -277,8 +251,8 @@ function SidebarJobCard({ job }: { job: PublicJobSummary }) {
 function SectionHeading({ children, inverse = false }: { children: ReactNode; inverse?: boolean }) {
   return (
     <div>
-      <h2 className={`text-lg font-extrabold uppercase ${inverse ? "text-white" : "text-[color:var(--navy)]"}`}>{children}</h2>
-      <div className="mt-3 h-0.5 w-12 bg-[color:var(--gold)]" />
+      <h2 className={`text-sm font-extrabold uppercase ${inverse ? "text-white" : "text-[color:var(--navy)]"}`}>{children}</h2>
+      <div className="mt-2 h-0.5 w-10 bg-[color:var(--gold)]" />
     </div>
   );
 }
@@ -315,17 +289,17 @@ function ProfileInfoCard({ section }: { section: PublicDepartmentProfileSection 
 
   return (
     <Card>
-      <CardContent className="grid h-full gap-8 px-6 pb-6 pt-8">
-        <h2 className="text-base font-extrabold uppercase text-[color:var(--navy)]">{section.title}</h2>
-        <div className="grid gap-8">
+      <CardContent className="grid h-full gap-5 px-5 pb-5 pt-6">
+        <h2 className="text-sm font-extrabold uppercase text-[color:var(--navy)]">{section.title}</h2>
+        <div className="grid gap-5">
           {section.highlights.slice(0, 3).map((highlight, index) => {
             const Icon = iconMap[index] ?? Building2;
             return (
-              <div key={highlight.label} className="flex gap-4">
-                <Icon className="h-8 w-8 shrink-0 text-[color:var(--blue-deep)]" />
+              <div key={highlight.label} className="flex gap-3">
+                <Icon className="h-6 w-6 shrink-0 text-[color:var(--blue-deep)]" />
                 <div>
-                  <p className="text-xs font-extrabold text-[color:var(--navy)]">{highlight.label}</p>
-                  <p className="mt-1 text-sm font-semibold leading-5 text-[color:var(--navy)]">{highlight.value}</p>
+                  <p className="text-xs font-extrabold leading-4 text-[color:var(--navy)]">{highlight.label}</p>
+                  <p className="mt-1 text-xs font-semibold leading-5 text-[color:var(--navy)]">{highlight.value}</p>
                 </div>
               </div>
             );
@@ -333,7 +307,7 @@ function ProfileInfoCard({ section }: { section: PublicDepartmentProfileSection 
         </div>
         <a href="#sections" className="mt-auto inline-flex items-center gap-3 text-xs font-extrabold uppercase text-[color:var(--blue-deep)]">
           View more
-          <ArrowRight className="h-5 w-5" />
+          <ArrowRight className="h-4 w-4" />
         </a>
       </CardContent>
     </Card>

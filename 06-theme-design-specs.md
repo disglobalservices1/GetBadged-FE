@@ -91,6 +91,15 @@ Most authenticated workflow pages use a three-column shell:
 2. Center content/form area
 3. Right progress/help/status panel
 
+## Public Page Width & Side Margins
+
+All new public pages must use the shared public wrapper spacing:
+
+- Wrapper class pattern: `mx-auto max-w-7xl px-4 sm:px-6`
+- At desktop widths around `1280px`, visible side spacing should be `24px` from the viewport edge.
+- Do not use narrower wrappers like `max-w-6xl` for browse/detail public pages unless the design explicitly requires a focused reading layout.
+- Existing public pages to match: `/departments`, `/jobs`, `/departments/[departmentId]`, public resources/about pages, and public job detail pages.
+
 ### Header
 
 The app workflow header should include:

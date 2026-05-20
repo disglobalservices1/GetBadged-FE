@@ -15,7 +15,7 @@ export const mockDepartments: PublicDepartmentProfile[] = [
     mainPhone: "(617) 555-0101",
     logoUrl: "https://placehold.co/160x160/0a2a55/f5b82e?text=WPD",
     coverImageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    badgeImageUrl: "https://placehold.co/220x220/0a2a55/f5b82e?text=Westview%0APolice",
+    badgeImageUrl: "/images/westview-police-badge.png",
     primaryAdminUserId: "user_department_admin_1",
     badgeCreditsRemaining: 18,
     badgeCreditsSent: 2,
@@ -36,7 +36,6 @@ export const mockDepartments: PublicDepartmentProfile[] = [
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1200&q=80"
     ],

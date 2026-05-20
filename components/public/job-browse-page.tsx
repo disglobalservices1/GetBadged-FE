@@ -20,7 +20,7 @@ export function JobBrowsePage({ filters = {} }: JobBrowsePageProps) {
   const filterFormKey = `${filters.city ?? ""}-${filters.jobType ?? ""}-${filters.departmentId ?? ""}`;
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 py-10">
       <section className="grid gap-3">
         <p className="text-sm font-bold uppercase text-[color:var(--blue)]">Available positions</p>
         <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-end">

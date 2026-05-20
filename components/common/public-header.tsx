@@ -32,9 +32,7 @@ export function PublicHeader() {
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <a href="/" aria-label="GetBadged home">
-              <Logo />
-            </a>
+            <Logo />
           </div>
           <nav className="hidden items-center gap-8 text-sm font-semibold text-[color:var(--navy)] lg:flex">
             {navItems.map((item) => {
