@@ -23,10 +23,12 @@ For feature-specific work, also read:
 
 ## Source Priority
 
-1. Master source of truth: `MASTER GetBadged Dev Checklist Last Update_ 051226.pdf`
+1. Current master source of truth: `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`
 2. Supporting source: `GetBadged_MRD_LATEST.pdf`
-3. If sources conflict, follow the Master Checklist.
-4. Explicit user decisions recorded in this repo override older document assumptions.
+3. Older archived source: `MASTER GetBadged Dev Checklist old.pdf`
+4. If sources conflict, follow the current Master Checklist.
+5. Explicit user decisions recorded in this repo override older document assumptions.
+6. If a task was already completed against the old checklist, check [04-task-groups.md](04-task-groups.md) for latest-PDF impact notes before changing implementation.
 
 ## Before Starting A Task
 

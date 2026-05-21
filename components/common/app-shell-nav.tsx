@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import type { ComponentType } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, Shield, X } from "lucide-react";
 import { Logo } from "./logo";
 import { adminNavItems, candidateNavItems, departmentNavItems } from "@/lib/routes/navigation";
 import { cn } from "@/lib/utils/cn";
@@ -27,6 +28,22 @@ function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigat
   const activeHref = navItems
     .filter((item) => pathname === item.href || (item.href.split("/").length > 2 && pathname.startsWith(`${item.href}/`)))
     .sort((first, second) => second.href.length - first.href.length)[0]?.href;
+
+  if (navRole === "candidate") {
+    const accountItems = [
+      { label: "Settings", href: "/candidate/settings", icon: navItems.find((item) => item.href === "/candidate/settings")?.icon ?? Shield },
+      { label: "Privacy & Data", href: "/candidate/privacy", icon: Shield },
+      { label: "Sign out", href: "/auth/login", icon: LogOut }
+    ];
+    const candidateItems = navItems.filter((item) => !["/candidate/settings", "/candidate/messages"].includes(item.href));
+
+    return (
+      <nav className="grid gap-6 py-6 pl-3 pr-4">
+        <CandidateNavSection title="Candidate" items={candidateItems} activeHref={activeHref} onNavigate={onNavigate} />
+        <CandidateNavSection title="Account" items={accountItems} activeHref={activeHref} onNavigate={onNavigate} />
+      </nav>
+    );
+  }
 
   return (
     <nav className="grid gap-1 p-4">
@@ -56,6 +73,45 @@ function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigat
         );
       })}
     </nav>
+  );
+}
+
+function CandidateNavSection({
+  title,
+  items,
+  activeHref,
+  onNavigate
+}: {
+  title: string;
+  items: Array<{ label: string; href: string; icon: ComponentType<{ className?: string }> }>;
+  activeHref?: string;
+  onNavigate?: () => void;
+}) {
+  return (
+    <section className="grid gap-3">
+      <p className="px-2 text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue)]">{title}</p>
+      <div className="grid gap-1.5">
+        {items.map((item) => {
+          const active = activeHref === item.href;
+
+          return (
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              onClick={onNavigate}
+              className={cn(
+                "flex min-h-9 max-w-full items-center gap-2.5 rounded-md px-2.5 text-[9.5px] font-extrabold text-[#182747] transition-colors hover:bg-blue-50",
+                active && "bg-[#001b3f] text-white hover:bg-[#001b3f]"
+              )}
+            >
+              <item.icon className="h-[18px] w-[18px] shrink-0" />
+              <span className="min-w-0 truncate whitespace-nowrap">{item.label}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 

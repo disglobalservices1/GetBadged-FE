@@ -82,6 +82,18 @@ Status values:
 | 2026-05-15 | Added start-work rules doc that must be read before implementation |
 | 2026-05-15 | Added clean architecture rules for frontend and backend |
 | 2026-05-15 | Added proper app error handling and structured API response rules |
+| 2026-05-21 | Latest source of truth updated to `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf` |
+| 2026-05-21 | Dev A and Dev B completed TG-1 through TG-8 each before latest-PDF alignment |
+
+## Latest PDF Alignment Checkpoint
+
+| Area | Status | Notes |
+| --- | --- | --- |
+| Source-of-truth docs | Done | Updated docs to May 14 checklist |
+| Completed Dev A TG-A1 to TG-A8 impact review | Done | Added patch notes instead of rewriting completed groups |
+| Completed Dev B TG-B1 to TG-B8 impact review | Done | Added patch notes instead of rewriting completed groups |
+| Remaining task groups | Done | Updated remaining scopes directly to latest checklist |
+| Object/field registry | Done | Replaced citizenship boolean with work authorization status and added resource/notification/job-post fields |
 
 ## Open Blocks
 

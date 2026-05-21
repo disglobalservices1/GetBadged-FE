@@ -6,6 +6,7 @@ This file is the shared contract for frontend mock data, TypeScript types, and l
 
 - Use these field names in mock data and TypeScript types.
 - Do not invent alternate keys like `deptName` if the registry says `departmentName`.
+- Current source of truth is `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`.
 - Add new fields here before using them across multiple task groups.
 - Route-specific UI-only state can stay local, but domain data belongs here.
 - Boolean fields should start with `is`, `has`, or `can`.
@@ -30,6 +31,13 @@ This file is the shared contract for frontend mock data, TypeScript types, and l
 type UserRole = 'candidate' | 'department_admin' | 'department_user' | 'gb_admin';
 
 type CandidateTrack = 'ELR' | 'CXO' | 'OPS';
+
+type CitizenshipWorkAuthorizationStatus =
+  | 'us_citizen'
+  | 'permanent_resident'
+  | 'employment_authorized_visa_holder'
+  | 'other_employment_authorization'
+  | 'not_authorized_to_work_us';
 
 type AccountStatus =
   | 'free'
@@ -129,7 +137,7 @@ type CandidateProfile = {
   dateOfBirth: string;
   last4Ssn: string;
 
-  isUsCitizen: boolean | null;
+  citizenshipWorkAuthorizationStatus: CitizenshipWorkAuthorizationStatus | null;
   hasValidDriversLicense: boolean | null;
   gender: 'male' | 'female' | 'other' | null;
   ethnicity: string | null;
@@ -204,6 +212,7 @@ Protected in Badge Pool:
 - `last4Ssn`
 - `gender`
 - `ethnicity`
+- `citizenshipWorkAuthorizationStatus`
 - application history
 
 Internal-only for GetBadged:
@@ -486,6 +495,30 @@ type JobRequirement = {
   isRequired: boolean;
 };
 
+type JobPostRequirementFieldGroup = {
+  stateRequirements: string[];
+  minimumPassingExamScorePercent?: number;
+  departmentSpecificRequirements: string[];
+  minimumAge?: number;
+  maximumAge?: number;
+  residencyRequirement?: string;
+  tattooPolicy?: string[];
+  educationalRequirements: string[];
+  fitnessRequirements: string[];
+  preferredEligibility: string[];
+  preferredExperience: string[];
+  additionalSkillsQualifications: string[];
+  requiredCertifications: string[];
+  academyRequirements: string[];
+  postCertificationRequirements: string[];
+};
+
+type JobPostCompensationFieldGroup = {
+  shiftSchedule: string[];
+  salary: SalaryRange;
+  benefits: string[];
+};
+
 type SalaryRange = {
   startingSalary?: number;
   topStepSalary?: number;
@@ -556,6 +589,7 @@ type BadgePoolCandidate = {
 ```
 
 Never add protected candidate fields to this object.
+Never add `citizenshipWorkAuthorizationStatus` to this object.
 
 ## BadgeRequest
 
@@ -831,14 +865,53 @@ type Notification = {
     | 'exam_registered'
     | 'exam_reminder'
     | 'score_posted'
+    | 'candidate_profile_updated'
+    | 'candidate_application_updated'
+    | 'candidate_reactivated'
+    | 'candidate_became_inactive'
+    | 'membership_expiring'
+    | 'membership_renewal_upcoming'
     | 'approval_requested'
     | 'approval_returned'
+    | 'low_badge_credit_balance'
     | 'system';
   title: string;
   body: string;
   linkHref?: string;
   readAt?: string;
   createdAt: string;
+};
+```
+
+## ResourceCenterItem
+
+Owner: Shared CMS/admin. Dev A consumes candidate resources; Dev B consumes department resources and GB Admin CMS.
+
+```ts
+type ResourceCenterAudience = 'candidate_elr' | 'candidate_cxo' | 'candidate_ops' | 'department';
+
+type ResourceCenterItem = {
+  id: string;
+  audience: ResourceCenterAudience[];
+  title: string;
+  slug: string;
+  category:
+    | 'news_announcements'
+    | 'physical_fitness_standards'
+    | 'elr_exam_study_guide'
+    | 'application_tips'
+    | 'help_faq'
+    | 'department_resource'
+    | 'other';
+  contentFormat: Array<'rich_text' | 'image' | 'short_video' | 'hyperlink' | 'pdf'>;
+  body?: string;
+  links?: Array<{ label: string; href: string }>;
+  assetUrls?: string[];
+  isPublished: boolean;
+  isNewUntilRead: boolean;
+  createdByUserId: string;
+  createdAt: string;
+  updatedAt: string;
 };
 ```
 
@@ -989,6 +1062,7 @@ lib/mock/notifications.ts
 lib/mock/payments.ts
 lib/mock/auditLogs.ts
 lib/mock/templates.ts
+lib/mock/resources.ts
 ```
 
 ## Shared Type File Map
@@ -1008,6 +1082,7 @@ types/notification.ts
 types/payment.ts
 types/admin.ts
 types/template.ts
+types/resource.ts
 ```
 
 ## Conflict Prevention Checklist

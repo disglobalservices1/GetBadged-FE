@@ -255,9 +255,6 @@ export function DepartmentProfileEditor() {
           description="Update draft public profile sections, media, and approval-ready details."
         />
         <div className="flex flex-wrap gap-3">
-          <Button href="/department/profile" variant="secondary">
-            Back to profile
-          </Button>
           <Button type="button" variant="secondary" iconLeft={<Save className="h-4 w-4" />} onClick={handleSaveDraft}>
             Save draft
           </Button>
