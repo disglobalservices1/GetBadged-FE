@@ -20,6 +20,17 @@ const navItemsByRole = {
   admin: adminNavItems
 };
 
+const departmentNavGroups = [
+  {
+    label: "Department",
+    items: ["Dashboard", "Job Postings", "Applicant Pool", "Badge Pool", "Messages", "Reports & Analytics"]
+  },
+  {
+    label: "Manage",
+    items: ["Team Members", "Department Profile", "Membership & Billing"]
+  }
+];
+
 function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigate?: () => void }) {
   const pathname = usePathname();
   const navItems = navItemsByRole[navRole];
@@ -28,10 +39,9 @@ function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigat
     .filter((item) => pathname === item.href || (item.href.split("/").length > 2 && pathname.startsWith(`${item.href}/`)))
     .sort((first, second) => second.href.length - first.href.length)[0]?.href;
 
-  return (
-    <nav className="grid gap-1 p-4">
-      {navItems.map((item) => {
+  const renderLink = (item: (typeof navItems)[number]) => {
         const active = activeHref === item.href;
+        const isDepartment = navRole === "department";
 
         return (
           <a
@@ -40,23 +50,42 @@ function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigat
             aria-current={active ? "page" : undefined}
             onClick={onNavigate}
             className={cn(
-              "relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold text-slate-700 transition-[background-color,color,transform] duration-200 ease-out hover:bg-[color:var(--surface-muted)] hover:text-[color:var(--navy)] motion-reduce:transition-none",
-              active && "bg-blue-50 text-[color:var(--blue-deep)]"
+              "relative flex items-center rounded-md font-semibold transition-[background-color,color,transform] duration-200 ease-out hover:bg-[color:var(--surface-muted)] hover:text-[color:var(--navy)] motion-reduce:transition-none",
+              isDepartment ? "gap-2.5 px-3 py-2 text-[12px] leading-4 text-slate-700" : "gap-3 px-3 py-2.5 text-sm text-slate-700",
+              active && (isDepartment ? "bg-[color:var(--navy)] text-white hover:bg-[color:var(--navy)] hover:text-white" : "bg-blue-50 text-[color:var(--blue-deep)]")
             )}
           >
             <span
               className={cn(
                 "absolute bottom-2 left-0 top-2 w-1 origin-center rounded-r-full bg-[color:var(--blue-deep)] transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
-                active ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
+                active && !isDepartment ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
               )}
             />
-            <item.icon className="h-4 w-4" />
+            <item.icon className={cn("shrink-0", isDepartment ? "h-3.5 w-3.5" : "h-4 w-4")} />
             {item.label}
           </a>
         );
-      })}
-    </nav>
-  );
+  };
+
+  if (navRole === "department") {
+    return (
+      <nav className="grid gap-4 px-1.5 pb-3 pt-0">
+        {departmentNavGroups.map((group) => (
+          <div key={group.label} className="grid gap-1">
+            {group.label !== "Department" ? (
+              <p className="px-3 text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)]">{group.label}</p>
+            ) : null}
+            {group.items
+              .map((label) => navItems.find((item) => item.label === label))
+              .filter((item): item is (typeof navItems)[number] => Boolean(item))
+              .map(renderLink)}
+          </div>
+        ))}
+      </nav>
+    );
+  }
+
+  return <nav className="grid gap-1 p-4">{navItems.map(renderLink)}</nav>;
 }
 
 export function AppShellNav({ navRole, roleLabel }: AppShellNavProps) {
