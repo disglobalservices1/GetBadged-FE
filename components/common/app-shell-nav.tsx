@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./logo";
@@ -12,6 +13,8 @@ export type AppShellNavRole = "candidate" | "department" | "admin";
 type AppShellNavProps = {
   navRole: AppShellNavRole;
   roleLabel: string;
+  isCollapsed?: boolean;
+  onNavigate?: () => void;
 };
 
 const navItemsByRole = {
@@ -31,7 +34,7 @@ const departmentNavGroups = [
   }
 ];
 
-function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigate?: () => void }) {
+function NavLinks({ navRole, onNavigate, isCollapsed = false }: { navRole: AppShellNavRole; onNavigate?: () => void; isCollapsed?: boolean }) {
   const pathname = usePathname();
   const navItems = navItemsByRole[navRole];
 
@@ -40,40 +43,59 @@ function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigat
     .sort((first, second) => second.href.length - first.href.length)[0]?.href;
 
   const renderLink = (item: (typeof navItems)[number]) => {
-        const active = activeHref === item.href;
-        const isDepartment = navRole === "department";
+    const active = activeHref === item.href;
+    const isDepartment = navRole === "department";
+    const collapseDepartmentLink = isDepartment && isCollapsed;
 
-        return (
-          <a
-            key={item.href}
-            href={item.href}
-            aria-current={active ? "page" : undefined}
-            onClick={onNavigate}
-            className={cn(
-              "relative flex items-center rounded-md font-semibold transition-[background-color,color,transform] duration-200 ease-out hover:bg-[color:var(--surface-muted)] hover:text-[color:var(--navy)] motion-reduce:transition-none",
-              isDepartment ? "gap-2.5 px-3 py-2 text-[12px] leading-4 text-slate-700" : "gap-3 px-3 py-2.5 text-sm text-slate-700",
-              active && (isDepartment ? "bg-[color:var(--navy)] text-white hover:bg-[color:var(--navy)] hover:text-white" : "bg-blue-50 text-[color:var(--blue-deep)]")
-            )}
-          >
-            <span
-              className={cn(
-                "absolute bottom-2 left-0 top-2 w-1 origin-center rounded-r-full bg-[color:var(--blue-deep)] transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
-                active && !isDepartment ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
-              )}
-            />
-            <item.icon className={cn("shrink-0", isDepartment ? "h-3.5 w-3.5" : "h-4 w-4")} />
-            {item.label}
-          </a>
-        );
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        aria-label={collapseDepartmentLink ? item.label : undefined}
+        title={collapseDepartmentLink ? item.label : undefined}
+        onClick={onNavigate}
+        className={cn(
+          "relative flex items-center rounded-md font-semibold transition-[background-color,color,transform,width,padding] duration-200 ease-out hover:bg-[color:var(--surface-muted)] hover:text-[color:var(--navy)] motion-reduce:transition-none",
+          isDepartment ? "gap-2.5 px-3 py-2 text-[12px] leading-4 text-slate-700" : "gap-3 px-3 py-2.5 text-sm text-slate-700",
+          collapseDepartmentLink && "mx-auto h-8 w-8 !justify-center !gap-0 !px-0 !py-0",
+          active && (isDepartment ? "bg-[color:var(--navy)] text-white hover:bg-[color:var(--navy)] hover:text-white" : "bg-blue-50 text-[color:var(--blue-deep)]")
+        )}
+      >
+        <span
+          className={cn(
+            "absolute bottom-2 left-0 top-2 w-1 origin-center rounded-r-full bg-[color:var(--blue-deep)] transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
+            active && !isDepartment ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
+          )}
+        />
+        <item.icon className={cn("shrink-0", isDepartment ? "h-3.5 w-3.5" : "h-4 w-4")} />
+        <span
+          className={cn(
+            "min-w-0 overflow-hidden truncate transition-[opacity,width] duration-200 ease-out motion-reduce:transition-none",
+            collapseDepartmentLink && "w-0 opacity-0"
+          )}
+        >
+          {item.label}
+        </span>
+      </Link>
+    );
   };
 
   if (navRole === "department") {
     return (
-      <nav className="grid gap-4 px-1.5 pb-3 pt-0">
-        {departmentNavGroups.map((group) => (
+      <nav className={cn("grid gap-4 px-1.5 pb-3 pt-0 transition-[padding] duration-300 ease-out motion-reduce:transition-none", isCollapsed && "!px-0")}>
+        {departmentNavGroups.map((group, groupIndex) => (
           <div key={group.label} className="grid gap-1">
+            {isCollapsed && groupIndex > 0 ? <div className="mx-auto my-2 h-px w-5 bg-[color:var(--border-muted)]" /> : null}
             {group.label !== "Department" ? (
-              <p className="px-3 text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)]">{group.label}</p>
+              <p
+                className={cn(
+                  "px-3 text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)] transition-[opacity,height,margin] duration-200 ease-out motion-reduce:transition-none",
+                  isCollapsed && "h-0 overflow-hidden opacity-0"
+                )}
+              >
+                {group.label}
+              </p>
             ) : null}
             {group.items
               .map((label) => navItems.find((item) => item.label === label))
@@ -88,13 +110,13 @@ function NavLinks({ navRole, onNavigate }: { navRole: AppShellNavRole; onNavigat
   return <nav className="grid gap-1 p-4">{navItems.map(renderLink)}</nav>;
 }
 
-export function AppShellNav({ navRole, roleLabel }: AppShellNavProps) {
+export function AppShellNav({ navRole, roleLabel, isCollapsed = false, onNavigate }: AppShellNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <div className="hidden lg:block">
-        <NavLinks navRole={navRole} />
+        <NavLinks navRole={navRole} isCollapsed={isCollapsed} onNavigate={onNavigate} />
       </div>
 
       <button

@@ -1,8 +1,12 @@
-import { Bell, ChevronDown, Mail, LogOut } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Bell, ChevronDown, CircleHelp, LogOut, Mail, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { AppShellNav, type AppShellNavRole } from "./app-shell-nav";
 import { DepartmentTopNav } from "./department-top-nav";
 import { Logo } from "./logo";
 import { getMockSession } from "@/lib/auth/mock-session";
+import { cn } from "@/lib/utils/cn";
 
 type AppShellProps = {
   roleLabel: string;
@@ -10,14 +14,38 @@ type AppShellProps = {
   children: React.ReactNode;
 };
 
+const departmentSidebarCollapsedStorageKey = "gb.departmentSidebarCollapsed";
+
 export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
   const session = getMockSession(navRole === "department" ? "department_admin" : undefined);
+  const [isDepartmentSidebarCollapsed, setIsDepartmentSidebarCollapsed] = useState(false);
+  const [isDepartmentSidebarHovered, setIsDepartmentSidebarHovered] = useState(false);
+  const [hasLoadedDepartmentSidebarPreference, setHasLoadedDepartmentSidebarPreference] = useState(false);
+  const isDepartmentSidebarVisuallyCollapsed = isDepartmentSidebarCollapsed && !isDepartmentSidebarHovered;
+
+  useEffect(() => {
+    setIsDepartmentSidebarCollapsed(localStorage.getItem(departmentSidebarCollapsedStorageKey) === "true");
+    setHasLoadedDepartmentSidebarPreference(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedDepartmentSidebarPreference) {
+      return;
+    }
+
+    localStorage.setItem(departmentSidebarCollapsedStorageKey, String(isDepartmentSidebarCollapsed));
+  }, [hasLoadedDepartmentSidebarPreference, isDepartmentSidebarCollapsed]);
 
   if (navRole === "department") {
     return (
-      <div className="gb-app-shell grid h-screen grid-rows-[auto_minmax(0,1fr)] overflow-hidden bg-slate-50 lg:grid-cols-[clamp(200px,14vw,260px)_minmax(0,1fr)]">
+      <div
+        className={cn(
+          "gb-app-shell grid h-screen grid-rows-[auto_minmax(0,1fr)] overflow-hidden bg-slate-50 transition-[grid-template-columns] duration-300 ease-out motion-reduce:transition-none",
+          isDepartmentSidebarCollapsed ? "lg:grid-cols-[48px_minmax(0,1fr)]" : "lg:grid-cols-[clamp(200px,14vw,260px)_minmax(0,1fr)]"
+        )}
+      >
         <header className="col-span-full grid min-h-[54px] grid-cols-[1fr_auto] items-center bg-[color:var(--navy)] text-white lg:grid-cols-[clamp(200px,14vw,260px)_auto_minmax(330px,1fr)_auto]">
-          <div className="flex h-full min-w-0 items-center gap-2.5 border-r border-white/20 px-4 lg:px-5">
+          <div className="flex h-full min-w-0 items-center gap-2.5 overflow-hidden border-r border-white/20 px-4 lg:px-5">
             <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-md border-2 border-[color:var(--gold)] text-[11px] font-bold text-[color:var(--gold)]">GB</span>
             <span className="min-w-0 truncate text-[16px] font-bold leading-none tracking-normal">GetBadged</span>
           </div>
@@ -52,19 +80,75 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
           </div>
         </header>
 
-        <aside className="hidden min-h-0 overflow-y-auto border-r border-[color:var(--border-muted)] bg-white lg:grid lg:content-between">
+        <aside
+          className={cn(
+            "relative z-20 hidden min-h-0 overflow-x-hidden overflow-y-auto border-r border-[color:var(--border-muted)] bg-white transition-[width,box-shadow] duration-300 ease-out motion-reduce:transition-none lg:grid lg:content-between",
+            isDepartmentSidebarCollapsed
+              ? isDepartmentSidebarHovered
+                ? "w-[clamp(200px,14vw,260px)] shadow-xl"
+                : "w-[48px]"
+              : "w-full"
+          )}
+          onMouseEnter={() => {
+            if (isDepartmentSidebarCollapsed) {
+              setIsDepartmentSidebarHovered(true);
+            }
+          }}
+          onMouseLeave={() => setIsDepartmentSidebarHovered(false)}
+        >
           <div>
-            <div className="px-4 pb-2 pt-4">
-              <p className="text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)]">{roleLabel}</p>
+            <div
+              className={cn(
+                "flex items-center px-4 pb-2 pt-4 transition-[padding] duration-300 ease-out motion-reduce:transition-none",
+                isDepartmentSidebarVisuallyCollapsed ? "justify-center !px-2" : "justify-between gap-2"
+              )}
+            >
+              <p
+                className={cn(
+                  "min-w-0 overflow-hidden truncate text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)] transition-[opacity,width] duration-200 ease-out motion-reduce:transition-none",
+                  isDepartmentSidebarVisuallyCollapsed && "w-0 opacity-0"
+                )}
+              >
+                {roleLabel}
+              </p>
+              <button
+                type="button"
+                aria-label={isDepartmentSidebarCollapsed ? "Expand side menu" : "Collapse side menu"}
+                aria-pressed={isDepartmentSidebarCollapsed}
+                title={isDepartmentSidebarCollapsed ? "Expand side menu" : "Collapse side menu"}
+                onClick={() => {
+                  setIsDepartmentSidebarHovered(false);
+                  setIsDepartmentSidebarCollapsed((current) => !current);
+                }}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[color:var(--border-muted)] text-[color:var(--blue-deep)] transition hover:bg-[color:var(--surface-muted)] focus:outline-none focus:ring-2 focus:ring-[color:var(--blue)] focus:ring-offset-2"
+              >
+                {isDepartmentSidebarCollapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+              </button>
             </div>
-            <AppShellNav navRole={navRole} roleLabel={roleLabel} />
+            <AppShellNav
+              navRole={navRole}
+              roleLabel={roleLabel}
+              isCollapsed={isDepartmentSidebarVisuallyCollapsed}
+              onNavigate={() => setIsDepartmentSidebarHovered(false)}
+            />
           </div>
-          <div className="m-3 rounded-md bg-blue-50 p-3 text-[10px] leading-4">
-            <p className="font-bold text-[color:var(--blue-deep)]">Need support?</p>
-            <p className="mt-1 text-[color:var(--blue-deep)]">We're happy to help.</p>
-            <p className="mt-3 font-semibold text-[color:var(--navy)]">Call us at 781.645.6005</p>
-            <p className="mt-1 font-semibold text-[color:var(--blue-deep)]">info@getbadged.com</p>
-          </div>
+          {isDepartmentSidebarVisuallyCollapsed ? (
+            <a
+              href="mailto:info@getbadged.com"
+              aria-label="Need support?"
+              title="Need support?"
+              className="mx-auto mb-3 inline-flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue-deep)] transition hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-[color:var(--blue)] focus:ring-offset-2"
+            >
+              <CircleHelp className="h-5 w-5" />
+            </a>
+          ) : (
+            <div className="m-3 rounded-md bg-blue-50 p-3 text-[10px] leading-4 transition-opacity duration-200 ease-out motion-reduce:transition-none">
+              <p className="font-bold text-[color:var(--blue-deep)]">Need support?</p>
+              <p className="mt-1 text-[color:var(--blue-deep)]">We're happy to help.</p>
+              <p className="mt-3 font-semibold text-[color:var(--navy)]">Call us at 781.645.6005</p>
+              <p className="mt-1 font-semibold text-[color:var(--blue-deep)]">info@getbadged.com</p>
+            </div>
+          )}
         </aside>
 
         <main className="gb-app-shell-main min-h-0 min-w-0 overflow-y-auto p-3 sm:p-4">{children}</main>
