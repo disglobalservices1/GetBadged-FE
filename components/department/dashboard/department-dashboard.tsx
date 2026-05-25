@@ -288,7 +288,7 @@ function BadgePoolPreview({ dashboard }: { dashboard: Dashboard }) {
                     <td className="px-2 py-2">{row.cadetAcademy}</td>
                     <td className="px-2 py-2">{row.veteran}</td>
                     <td className="px-2 py-2">
-                      <button type="button" className="inline-flex h-6 min-w-[88px] items-center justify-center bg-[color:var(--gold)] px-3 text-[10px] font-extrabold leading-none text-[color:var(--navy)] transition hover:brightness-95">
+                      <button type="button" className="inline-flex h-6 min-w-[88px] items-center justify-center bg-[color:var(--gold)] px-3 text-[10px] !font-extrabold leading-none text-[color:var(--navy)] transition hover:brightness-95">
                         Send Badge
                       </button>
                     </td>
