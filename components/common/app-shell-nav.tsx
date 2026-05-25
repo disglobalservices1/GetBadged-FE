@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, Shield, X } from "lucide-react";
 import { Logo } from "./logo";
 import { adminNavItems, candidateNavItems, departmentNavItems } from "@/lib/routes/navigation";
+import type { NavItem } from "@/types/navigation";
 import { cn } from "@/lib/utils/cn";
 
 export type AppShellNavRole = "candidate" | "department" | "admin";
@@ -34,45 +36,65 @@ const departmentNavGroups = [
   }
 ];
 
+const candidateAccountItems: NavItem[] = [
+  { label: "Settings", href: "/candidate/settings", icon: candidateNavItems.find((item) => item.href === "/candidate/settings")?.icon ?? Shield },
+  { label: "Privacy & Data", href: "/candidate/privacy", icon: Shield },
+  { label: "Sign out", href: "/auth/login", icon: LogOut }
+];
+
+const candidateNavGroups = [
+  {
+    label: "Candidate",
+    items: ["Dashboard", "Candidate Profile", "Supporting Documents", "Exam Registration", "Browse Departments & Jobs", "Submitted Applications", "Tokens & Purchases"]
+  },
+  {
+    label: "Account",
+    items: ["Settings", "Privacy & Data", "Sign out"]
+  }
+];
+
 function NavLinks({ navRole, onNavigate, isCollapsed = false }: { navRole: AppShellNavRole; onNavigate?: () => void; isCollapsed?: boolean }) {
   const pathname = usePathname();
-  const navItems = navItemsByRole[navRole];
+  const baseItems = navItemsByRole[navRole];
+  const navItems = navRole === "candidate" ? [...baseItems.filter((item) => item.href !== "/candidate/messages"), ...candidateAccountItems] : baseItems;
 
   const activeHref = navItems
     .filter((item) => pathname === item.href || (item.href.split("/").length > 2 && pathname.startsWith(`${item.href}/`)))
     .sort((first, second) => second.href.length - first.href.length)[0]?.href;
 
+  const isCompactShell = navRole === "department" || navRole === "candidate";
+
   const renderLink = (item: (typeof navItems)[number]) => {
     const active = activeHref === item.href;
-    const isDepartment = navRole === "department";
-    const collapseDepartmentLink = isDepartment && isCollapsed;
+    const collapseLink = isCompactShell && isCollapsed;
 
     return (
       <Link
         key={item.href}
         href={item.href}
         aria-current={active ? "page" : undefined}
-        aria-label={collapseDepartmentLink ? item.label : undefined}
-        title={collapseDepartmentLink ? item.label : undefined}
+        aria-label={collapseLink ? item.label : undefined}
+        title={collapseLink ? item.label : undefined}
         onClick={onNavigate}
         className={cn(
           "relative flex items-center rounded-md font-semibold transition-[background-color,color,transform,width,padding] duration-200 ease-out hover:bg-[color:var(--surface-muted)] hover:text-[color:var(--navy)] motion-reduce:transition-none",
-          isDepartment ? "gap-2.5 px-3 py-2 text-[12px] leading-4 text-slate-700" : "gap-3 px-3 py-2.5 text-sm text-slate-700",
-          collapseDepartmentLink && "mx-auto h-8 w-8 !justify-center !gap-0 !px-0 !py-0",
-          active && (isDepartment ? "bg-[color:var(--navy)] text-white hover:bg-[color:var(--navy)] hover:text-white" : "bg-blue-50 text-[color:var(--blue-deep)]")
+          isCompactShell ? "gap-2.5 px-3 py-2 text-[12px] leading-4 text-slate-700" : "gap-3 px-3 py-2.5 text-sm text-slate-700",
+          collapseLink && "mx-auto h-8 w-8 !justify-center !gap-0 !px-0 !py-0",
+          active && (isCompactShell ? "!bg-[color:var(--navy)] !text-white hover:!bg-[color:var(--navy)] hover:!text-white" : "bg-blue-50 text-[color:var(--blue-deep)]")
         )}
       >
         <span
           className={cn(
             "absolute bottom-2 left-0 top-2 w-1 origin-center rounded-r-full bg-[color:var(--blue-deep)] transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
-            active && !isDepartment ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
+            active && !isCompactShell ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
           )}
         />
-        <item.icon className={cn("shrink-0", isDepartment ? "h-3.5 w-3.5" : "h-4 w-4")} />
+        <item.icon className={cn("shrink-0", isCompactShell ? "h-3.5 w-3.5" : "h-4 w-4")} />
         <span
           className={cn(
-            "min-w-0 overflow-hidden truncate transition-[opacity,width] duration-200 ease-out motion-reduce:transition-none",
-            collapseDepartmentLink && "w-0 opacity-0"
+            "min-w-0 overflow-hidden transition-[opacity,width] duration-200 ease-out motion-reduce:transition-none",
+            navRole === "candidate" && !collapseLink ? "whitespace-normal break-words leading-tight" : "truncate",
+            collapseLink && "w-0 opacity-0"
           )}
         >
           {item.label}
@@ -83,31 +105,63 @@ function NavLinks({ navRole, onNavigate, isCollapsed = false }: { navRole: AppSh
 
   if (navRole === "department") {
     return (
-      <nav className={cn("grid gap-4 px-1.5 pb-3 pt-0 transition-[padding] duration-300 ease-out motion-reduce:transition-none", isCollapsed && "!px-0")}>
-        {departmentNavGroups.map((group, groupIndex) => (
-          <div key={group.label} className="grid gap-1">
-            {isCollapsed && groupIndex > 0 ? <div className="mx-auto my-2 h-px w-5 bg-[color:var(--border-muted)]" /> : null}
-            {group.label !== "Department" ? (
-              <p
-                className={cn(
-                  "px-3 text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)] transition-[opacity,height,margin] duration-200 ease-out motion-reduce:transition-none",
-                  isCollapsed && "h-0 overflow-hidden opacity-0"
-                )}
-              >
-                {group.label}
-              </p>
-            ) : null}
-            {group.items
-              .map((label) => navItems.find((item) => item.label === label))
-              .filter((item): item is (typeof navItems)[number] => Boolean(item))
-              .map(renderLink)}
-          </div>
-        ))}
-      </nav>
+      <GroupedNav
+        groups={departmentNavGroups}
+        navItems={navItems}
+        isCollapsed={isCollapsed}
+        renderLink={renderLink}
+      />
+    );
+  }
+
+  if (navRole === "candidate") {
+    return (
+      <GroupedNav
+        groups={candidateNavGroups}
+        navItems={navItems}
+        isCollapsed={isCollapsed}
+        renderLink={renderLink}
+      />
     );
   }
 
   return <nav className="grid gap-1 p-4">{navItems.map(renderLink)}</nav>;
+}
+
+function GroupedNav({
+  groups,
+  navItems,
+  isCollapsed,
+  renderLink
+}: {
+  groups: Array<{ label: string; items: string[] }>;
+  navItems: NavItem[];
+  isCollapsed: boolean;
+  renderLink: (item: NavItem) => ReactNode;
+}) {
+  return (
+    <nav className={cn("grid gap-4 px-1.5 pb-3 pt-0 transition-[padding] duration-300 ease-out motion-reduce:transition-none", isCollapsed && "!px-0")}>
+      {groups.map((group, groupIndex) => (
+        <div key={group.label} className="grid gap-1">
+          {isCollapsed && groupIndex > 0 ? <div className="mx-auto my-2 h-px w-5 bg-[color:var(--border-muted)]" /> : null}
+          {groupIndex > 0 ? (
+            <p
+              className={cn(
+                "px-3 text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--blue-deep)] transition-[opacity,height,margin] duration-200 ease-out motion-reduce:transition-none",
+                isCollapsed && "h-0 overflow-hidden opacity-0"
+              )}
+            >
+              {group.label}
+            </p>
+          ) : null}
+          {group.items
+            .map((label) => navItems.find((item) => item.label === label))
+            .filter((item): item is (typeof navItems)[number] => Boolean(item))
+            .map(renderLink)}
+        </div>
+      ))}
+    </nav>
+  );
 }
 
 export function AppShellNav({ navRole, roleLabel, isCollapsed = false, onNavigate }: AppShellNavProps) {

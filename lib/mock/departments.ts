@@ -14,8 +14,8 @@ export const mockDepartments: PublicDepartmentProfile[] = [
     websiteUrl: "https://example.gov",
     mainPhone: "(617) 555-0101",
     logoUrl: "https://placehold.co/160x160/0a2a55/f5b82e?text=WPD",
-    coverImageUrl: "https://images.unsplash.com/photo-1575908539614-ff89490f4a78?auto=format&fit=crop&w=1200&q=80",
-    badgeImageUrl: "https://placehold.co/220x220/0a2a55/f5b82e?text=Westview%0APolice",
+    coverImageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    badgeImageUrl: "/images/westview-police-badge.png",
     primaryAdminUserId: "user_department_admin_1",
     badgeCreditsRemaining: 18,
     badgeCreditsSent: 2,
@@ -33,9 +33,11 @@ export const mockDepartments: PublicDepartmentProfile[] = [
     communityType: "Residential, Urban",
     whyJoin: ["Supportive leadership", "Strong community partnerships", "Modern equipment and technology", "Opportunities for advancement", "Work-life balance"],
     media: [
-      "https://images.unsplash.com/photo-1575908539614-ff89490f4a78?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=1200&q=80"
+      "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1200&q=80"
     ],
     sections: [
       {
@@ -43,8 +45,8 @@ export const mockDepartments: PublicDepartmentProfile[] = [
         title: "Inside the Department",
         summary: "Modernized station operations with collaborative patrol teams, updated facilities, and wellness support.",
         highlights: [
-          { label: "Age of Station", value: "25+ years, modernized in 2021" },
-          { label: "Station Amenities", value: "Work-out facility, showers, break rooms, outdoor areas" },
+          { label: "Age of Station", value: "25+ Years (Modernized in 2021)" },
+          { label: "Station Amenities", value: "Work-Out Facility, Showers, Break Rooms, Outdoor Areas + more" },
           { label: "On-Site Mental Health Clinician", value: "Yes" }
         ]
       },
@@ -53,8 +55,9 @@ export const mockDepartments: PublicDepartmentProfile[] = [
         title: "Training & Growth",
         summary: "In-service training, leadership development, and specialty assignment pathways for motivated candidates.",
         highlights: [
-          { label: "Specialty Units", value: "K-9, detective, SWAT, community policing" },
-          { label: "Preferred Academy Location", value: "MPTC or regional partner academies" }
+          { label: "Training Opportunities", value: "In-Service Training, Leadership Development, Specialized Training + more" },
+          { label: "Specialized Units", value: "K-9 Unit, Detective, SWAT, Community Policing + more" },
+          { label: "Preferred Academy Location", value: "MBTA Academy, Northeastern/Cambridge, NECC + more" }
         ]
       },
       {
@@ -62,8 +65,9 @@ export const mockDepartments: PublicDepartmentProfile[] = [
         title: "The Community",
         summary: "A close Massachusetts community with civic events, schools, local businesses, and active neighborhood partnerships.",
         highlights: [
-          { label: "Community Engagement", value: "Coffee with a Cop, Citizens Academy, Junior Academy" },
-          { label: "Nearby Communities", value: "Walpole, Medway, Millis, Franklin" }
+          { label: "Population", value: "11,600 Residents" },
+          { label: "Community Engagement", value: "Coffee with a Cop, Citizen's Academy, Junior Academy + more" },
+          { label: "Nearby Communities", value: "Walpole, Medway, Millis, Franklin + more" }
         ]
       }
     ],

@@ -185,9 +185,6 @@ export function DepartmentJobPostEditor({ jobId }: { jobId?: string }) {
           description="Build a template-driven job post, save a draft, or submit it for GetBadged approval."
         />
         <div className="flex flex-wrap gap-3">
-          <Button href="/department/jobs" variant="secondary">
-            Back to jobs
-          </Button>
           <Button type="button" variant="secondary" iconLeft={<Save className="h-4 w-4" />} onClick={handleSaveDraft}>
             Save draft
           </Button>

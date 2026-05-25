@@ -20,15 +20,20 @@ Use this file as the working memory for Codex and future agents.
 
 Primary:
 
-- `MASTER GetBadged Dev Checklist Last Update_ 051226.pdf`
+- `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`
 
 Secondary:
 
 - `GetBadged_MRD_LATEST.pdf`
 
+Archived/old:
+
+- `MASTER GetBadged Dev Checklist old.pdf`
+
 Conflict rule:
 
-- Master Checklist wins over MRD.
+- Current Master Checklist wins over the MRD and older checklist files.
+- If a task group was completed before the May 14 checklist review, check `04-task-groups.md` for impact/patch notes.
 
 ## Confirmed Project Decisions
 
@@ -61,6 +66,17 @@ Conflict rule:
 - GB Admin impersonation included in MVP with audit logs
 - Inactive accounts archive after 30 days
 - Permanent deletion retention period needs confirmation
+
+## Latest Checklist Delta Notes
+
+The May 14 checklist adds/clarifies these items:
+
+- Candidate `U.S. Citizen` field is now `Citizenship / Work Authorization Status`.
+- Candidate and department Resource Centers are explicit product areas.
+- Candidate full application view, print, download, export, and dashboard visibility rules are more specific.
+- Department job post builder has expanded fields for requirements, eligibility, experience, skills, certifications, schedules, salary, benefits, responsibilities, and hiring process.
+- Notification Center requirements are clearer for candidate and department events.
+- Completed Dev A/B task groups 1-8 remain completed, but affected groups need patch notes tracked in `04-task-groups.md`.
 
 ## Important Product Rules
 

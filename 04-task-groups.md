@@ -43,6 +43,17 @@ lib/
 types/
 ```
 
+## Latest PDF Alignment Rule
+
+Current source of truth is `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`.
+
+Dev A and Dev B completed their first eight task groups before this latest-PDF comparison. Completed groups should not be rewritten as new work. Instead:
+
+- Keep TG-A1 through TG-A8 and TG-B1 through TG-B8 marked as completed.
+- Add latest-PDF impact/patch notes to completed groups where needed.
+- Update unstarted and remaining groups directly so future work starts from the latest checklist.
+- Any shared field change must be reflected in `11-object-field-registry.md` before implementation.
+
 ## Milestone 0: Foundation
 
 Owner: Shared, short initial pairing.
@@ -96,6 +107,11 @@ Avoids:
 - Department dashboard routes
 - Admin routes
 
+Latest PDF change impact:
+
+- Patch needed: low.
+- Ensure brand usage follows current logo/name rule: `GetBadged` is one word with capital `G` and capital `B`.
+
 ### TG-A2 Public Department and Job Browse
 
 Routes:
@@ -123,6 +139,12 @@ Hand-off points:
 
 - Job detail apply CTA must pass `jobId` into candidate apply flow.
 
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Public department profile and public job detail should continue matching the latest sample layouts.
+- Job detail data should prepare for expanded job-post fields such as state requirements, department-specific requirements, preferred eligibility, salary, benefits, responsibilities, and hiring process.
+
 ### TG-A3 Auth and Candidate Free Signup
 
 Routes:
@@ -142,6 +164,12 @@ Scope:
 Shared with Dev B:
 
 - Department signup form can be split: Dev A builds auth shell; Dev B owns department-specific fields and pending approval behavior.
+
+Latest PDF change impact:
+
+- Patch needed: low.
+- Confirm password rules in UI: minimum 8 characters, 1 capital letter, 1 number, and 1 special character.
+- Session timeout behavior is documented for backend/app shell; no full implementation required in this completed auth UI unless scheduled as a patch.
 
 ### TG-A4 Candidate Dashboard
 
@@ -167,6 +195,12 @@ Mock data:
 - `lib/mock/candidate.ts`
 - `lib/mock/memberships.ts`
 - `lib/mock/tokens.ts`
+
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Candidate dashboard should be ready to show Resource Center items and "New" unread labels.
+- Candidate dashboard should show membership expiry/renewal notifications and exam confirmation/reminder notices when those mock states exist.
 
 ### TG-A5 Candidate Profile Wizard
 
@@ -200,6 +234,12 @@ Important:
 - Keep form schemas/data local to candidate feature.
 - Do not build department profile forms here.
 
+Latest PDF change impact:
+
+- Patch needed: high.
+- Replace old `U.S. Citizen` yes/no with `Citizenship / Work Authorization Status` single-select options from `11-object-field-registry.md`.
+- Confirm this field is hidden from Badge Pool and only appears in allowed full application/dashboard/export contexts.
+
 ### TG-A6 Candidate Documents
 
 Routes:
@@ -218,6 +258,11 @@ Scope:
 Dependencies:
 
 - Shared FileUpload shell
+
+Latest PDF change impact:
+
+- Patch needed: low.
+- No major document category change found, but full application view/download/export must include document links according to latest visibility rules.
 
 ### TG-A7 Candidate Exam Registration
 
@@ -238,6 +283,12 @@ Scope:
 Avoids:
 
 - Admin exam management, owned by Dev B.
+
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Exam confirmation display should support date, time, location, what to bring, and parking.
+- Online exam reminder mock states should support 7-10 day reminders.
 
 ### TG-A8 Candidate Jobs and Direct Apply
 
@@ -262,6 +313,12 @@ Hand-off:
 
 - Uses public `jobs` mock from TG-A2 and candidate eligibility mock from TG-A4.
 
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Cover letter should enforce 300-word maximum.
+- Direct apply should use latest job-post requirement fields once Dev B updates job data.
+
 ### TG-A9 Candidate Badge Requests and Submitted Applications
 
 Routes:
@@ -279,6 +336,9 @@ Scope:
 - Application source display
 - Candidate-safe application detail
 - Status updates with mock state
+- Badge request notifications on Candidate Dashboard/Notification Center
+- Candidate application status update notifications
+- Inactive/reactivated membership/application state messaging
 
 ### TG-A10 Candidate Messages, Notifications, Settings
 
@@ -296,10 +356,19 @@ Scope:
 - Notification center
 - Account settings
 - Privacy/data page
+- Candidate Resource Center entry points:
+  - GetBadged News & Announcements
+  - Physical Fitness Standards & Prep
+  - ELR Exam Study Guide
+  - Application Tips & Best Practices
+  - Help & FAQs
+- "New" unread state for updated resources
+- Membership renewal notification UI for CXO and OPS
 
 Shared:
 
 - Message data model must align with Dev B department messaging.
+- Resource data model must align with GB Admin CMS from TG-B12.
 
 ## Dev B Track: Department + Admin
 
@@ -321,6 +390,12 @@ Dependencies:
 
 - Auth shell from TG-A3
 
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Latest checklist mentions AI assist tools on department setup/profile/job pages, but user already decided AI assist is later.
+- Keep self-registration and GB Admin approval flow.
+
 ### TG-B2 Department Dashboard
 
 Routes:
@@ -341,6 +416,12 @@ Scope:
 Mock data:
 
 - `lib/mock/departmentDashboard.ts`
+
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Dashboard should be ready for low badge-credit warning at 2 credits and hard stop at zero.
+- Department Resource Center entry point should be added when TG-B12 CMS/resource work begins.
 
 ### TG-B3 Department Profile Builder
 
@@ -367,6 +448,12 @@ Avoids:
 
 - Candidate profile wizard files.
 
+Latest PDF change impact:
+
+- Patch needed: low to medium.
+- Keep latest public department profile sample layout alignment.
+- AI assist controls are deferred unless user later moves them into MVP.
+
 ### TG-B4 Department Job Post Builder
 
 Routes:
@@ -389,6 +476,24 @@ Hand-off:
 
 - Public job pages consume active approved job data from this mock domain.
 
+Latest PDF change impact:
+
+- Patch needed: high.
+- Expand job post builder/schema for latest checklist fields:
+  - state requirements
+  - minimum passing exam score
+  - department-specific requirements
+  - age, residency, tattoo, and education requirements
+  - fitness requirements
+  - preferred eligibility and experience
+  - additional skills and qualifications
+  - required certifications
+  - academy and POST requirements
+  - shift schedule
+  - salary and benefits
+  - responsibilities
+  - hiring process
+
 ### TG-B5 Department Badge Pool
 
 Routes:
@@ -408,6 +513,12 @@ Scope:
 Critical:
 
 - Add test checklist in tracker for privacy fields.
+
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Ensure `Citizenship / Work Authorization Status` never appears in Badge Pool.
+- Low credit warning/hard stop should be reflected before sending Badge Requests.
 
 ### TG-B6 Department Applicant Pools
 
@@ -432,6 +543,13 @@ Avoids:
 
 - Candidate application detail route, owned by Dev A.
 
+Latest PDF change impact:
+
+- Patch needed: high.
+- Full application view should include latest visibility rules for application view, print, download, export, and application dashboard.
+- Applicant Pool column `U.S. Citizen` becomes `Citizenship/Work Authorization`.
+- Essays are included in application view, print, download, and export, but not Applicant Pool column view or Badge Pool.
+
 ### TG-B7 Department Status, Archive, Exports
 
 Routes:
@@ -452,6 +570,12 @@ Scope:
 Dependencies:
 
 - TG-B6 pool table
+
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Export rules must include latest full application/export visibility.
+- Status pipeline keeps broad client-provided list and should include `Disqualified`.
 
 ### TG-B8 Department Messages and Notifications
 
@@ -475,6 +599,12 @@ Shared:
 
 - Message types align with TG-A10.
 
+Latest PDF change impact:
+
+- Patch needed: medium.
+- Department Notification Center should include candidate updates, accepted Badge Requests, submitted applications, membership expiry, and inactive/reactivated candidate status.
+- Dept User cannot send messages; template access remains an open confirmation item.
+
 ### TG-B9 GB Admin Dashboard and Approvals
 
 Routes:
@@ -491,6 +621,8 @@ Scope:
 - Approve/reject/return actions
 - Admin notes
 - Audit log entries
+- Approval notes for department profiles and job posts
+- Resource/CMS publishing overview if resources are routed through GB Admin
 
 ### TG-B10 GB Admin Users, Roles, Impersonation
 
@@ -522,6 +654,7 @@ Scope:
 
 - Create/edit exam sittings
 - Deadline/location/format/quantity fields
+- Custom confirmation send date/time
 - Generate roster CSV
 - Import mock score CSV
 - Make unpublic until verified
@@ -547,6 +680,15 @@ Scope:
 - Application status list
 - Dynamic template/field schema mock editor
 - CMS blocks/resources/news
+- Candidate Resource Center management:
+  - GetBadged News & Announcements
+  - Physical Fitness Standards & Prep
+  - ELR Exam Study Guide
+  - Application Tips & Best Practices
+  - Help & FAQs with assignable member types
+- Department Resource Center management
+- Publish/unpublish resource content
+- Mark resources as new until read
 - Admin exports
 - Audit log viewer
 

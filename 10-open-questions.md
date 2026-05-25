@@ -14,6 +14,7 @@ Current handling:
 
 - Mark as `Needs Client Confirmation`.
 - UI can show placeholder package configuration.
+- Latest checklist still flags conflicting pack references, so keep this unresolved.
 
 ### OQ-02 Permanent Deletion Retention Period
 
@@ -57,6 +58,7 @@ Question:
 Current handling:
 
 - Frontend can support typed 300-word cover letter first, with optional file field planned.
+- Latest checklist specifies a 300-word maximum; upload behavior is still not final.
 
 ### OQ-06 Geocoding Provider for Distance Filters
 
@@ -79,6 +81,28 @@ Current handling:
 
 - Follow Master Checklist if conflict exists.
 - Keep pricing/tier configuration data-driven.
+
+### OQ-08 Dept User Message Template Access
+
+Question:
+
+- Can Department Users view/use message templates even though they cannot send messages?
+
+Current handling:
+
+- Keep Department User send-blocked.
+- Show template access only after confirmation.
+
+### OQ-09 Job Post To Department Profile Linking Rule
+
+Question:
+
+- What exact relationship should connect job posts to department profile sections/media?
+
+Current handling:
+
+- Use `departmentId` and `departmentSlug` for now.
+- Treat deeper profile-to-job content linking as configurable until confirmed.
 
 ## Assumptions For Now
 

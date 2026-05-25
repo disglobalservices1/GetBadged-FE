@@ -54,7 +54,7 @@ export function getCandidateProfileWizard(stepKey?: string) {
     previousStep,
     nextStep,
     statuses,
-    percent: candidate.profileCompletionPercent,
+    percent: Math.round(((activeIndex + 1) / candidateProfileSteps.length) * 100),
     lastSavedLabel: "Last saved 2 minutes ago"
   };
 }
@@ -74,11 +74,12 @@ function getCandidateProfileStepStatuses(candidate: CandidateProfile, activeStep
   return candidateProfileSteps.map((step, index) => {
     const isComplete = index < activeIndex || isStepComplete(candidate, step.stepKey);
     const isLocked = index > activeIndex + 2 && candidate.profileCompletionPercent < 60;
+    const isActive = step.stepKey === activeStepKey;
 
     return {
       stepKey: step.stepKey,
       label: step.label,
-      status: isComplete ? "complete" : step.stepKey === activeStepKey ? "in_progress" : isLocked ? "locked" : "not_started",
+      status: isActive ? "in_progress" : isComplete ? "complete" : isLocked ? "locked" : "not_started",
       isRequired: true,
       completedFields: getCompletedFieldCount(candidate, step.stepKey),
       totalFields: getTotalFieldCount(step.stepKey)

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Edit3, Eye, Plus, Send, Trash2 } from "lucide-react";
+import { Edit3, Eye, Plus, Send, Trash2 } from "lucide-react";
 import { EmptyState } from "@/components/common/empty-state";
 import { PageHeader } from "@/components/common/page-header";
 import { Button } from "@/components/ui/button";
@@ -47,12 +47,7 @@ export function DepartmentMessageThreadView({ model }: { model: DepartmentMessag
 
   return (
     <div className="grid gap-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <PageHeader eyebrow="Message thread" title={thread.subject} description={`${thread.candidateName} | ${thread.applicationLabel}`} />
-        <Button href="/department/messages" variant="secondary" iconLeft={<ArrowLeft className="h-4 w-4" />}>
-          Back to messages
-        </Button>
-      </div>
+      <PageHeader eyebrow="Message thread" title={thread.subject} description={`${thread.candidateName} | ${thread.applicationLabel}`} />
 
       <Card>
         <CardHeader className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
