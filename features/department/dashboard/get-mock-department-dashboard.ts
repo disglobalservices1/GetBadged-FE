@@ -35,8 +35,10 @@ export function getMockDepartmentDashboard() {
   const departmentNotifications = mockNotifications.filter(
     (notification) => notification.recipientRole === "department_admin" && !notification.readAt
   );
-  const totalBadgeCredits = department.badgeCreditsRemaining + department.badgeCreditsSent;
-  const badgeUsagePercent = totalBadgeCredits > 0 ? Math.round((department.badgeCreditsSent / totalBadgeCredits) * 100) : 0;
+  const badgeCreditsSent = mockDepartmentDashboard.badgeTokensUsed;
+  const monthlyBadgeCreditLimit = mockDepartmentDashboard.monthlyBadgeCreditLimit;
+  const badgeCreditsRemaining = Math.max(monthlyBadgeCreditLimit - badgeCreditsSent, 0);
+  const badgeUsagePercent = monthlyBadgeCreditLimit > 0 ? Math.round((badgeCreditsSent / monthlyBadgeCreditLimit) * 100) : 0;
   const newApplicants = departmentApplications.filter((application) => application.isNewForDepartment).length;
   const acceptedBadges = departmentApplications.filter((application) => application.source === "accepted_badge").length;
   const directApplications = departmentApplications.filter((application) => application.source === "direct_application").length;
@@ -46,18 +48,23 @@ export function getMockDepartmentDashboard() {
 
   return {
     department,
+    adminName: mockDepartmentDashboard.adminName,
+    adminRoleLabel: mockDepartmentDashboard.adminRoleLabel,
     departmentName: department.departmentName,
     location: `${department.city}, ${department.state}`,
+    memberSinceLabel: formatShortDate(mockDepartmentDashboard.memberSince),
     accountStatusLabel: department.accountStatus.replace(/_/g, " "),
     approvalStatusLabel: approvalLabels[department.approvalStatus],
     tierLabel: tierLabels[department.tier],
+    membershipPlanLabel: mockDepartmentDashboard.membershipPlanLabel,
+    membershipStatus: mockDepartmentDashboard.membershipStatus,
     planRenewsAtLabel: formatShortDate(mockDepartmentDashboard.planRenewsAt),
     activeJobs: departmentJobs.filter((job) => job.status === "active").length,
     pendingJobs,
     draftJobs,
-    badgeCreditsRemaining: department.badgeCreditsRemaining,
-    badgeCreditsSent: department.badgeCreditsSent,
-    monthlyBadgeCreditLimit: mockDepartmentDashboard.monthlyBadgeCreditLimit,
+    badgeCreditsRemaining,
+    badgeCreditsSent,
+    monthlyBadgeCreditLimit,
     badgeUsagePercent,
     applicantCount: departmentApplications.length,
     newApplicants,
@@ -82,6 +89,12 @@ export function getMockDepartmentDashboard() {
       linkHref: notification.linkHref,
       createdAtLabel: formatShortDate(notification.createdAt)
     })),
+    applicantActivity: mockDepartmentDashboard.applicantActivity,
+    resourceCenter: mockDepartmentDashboard.resourceCenter,
+    applicantPoolSnapshots: mockDepartmentDashboard.applicantPoolSnapshots,
+    badgePoolPreview: mockDepartmentDashboard.badgePoolPreview,
+    quickActions: mockDepartmentDashboard.quickActions,
+    support: mockDepartmentDashboard.support,
     nextActions: mockDepartmentDashboard.nextActions,
     restrictedState: isExpired
       ? {

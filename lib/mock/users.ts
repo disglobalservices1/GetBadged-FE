@@ -17,8 +17,8 @@ export const mockUsers: User[] = [
     email: "admin@westviewpd.gov",
     role: "department_admin",
     accountStatus: "active",
-    firstName: "Avery",
-    lastName: "Cole",
+    firstName: "Angela",
+    lastName: "Wilson",
     departmentId: "department_1",
     createdAt: "2026-05-15T08:00:00.000Z",
     updatedAt: "2026-05-15T08:00:00.000Z"

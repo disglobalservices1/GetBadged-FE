@@ -4,6 +4,7 @@ import {
   BriefcaseBusiness,
   Building2,
   ClipboardList,
+  CreditCard,
   FileText,
   LayoutDashboard,
   MessageSquare,
@@ -28,12 +29,14 @@ export const candidateNavItems: NavItem[] = [
 export const departmentNavItems: NavItem[] = [
   { label: "Dashboard", href: "/department", icon: LayoutDashboard },
   { label: "Department Profile", href: "/department/profile", icon: Building2 },
-  { label: "Job Posts", href: "/department/jobs", icon: BriefcaseBusiness },
+  { label: "Job Postings", href: "/department/jobs", icon: BriefcaseBusiness },
   { label: "Badge Pool", href: "/department/badge-pool", icon: BadgeCheck },
   { label: "Applicant Pool", href: "/department/applicants", icon: ClipboardList },
   { label: "Messages", href: "/department/messages", icon: MessageSquare },
-  { label: "Reports", href: "/department/reports", icon: FileText },
-  { label: "Notifications", href: "/department/notifications", icon: Bell }
+  { label: "Reports & Analytics", href: "/department/reports", icon: FileText },
+  { label: "Notifications", href: "/department/notifications", icon: Bell },
+  { label: "Team Members", href: "/department/team-members", icon: Users },
+  { label: "Membership & Billing", href: "/department/membership-billing", icon: CreditCard }
 ];
 
 export const adminNavItems: NavItem[] = [
