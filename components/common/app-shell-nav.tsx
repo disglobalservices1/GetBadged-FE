@@ -4,10 +4,11 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Menu, Shield, X } from "lucide-react";
+import { BadgeCheck, LogOut, Menu, Shield, ShieldCheck, X } from "lucide-react";
 import { Logo } from "./logo";
 import { adminNavItems, candidateNavItems, departmentNavItems } from "@/lib/routes/navigation";
 import type { NavItem } from "@/types/navigation";
+import type { CandidateTrack } from "@/types/candidate";
 import { cn } from "@/lib/utils/cn";
 
 export type AppShellNavRole = "candidate" | "department" | "admin";
@@ -15,8 +16,13 @@ export type AppShellNavRole = "candidate" | "department" | "admin";
 type AppShellNavProps = {
   navRole: AppShellNavRole;
   roleLabel: string;
+  candidateTrack?: CandidateTrack;
   isCollapsed?: boolean;
   onNavigate?: () => void;
+};
+
+type ShellNavItem = NavItem & {
+  badge?: string;
 };
 
 const navItemsByRole = {
@@ -36,11 +42,22 @@ const departmentNavGroups = [
   }
 ];
 
-const candidateAccountItems: NavItem[] = [
+const candidateAccountItems: ShellNavItem[] = [
   { label: "Settings", href: "/candidate/settings", icon: candidateNavItems.find((item) => item.href === "/candidate/settings")?.icon ?? Shield },
   { label: "Privacy & Data", href: "/candidate/privacy", icon: Shield },
   { label: "Sign out", href: "/auth/login", icon: LogOut }
 ];
+
+const certifiedCandidateNavItems: ShellNavItem[] = [
+  candidateNavItems.find((item) => item.href === "/candidate"),
+  candidateNavItems.find((item) => item.href === "/candidate/profile"),
+  candidateNavItems.find((item) => item.href === "/candidate/documents"),
+  { label: "Certification & Background", href: "/candidate/profile/background", icon: ShieldCheck },
+  candidateNavItems.find((item) => item.href === "/candidate/jobs"),
+  { label: "Badge Requests", href: "/candidate/badge-requests", icon: BadgeCheck, badge: "3" },
+  candidateNavItems.find((item) => item.href === "/candidate/applications"),
+  candidateNavItems.find((item) => item.href === "/candidate/tokens")
+].filter((item): item is ShellNavItem => Boolean(item));
 
 const candidateNavGroups = [
   {
@@ -53,10 +70,34 @@ const candidateNavGroups = [
   }
 ];
 
-function NavLinks({ navRole, onNavigate, isCollapsed = false }: { navRole: AppShellNavRole; onNavigate?: () => void; isCollapsed?: boolean }) {
+const certifiedCandidateNavGroups = [
+  {
+    label: "Candidate",
+    items: ["Dashboard", "Candidate Profile", "Supporting Documents", "Certification & Background", "Browse Departments & Jobs", "Badge Requests", "Submitted Applications", "Tokens & Purchases"]
+  },
+  {
+    label: "Account",
+    items: ["Settings", "Privacy & Data", "Sign out"]
+  }
+];
+
+function NavLinks({
+  navRole,
+  candidateTrack,
+  onNavigate,
+  isCollapsed = false
+}: {
+  navRole: AppShellNavRole;
+  candidateTrack?: CandidateTrack;
+  onNavigate?: () => void;
+  isCollapsed?: boolean;
+}) {
   const pathname = usePathname();
   const baseItems = navItemsByRole[navRole];
-  const navItems = navRole === "candidate" ? [...baseItems.filter((item) => item.href !== "/candidate/messages"), ...candidateAccountItems] : baseItems;
+  const isCertifiedCandidate = navRole === "candidate" && candidateTrack === "CXO";
+  const navItems: ShellNavItem[] = navRole === "candidate"
+    ? [...(isCertifiedCandidate ? certifiedCandidateNavItems : baseItems.filter((item) => item.href !== "/candidate/messages")), ...candidateAccountItems]
+    : baseItems;
 
   const activeHref = navItems
     .filter((item) => pathname === item.href || (item.href.split("/").length > 2 && pathname.startsWith(`${item.href}/`)))
@@ -99,6 +140,11 @@ function NavLinks({ navRole, onNavigate, isCollapsed = false }: { navRole: AppSh
         >
           {item.label}
         </span>
+        {item.badge && !collapseLink ? (
+          <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-[color:var(--gold)] px-1.5 text-[10px] font-extrabold leading-none text-[color:var(--navy)]">
+            {item.badge}
+          </span>
+        ) : null}
       </Link>
     );
   };
@@ -117,7 +163,7 @@ function NavLinks({ navRole, onNavigate, isCollapsed = false }: { navRole: AppSh
   if (navRole === "candidate") {
     return (
       <GroupedNav
-        groups={candidateNavGroups}
+        groups={isCertifiedCandidate ? certifiedCandidateNavGroups : candidateNavGroups}
         navItems={navItems}
         isCollapsed={isCollapsed}
         renderLink={renderLink}
@@ -135,9 +181,9 @@ function GroupedNav({
   renderLink
 }: {
   groups: Array<{ label: string; items: string[] }>;
-  navItems: NavItem[];
+  navItems: ShellNavItem[];
   isCollapsed: boolean;
-  renderLink: (item: NavItem) => ReactNode;
+  renderLink: (item: ShellNavItem) => ReactNode;
 }) {
   return (
     <nav className={cn("grid gap-4 px-1.5 pb-3 pt-0 transition-[padding] duration-300 ease-out motion-reduce:transition-none", isCollapsed && "!px-0")}>
@@ -164,13 +210,13 @@ function GroupedNav({
   );
 }
 
-export function AppShellNav({ navRole, roleLabel, isCollapsed = false, onNavigate }: AppShellNavProps) {
+export function AppShellNav({ navRole, roleLabel, candidateTrack, isCollapsed = false, onNavigate }: AppShellNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <div className="hidden lg:block">
-        <NavLinks navRole={navRole} isCollapsed={isCollapsed} onNavigate={onNavigate} />
+        <NavLinks navRole={navRole} candidateTrack={candidateTrack} isCollapsed={isCollapsed} onNavigate={onNavigate} />
       </div>
 
       <button
@@ -219,7 +265,7 @@ export function AppShellNav({ navRole, roleLabel, isCollapsed = false, onNavigat
               <X className="h-5 w-5" />
             </button>
           </div>
-          <NavLinks navRole={navRole} onNavigate={() => setIsOpen(false)} />
+          <NavLinks navRole={navRole} candidateTrack={candidateTrack} onNavigate={() => setIsOpen(false)} />
         </aside>
       </div>
     </>

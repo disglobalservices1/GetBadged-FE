@@ -7,11 +7,13 @@ import { AppShellNav, type AppShellNavRole } from "./app-shell-nav";
 import { DepartmentTopNav } from "./department-top-nav";
 import { Logo } from "./logo";
 import { getMockSession } from "@/lib/auth/mock-session";
+import { getMockCandidateDashboard } from "@/features/candidate/dashboard/get-mock-candidate-dashboard";
 import { cn } from "@/lib/utils/cn";
 
 type AppShellProps = {
   roleLabel: string;
   navRole: AppShellNavRole;
+  candidateProfileId?: string;
   children: ReactNode;
 };
 
@@ -21,7 +23,7 @@ const sidebarCollapsedStorageKeyByRole: Record<AppShellNavRole, string> = {
   admin: "gb.adminSidebarCollapsed"
 };
 
-export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
+export function AppShell({ roleLabel, navRole, candidateProfileId, children }: AppShellProps) {
   const session = getMockSession(navRole === "department" ? "department_admin" : navRole === "candidate" ? "candidate" : "gb_admin");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
@@ -32,7 +34,18 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
   const expandedHeaderGridWidth = "lg:grid-cols-[clamp(200px,14vw,260px)_auto_minmax(330px,1fr)_auto]";
   const expandedSidebarOverlayWidth = "w-[clamp(200px,14vw,260px)]";
   const collapsedGridWidth = "lg:grid-cols-[48px_minmax(0,1fr)]";
-  const identity = useMemo(() => getShellIdentity(navRole, session.user.firstName, session.user.lastName), [navRole, session.user.firstName, session.user.lastName]);
+  const candidateDashboard = useMemo(() => navRole === "candidate" ? getMockCandidateDashboard(candidateProfileId) : null, [navRole, candidateProfileId]);
+  const isCertifiedCandidateShell = candidateDashboard?.track === "CXO";
+  const headerGridWidth = isCertifiedCandidateShell ? "lg:grid-cols-[clamp(200px,14vw,260px)_minmax(330px,1fr)_auto]" : expandedHeaderGridWidth;
+  const identity = useMemo(() => {
+    const [candidateFirstName, ...candidateLastNameParts] = candidateDashboard?.fullName.split(" ") ?? [];
+
+    return getShellIdentity(
+      navRole,
+      candidateFirstName || session.user.firstName,
+      candidateLastNameParts.join(" ") || session.user.lastName
+    );
+  }, [candidateDashboard?.fullName, navRole, session.user.firstName, session.user.lastName]);
 
   useEffect(() => {
     setIsSidebarCollapsed(localStorage.getItem(sidebarStorageKey) === "true");
@@ -86,30 +99,42 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
         isSidebarCollapsed ? collapsedGridWidth : expandedSidebarGridWidth
       )}
     >
-      <header className={cn("col-span-full grid min-h-[54px] grid-cols-[1fr_auto] items-center bg-[color:var(--navy)] text-white", expandedHeaderGridWidth)}>
+      <header className={cn("col-span-full grid min-h-[54px] grid-cols-[1fr_auto] items-center bg-[color:var(--navy)] text-white", headerGridWidth)}>
         <a href="/" className="flex h-full min-w-0 items-center gap-2.5 overflow-hidden border-r border-white/20 px-4 lg:px-5" aria-label="GetBadged home">
           <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-md border-2 border-[color:var(--gold)] text-[11px] font-bold text-[color:var(--gold)]">GB</span>
           <span className="min-w-0 truncate text-[16px] font-bold leading-none tracking-normal">GetBadged</span>
         </a>
 
-        <div className="hidden min-w-[218px] items-center gap-2.5 px-4 xl:flex">
-          <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full border-2 border-[color:var(--gold)] text-[10px] font-bold text-[color:var(--gold)]">{identity.avatar}</span>
-          <span className="min-w-0 truncate text-[11px] font-semibold">{identity.orgLabel}</span>
-          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-white/75" />
-        </div>
+        {!isCertifiedCandidateShell ? (
+          <div className="hidden min-w-[218px] items-center gap-2.5 px-4 xl:flex">
+            <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full border-2 border-[color:var(--gold)] text-[10px] font-bold text-[color:var(--gold)]">{identity.avatar}</span>
+            <span className="min-w-0 truncate text-[11px] font-semibold">{identity.orgLabel}</span>
+            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-white/75" />
+          </div>
+        ) : null}
 
-        {navRole === "department" ? <DepartmentTopNav /> : <CandidateTopNav />}
+        {navRole === "department" ? <DepartmentTopNav /> : <CandidateTopNav isCertifiedCandidate={isCertifiedCandidateShell} />}
 
         <div className="flex min-w-0 items-center justify-end gap-2.5 px-4 lg:px-5 xl:px-6">
           <div className="lg:hidden [&_button]:border-white/30 [&_button]:text-white">
-            <AppShellNav navRole={navRole} roleLabel={roleLabel} />
+            <AppShellNav navRole={navRole} roleLabel={roleLabel} candidateTrack={candidateDashboard?.track} />
           </div>
           <a href={`/${navRole}/messages`} className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] font-semibold text-white/95 transition hover:text-white xl:flex" aria-label="Messages">
             <Mail className="h-3.5 w-3.5" />
             <span>Messages</span>
           </a>
-          <a href={`/${navRole}/notifications`} className="relative hidden text-white/95 transition hover:text-white lg:block" aria-label="Notifications">
+          <a
+            href={`/${navRole}/notifications`}
+            className={cn(
+              "relative hidden text-white/95 transition hover:text-white",
+              isCertifiedCandidateShell
+                ? "shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] font-semibold lg:flex"
+                : "lg:block"
+            )}
+            aria-label="Notifications"
+          >
             <Bell className="h-4 w-4" />
+            {isCertifiedCandidateShell ? <span>Notifications</span> : null}
             <span className="absolute -right-1.5 -top-1.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-red-600 px-1 text-[9px] font-extrabold leading-none text-white">{navRole === "department" ? "5" : "2"}</span>
           </a>
           <div className="hidden items-center gap-2.5 lg:flex">
@@ -171,6 +196,7 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
           <AppShellNav
             navRole={navRole}
             roleLabel={roleLabel}
+            candidateTrack={candidateDashboard?.track}
             isCollapsed={isSidebarVisuallyCollapsed}
             onNavigate={() => setIsSidebarHovered(false)}
           />
@@ -200,7 +226,33 @@ export function AppShell({ roleLabel, navRole, children }: AppShellProps) {
   );
 }
 
-function CandidateTopNav() {
+function CandidateTopNav({ isCertifiedCandidate = false }: { isCertifiedCandidate?: boolean }) {
+  if (isCertifiedCandidate) {
+    return (
+      <nav className="hidden items-center justify-center gap-2.5 lg:flex">
+        {[
+          { label: "Public", href: "/" },
+          { label: "Candidate", href: "/candidate", active: true },
+          { label: "Dept Admin", href: "/department" },
+          { label: "Dept User", href: "/department" },
+          { label: "GB Admin", href: "/admin" }
+        ].map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            aria-current={item.active ? "page" : undefined}
+            className={cn(
+              "whitespace-nowrap rounded-md px-3 py-1.5 text-[11px] font-semibold text-white/90 transition duration-200 hover:bg-white/10 hover:text-white",
+              item.active && "!bg-[color:var(--gold)] !text-[color:var(--navy)] shadow-sm hover:!bg-[color:var(--gold)] hover:text-[color:var(--navy)]"
+            )}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    );
+  }
+
   return (
     <nav className="hidden items-center justify-center gap-2.5 lg:flex">
       <div className="flex items-center rounded-md border border-white/30 p-0.5">

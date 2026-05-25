@@ -5,6 +5,7 @@ import {
   CalendarDays,
   ChevronRight,
   CheckCircle2,
+  CircleX,
   Dumbbell,
   FilePlus2,
   FileText,
@@ -31,8 +32,8 @@ type DashboardMetric = {
   notice?: string;
 };
 
-export function CandidateDashboard() {
-  const dashboard = getMockCandidateDashboard();
+export function CandidateDashboard({ candidateProfileId }: { candidateProfileId?: string }) {
+  const dashboard = getMockCandidateDashboard(candidateProfileId);
   const track = dashboard.track as DashboardTrack;
   const isEntryLevel = track === "ELR";
 
@@ -49,7 +50,7 @@ export function CandidateDashboard() {
         <main className="grid gap-6">
           <HeroCta isEntryLevel={isEntryLevel} />
           <MetricGrid isEntryLevel={isEntryLevel} />
-          <section className="grid gap-6 lg:grid-cols-2">
+          <section className="grid items-start gap-6 lg:grid-cols-2">
             <RecentActivityCard />
             {isEntryLevel ? <BadgeRequestsCard /> : <EligibilityChecklistCard />}
           </section>
@@ -68,9 +69,7 @@ export function CandidateDashboard() {
 function HeroCta({ isEntryLevel }: { isEntryLevel: boolean }) {
   return (
     <section className="grid gap-3 rounded-lg border border-[#f6c458] bg-[#fffdf7] px-8 py-2.5 shadow-[inset_0_0_34px_rgba(246,196,88,0.12),0_1px_2px_rgba(15,23,42,0.04)] xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:items-center xl:gap-5">
-      <div className="flex h-12 w-12 items-center justify-center text-[#071739]">
-        <ShieldCheck className="h-12 w-12 stroke-[1.8]" />
-      </div>
+      <HeroBadgeIcon isEntryLevel={isEntryLevel} />
       <div className="max-w-[620px]">
         <h2 className="whitespace-nowrap text-[20px] font-extrabold uppercase leading-tight tracking-normal text-[#071739]">
           {isEntryLevel ? "Your future. Your mission." : "Your experience. Their future."}
@@ -89,6 +88,23 @@ function HeroCta({ isEntryLevel }: { isEntryLevel: boolean }) {
   );
 }
 
+function HeroBadgeIcon({ isEntryLevel }: { isEntryLevel: boolean }) {
+  if (!isEntryLevel) {
+    return (
+      <span className="relative flex h-12 w-12 shrink-0 items-center justify-center text-[#071739]">
+        <Shield className="h-12 w-12 stroke-[2.1]" />
+        <Star className="absolute h-4 w-4 fill-current stroke-[2.4]" />
+      </span>
+    );
+  }
+
+  return (
+    <span className="flex h-12 w-12 shrink-0 items-center justify-center text-[#071739]">
+      <ShieldCheck className="h-12 w-12 stroke-[1.8]" />
+    </span>
+  );
+}
+
 function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
   const metrics: DashboardMetric[] = isEntryLevel
     ? [
@@ -103,11 +119,12 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
         { label: "Profile Completeness", value: "94%", lines: ["Upload your driving record to hit 100%"], icon: null },
         { label: "Account Status", value: "Active", lines: ["Member since May 14, 2026", "Valid until Nov 14, 2026"], icon: CheckCircle2 }
       ];
+  const metricCardHeight = isEntryLevel ? "h-[200px]" : "h-[160px]";
 
   return (
     <section className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
       {metrics.map((metric) => (
-        <div key={metric.label} className="h-[200px] overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+        <div key={metric.label} className={`${metricCardHeight} overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]`}>
           <div className="flex min-h-7 items-start justify-between gap-3">
             <p className="text-[9.5px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">{metric.label}</p>
           </div>
@@ -251,7 +268,7 @@ function BadgeRequestsCard() {
   return (
     <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-[15px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Badge Requests</h2>
+        <h2 className="text-[14px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Badge Requests</h2>
         <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[color:var(--gold)] px-2 text-[11px] font-extrabold text-[#071739]">3</span>
       </div>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#f5cf7b]">
@@ -281,19 +298,19 @@ function BadgeRequestsCard() {
 
 function EligibilityChecklistCard() {
   return (
-    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Your Eligibility Checklist</h2>
-        <span className="rounded bg-green-100 px-3 py-2 text-xs font-extrabold uppercase text-[#087443]">Active</span>
+        <h2 className="text-[14px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Your Eligibility Checklist</h2>
+        <span className="rounded bg-green-100 px-3 py-1 text-[11px] font-bold uppercase text-[#087443]">Active</span>
       </div>
-      <div className="mt-7 grid gap-7">
+      <div className="mt-5 grid gap-4">
         <EligibilityRow icon={<CalendarDays className="h-5 w-5" />} title="Membership active" status="Valid through Nov 14, 2026" />
         <EligibilityRow icon={<FileText className="h-5 w-5" />} title="Resume & POST Certificate Upload" status="Uploaded 3 weeks ago" />
       </div>
-      <p className="mt-24 text-sm font-bold leading-6 text-[color:var(--blue)]">
+      <p className="mt-6 text-[11px] font-bold leading-4 text-[color:var(--blue)]">
         Applications are active only when all items are complete. If any lapse, your open applications pause until eligibility is restored.
       </p>
-      <a href="/candidate/profile" className="mt-7 flex items-center gap-3 text-base font-extrabold text-[color:var(--blue)]">
+      <a href="/candidate/profile" className="mt-4 flex items-center gap-3 text-[13px] font-extrabold text-[color:var(--blue)]">
         Learn more about eligibility
         <ArrowRight className="h-5 w-5" />
       </a>
@@ -303,10 +320,10 @@ function EligibilityChecklistCard() {
 
 function EligibilityRow({ icon, title, status }: { icon: ReactNode; title: string; status: string }) {
   return (
-    <div className="grid grid-cols-[36px_1fr_auto] items-center gap-4">
-      <span className="flex h-8 w-8 items-center justify-center rounded bg-blue-50 text-[color:var(--blue)]">{icon}</span>
-      <p className="text-sm font-extrabold text-[color:var(--blue)]">{title}</p>
-      <span className="rounded bg-green-100 px-3 py-2 text-xs font-extrabold uppercase text-[#087443]">✓ {status}</span>
+    <div className="grid grid-cols-[16px_1fr_auto] items-center gap-6">
+      <span className="flex h-6 w-6 items-center justify-center rounded bg-blue-50 text-[color:var(--blue)]">{icon}</span>
+      <p className="text-[9px] font-bold text-[color:var(--blue)]">{title}</p>
+      <span className="rounded bg-green-100 py-1 text-[8px] font-bold uppercase text-[#087443]">✓ {status}</span>
     </div>
   );
 }
@@ -369,19 +386,19 @@ function EntryLevelMembershipActions() {
 function CertifiedMembershipActions() {
   return (
     <div>
-      <h3 className="text-xs font-extrabold uppercase text-[color:var(--gold)]">Need More Tokens?</h3>
-      <p className="mt-2 text-[9px] font-bold">Apply to additional opportunities.</p>
-      <a href="/candidate/tokens" className="mt-4 inline-flex h-12 items-center gap-3 rounded-md border border-white/50 px-5 text-[9px] font-extrabold">
-        <ShoppingCart className="h-5 w-5" />
+      <h3 className="text-[14px] font-extrabold uppercase text-[color:var(--gold)]">Need More Tokens?</h3>
+      <p className="mt-2 text-[12px] font-semibold leading-5 text-white/90">Apply to additional opportunities.</p>
+      <a href="/candidate/tokens" className="mt-3 inline-flex h-10 items-center gap-3 rounded-md border border-white/50 px-5 text-[13px] font-semiBold text-white transition hover:border-white hover:bg-white/10">
+        <ShoppingCart className="h-4 w-4" />
         Re-Up Token Pack
       </a>
-      <div className="mt-7 border-t border-white/25 pt-6">
-        <h3 className="text-[10.5px] font-bold">Manage Membership</h3>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-md border border-white/50 px-4 text-[9px] font-bold"><PauseCircle className="h-5 w-5" /> Pause Membership</button>
-          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-md border border-white/50 px-4 text-[9px] font-bold">× Cancel Membership</button>
+      <div className="mt-5 border-t border-white/25 pt-5">
+        <h3 className="text-[13px] font-semibold">Manage Membership</h3>
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <button type="button" className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/50 px-3 !text-[13px] font-bold text-white transition hover:border-white hover:bg-white/10"><PauseCircle className="h-4 w-4" /> Pause Membership</button>
+          <button type="button" className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/50 px-3 !text-[13px] font-bold text-white transition hover:border-white hover:bg-white/10"><CircleX className="h-4 w-4" /> Cancel Membership</button>
         </div>
-        <p className="mt-5 text-[9px] font-bold leading-4">Pausing or cancelling will not affect applications you've already submitted.</p>
+        <p className="mt-4 text-[12px] font-semibold leading-5 text-white/90">Pausing or cancelling will not affect applications you've already submitted.</p>
       </div>
     </div>
   );

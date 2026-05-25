@@ -21,8 +21,8 @@ export type CandidateDashboardActivity = {
   occurredAt: string;
 };
 
-export function getMockCandidateDashboard() {
-  const candidate = mockCandidateProfiles[0];
+export function getMockCandidateDashboard(candidateProfileId?: string) {
+  const candidate = mockCandidateProfiles.find((item) => item.id === candidateProfileId) ?? mockCandidateProfiles[0];
   const membership = mockCandidateMemberships.find((item) => item.candidateProfileId === candidate.id);
   const tokenBalance = getTokenBalance(candidate.id);
   const badgeRequests = mockBadgeRequests.filter((request) => request.candidateProfileId === candidate.id);

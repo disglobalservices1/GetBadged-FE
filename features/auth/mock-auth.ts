@@ -1,10 +1,14 @@
 import { getDashboardHrefForRole } from "@/lib/auth/mock-session";
 import type { UserRole } from "@/types/auth";
 
+export const mockCandidateProfileCookieName = "gb.mockCandidateProfileId";
+
+export type MockLoginRole = UserRole | "candidate_cxo";
+
 export type LoginFormState = {
   email: string;
   password: string;
-  role: UserRole;
+  role: MockLoginRole;
 };
 
 export type CandidateSignupFormState = {
@@ -19,8 +23,24 @@ export type CandidateSignupFormState = {
 
 export type FieldErrors<T extends Record<string, unknown>> = Partial<Record<keyof T, string>>;
 
-export function getMockLoginRedirect(role: UserRole) {
+export function getMockLoginRedirect(role: MockLoginRole) {
+  if (role === "candidate_cxo") {
+    return "/candidate";
+  }
+
   return getDashboardHrefForRole(role);
+}
+
+export function getMockCandidateProfileIdForLogin(role: MockLoginRole) {
+  if (role === "candidate_cxo") {
+    return "candidate_2";
+  }
+
+  if (role === "candidate") {
+    return "candidate_1";
+  }
+
+  return null;
 }
 
 export function getCandidateSignupRedirect(jobId?: string | null) {

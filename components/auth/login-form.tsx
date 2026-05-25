@@ -3,18 +3,27 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowRight, HelpCircle, ShieldCheck } from "lucide-react";
-import { getMockLoginRedirect, hasErrors, validateLoginForm, type LoginFormState } from "@/features/auth/mock-auth";
+import { getMockCandidateProfileIdForLogin, getMockLoginRedirect, hasErrors, mockCandidateProfileCookieName, validateLoginForm, type LoginFormState } from "@/features/auth/mock-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 
 const roleOptions = [
-  { label: "Candidate", value: "candidate" },
+  { label: "Candidate (ELR)", value: "candidate" },
+  { label: "Candidate (CXO)", value: "candidate_cxo" },
   { label: "Department Admin", value: "department_admin" },
   { label: "Department User", value: "department_user" },
   { label: "GB Admin", value: "gb_admin" }
 ];
+
+const mockEmailByRole: Record<LoginFormState["role"], string> = {
+  candidate: "jordan@example.com",
+  candidate_cxo: "avery.cole@example.com",
+  department_admin: "admin@westviewpd.gov",
+  department_user: "reviewer@westviewpd.gov",
+  gb_admin: "admin@getbadged.com"
+};
 
 export function LoginForm() {
   const [form, setForm] = useState<LoginFormState>({
@@ -32,6 +41,12 @@ export function LoginForm() {
     setSubmitError("");
   }
 
+  function updateRole(role: LoginFormState["role"]) {
+    setForm((current) => ({ ...current, email: mockEmailByRole[role], role }));
+    setErrors((current) => ({ ...current, email: undefined, role: undefined }));
+    setSubmitError("");
+  }
+
   function submitLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextErrors = validateLoginForm(form);
@@ -42,6 +57,7 @@ export function LoginForm() {
       return;
     }
 
+    persistMockCandidateProfile(form.role);
     window.location.href = getMockLoginRedirect(form.role);
   }
 
@@ -73,7 +89,7 @@ export function LoginForm() {
             <Select
               label="Mock role"
               value={form.role}
-              onChange={(event) => updateField("role", event.target.value as LoginFormState["role"])}
+              onChange={(event) => updateRole(event.target.value as LoginFormState["role"])}
               options={roleOptions}
               error={errors.role}
             />
@@ -103,4 +119,15 @@ export function LoginForm() {
       </Card>
     </main>
   );
+}
+
+function persistMockCandidateProfile(role: LoginFormState["role"]) {
+  const candidateProfileId = getMockCandidateProfileIdForLogin(role);
+
+  if (!candidateProfileId) {
+    document.cookie = `${mockCandidateProfileCookieName}=; path=/; max-age=0; SameSite=Lax`;
+    return;
+  }
+
+  document.cookie = `${mockCandidateProfileCookieName}=${candidateProfileId}; path=/; max-age=2592000; SameSite=Lax`;
 }
