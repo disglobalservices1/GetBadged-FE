@@ -65,9 +65,9 @@ export function CandidateDashboard() {
 
 function HeroCta({ isEntryLevel }: { isEntryLevel: boolean }) {
   return (
-    <section className="grid gap-4 rounded-lg border border-[#f6c458] bg-[#fffdf7] px-8 py-5 shadow-[inset_0_0_34px_rgba(246,196,88,0.12),0_1px_2px_rgba(15,23,42,0.04)] xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:items-center xl:gap-6">
-      <div className="flex h-[68px] w-[68px] items-center justify-center text-[#071739]">
-        <ShieldCheck className="h-[68px] w-[68px] stroke-[1.8]" />
+    <section className="grid gap-3 rounded-lg border border-[#f6c458] bg-[#fffdf7] px-8 py-2.5 shadow-[inset_0_0_34px_rgba(246,196,88,0.12),0_1px_2px_rgba(15,23,42,0.04)] xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:items-center xl:gap-5">
+      <div className="flex h-12 w-12 items-center justify-center text-[#071739]">
+        <ShieldCheck className="h-12 w-12 stroke-[1.8]" />
       </div>
       <div className="max-w-[620px]">
         <h2 className="whitespace-nowrap text-[20px] font-extrabold uppercase leading-tight tracking-normal text-[#071739]">
@@ -79,7 +79,7 @@ function HeroCta({ isEntryLevel }: { isEntryLevel: boolean }) {
             : "Departments are looking for proven professionals like you. Explore opportunities. Make your next move."}
         </p>
       </div>
-      <a href="/candidate/jobs" className="inline-flex h-12 items-center justify-center gap-3 rounded-md bg-[color:var(--gold)] px-7 text-sm font-extrabold text-[#071739] shadow-sm xl:ml-6 xl:w-fit">
+      <a href="/candidate/jobs" className="inline-flex h-9 items-center justify-center gap-3 rounded-md bg-[color:var(--gold)] px-6 text-sm font-extrabold text-[#071739] shadow-sm xl:ml-6 xl:w-fit">
         Browse Departments & Jobs
         <ArrowRight className="h-5 w-5" />
       </a>
@@ -103,21 +103,21 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
       ];
 
   return (
-    <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <section className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
       {metrics.map((metric) => (
-        <div key={metric.label} className="min-h-[136px] rounded-lg border border-[color:var(--border-muted)] bg-white p-3.5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
-          <div className="flex min-h-9 items-start justify-between gap-3">
+        <div key={metric.label} className="h-[168px] overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+          <div className="flex min-h-7 items-start justify-between gap-3">
             <p className="text-[9.5px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">{metric.label}</p>
             {metric.icon ? (
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
-                <metric.icon className="h-5 w-5" />
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
+                <metric.icon className="h-4 w-4" />
               </span>
             ) : (
               <ProgressRing />
             )}
           </div>
-          <p className="mt-2 text-[26px] font-extrabold leading-none text-[#071739]">{metric.value}</p>
-          <div className="mt-2.5 grid gap-1.5 text-[10.5px] font-bold leading-3 text-[color:var(--blue)]">
+          <p className="mt-1.5 text-[24px] font-extrabold leading-none text-[#071739]">{metric.value}</p>
+          <div className="mt-2 grid gap-1 text-[10px] font-bold leading-3 text-[color:var(--blue)]">
             {metric.lines.map((line, index) => (
               <p key={line} className={index === 0 && (line.includes("Passing") || line.includes("Upload")) ? "text-[color:var(--success)]" : ""}>
                 {line}
@@ -125,7 +125,7 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
             ))}
           </div>
           {metric.notice ? (
-            <p className="mt-2.5 rounded-md bg-green-50 px-2.5 py-1.5 text-[9.5px] font-bold leading-3 text-[#075e34]">✓ {metric.notice}</p>
+            <p className="mt-2 rounded-md bg-green-50 px-2 py-1 text-[8.5px] font-bold leading-[11px] text-[#075e34]">✓ {metric.notice}</p>
           ) : null}
         </div>
       ))}
@@ -135,8 +135,8 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
 
 function ProgressRing() {
   return (
-    <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[conic-gradient(#169b54_0_76%,#e5e7eb_76%_100%)]">
-      <span className="h-[22px] w-[22px] rounded-full bg-white" />
+    <span className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[conic-gradient(#169b54_0_76%,#e5e7eb_76%_100%)]">
+      <span className="h-5 w-5 rounded-full bg-white" />
     </span>
   );
 }
@@ -286,21 +286,21 @@ function MembershipCard({ isEntryLevel }: { isEntryLevel: boolean }) {
       <div className="flex items-start gap-6">
         <div className="flex h-20 w-16 shrink-0 items-center justify-center rounded-md border-4 border-[color:var(--gold)] text-2xl font-extrabold text-[color:var(--gold)]">GB</div>
         <div>
-          <h2 className="text-2xl font-extrabold uppercase tracking-normal">Your Membership</h2>
-          <p className="mt-2 text-xl font-extrabold uppercase text-[color:var(--gold)]">
+          <h2 className="text-base font-extrabold uppercase tracking-normal">Your Membership</h2>
+          <p className="mt-2 text-[13px] font-extrabold uppercase text-[color:var(--gold)]">
             6 Months <span className="mx-2 text-white">•</span> <span className="text-green-400">Active</span>
           </p>
         </div>
       </div>
 
       <div className="mt-9 grid grid-cols-[90px_1fr] items-center gap-5">
-        <p className="text-[64px] font-extrabold leading-none">4</p>
-        <p className="text-xl font-bold leading-8">Application Tokens<br />Remaining</p>
+        <p className="text-[42px] font-extrabold leading-none">4</p>
+        <p className="text-[13px] font-bold leading-5">Application Tokens<br />Remaining</p>
       </div>
       <div className="mt-7 h-4 max-w-[300px] rounded-full bg-white/20">
         <div className="h-full w-[70%] rounded-full bg-[color:var(--gold)]" />
       </div>
-      <a href="/candidate/tokens" className="mt-8 inline-flex h-14 w-full max-w-[360px] items-center justify-center rounded-md border border-white/50 text-base font-extrabold text-white">
+      <a href="/candidate/tokens" className="mt-8 inline-flex h-14 w-full max-w-[360px] items-center justify-center rounded-md border border-white/50 text-[10.5px] font-extrabold text-white">
         View Membership Details
       </a>
 
@@ -314,7 +314,7 @@ function MembershipCard({ isEntryLevel }: { isEntryLevel: boolean }) {
 function EntryLevelMembershipActions() {
   return (
     <div>
-      <h3 className="text-lg font-extrabold uppercase">Manage Membership</h3>
+      <h3 className="text-xs font-extrabold uppercase">Manage Membership</h3>
       <MembershipAction icon={<FileText />} title="Exam Retest Registration" body="Register for an exam retest." />
       <MembershipAction icon={<CalendarDays />} title="Renew Your Membership" body="Renew before your 6 month expiration date to keep your score valid." />
       <div className="mt-6 border-t border-white/25 pt-6">
@@ -327,19 +327,19 @@ function EntryLevelMembershipActions() {
 function CertifiedMembershipActions() {
   return (
     <div>
-      <h3 className="text-lg font-extrabold uppercase text-[color:var(--gold)]">Need More Tokens?</h3>
-      <p className="mt-2 text-sm font-bold">Apply to additional opportunities.</p>
-      <a href="/candidate/tokens" className="mt-4 inline-flex h-12 items-center gap-3 rounded-md border border-white/50 px-5 text-sm font-extrabold">
+      <h3 className="text-xs font-extrabold uppercase text-[color:var(--gold)]">Need More Tokens?</h3>
+      <p className="mt-2 text-[9px] font-bold">Apply to additional opportunities.</p>
+      <a href="/candidate/tokens" className="mt-4 inline-flex h-12 items-center gap-3 rounded-md border border-white/50 px-5 text-[9px] font-extrabold">
         <ShoppingCart className="h-5 w-5" />
         Re-Up Token Pack
       </a>
       <div className="mt-7 border-t border-white/25 pt-6">
-        <h3 className="text-base font-bold">Manage Membership</h3>
+        <h3 className="text-[10.5px] font-bold">Manage Membership</h3>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-md border border-white/50 px-4 text-sm font-bold"><PauseCircle className="h-5 w-5" /> Pause Membership</button>
-          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-md border border-white/50 px-4 text-sm font-bold">× Cancel Membership</button>
+          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-md border border-white/50 px-4 text-[9px] font-bold"><PauseCircle className="h-5 w-5" /> Pause Membership</button>
+          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-md border border-white/50 px-4 text-[9px] font-bold">× Cancel Membership</button>
         </div>
-        <p className="mt-5 text-sm font-bold leading-6">Pausing or cancelling will not affect applications you've already submitted.</p>
+        <p className="mt-5 text-[9px] font-bold leading-4">Pausing or cancelling will not affect applications you've already submitted.</p>
       </div>
     </div>
   );
@@ -350,8 +350,8 @@ function MembershipAction({ icon, title, body }: { icon: ReactElement<{ classNam
     <a href="/candidate/tokens" className="mt-6 grid grid-cols-[56px_1fr_auto] items-center gap-4 text-white">
       <span className="text-white">{icon}</span>
       <span>
-        <span className="block text-base font-extrabold">{title}</span>
-        <span className="mt-1 block text-sm font-bold leading-6 text-white/90">{body}</span>
+        <span className="block text-[10.5px] font-extrabold">{title}</span>
+        <span className="mt-1 block text-[9px] font-bold leading-4 text-white/90">{body}</span>
       </span>
       <ArrowRight className="h-6 w-6" />
     </a>
