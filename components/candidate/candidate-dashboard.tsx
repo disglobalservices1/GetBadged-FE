@@ -10,6 +10,7 @@ import {
   Megaphone,
   PauseCircle,
   Shield,
+  ShieldCheck,
   ShoppingCart,
   Star,
   Ticket
@@ -42,7 +43,7 @@ export function CandidateDashboard() {
         </p>
       </header>
 
-      <div className="grid gap-6 min-[1500px]:grid-cols-[minmax(0,1fr)_400px]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_312px] 2xl:grid-cols-[minmax(0,1fr)_344px]">
         <main className="grid gap-6">
           <HeroCta isEntryLevel={isEntryLevel} />
           <MetricGrid isEntryLevel={isEntryLevel} />
@@ -53,7 +54,7 @@ export function CandidateDashboard() {
           {isEntryLevel ? <AdditionalProducts /> : null}
         </main>
 
-        <aside className="grid content-start gap-6 xl:grid-cols-2 min-[1500px]:grid-cols-1">
+        <aside className="grid content-start gap-6 xl:grid-cols-1">
           <ResourceCenter isEntryLevel={isEntryLevel} />
           <MembershipCard isEntryLevel={isEntryLevel} />
         </aside>
@@ -64,21 +65,21 @@ export function CandidateDashboard() {
 
 function HeroCta({ isEntryLevel }: { isEntryLevel: boolean }) {
   return (
-    <section className="grid gap-5 rounded-lg border border-[#f6c458] bg-white px-8 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] xl:grid-cols-[auto_1fr_auto] xl:items-center">
-      <div className="flex h-20 w-20 items-center justify-center text-[#071739]">
-        <Shield className="h-20 w-20 stroke-[1.8]" />
+    <section className="grid gap-4 rounded-lg border border-[#f6c458] bg-[#fffdf7] px-8 py-5 shadow-[inset_0_0_34px_rgba(246,196,88,0.12),0_1px_2px_rgba(15,23,42,0.04)] xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:items-center xl:gap-6">
+      <div className="flex h-[68px] w-[68px] items-center justify-center text-[#071739]">
+        <ShieldCheck className="h-[68px] w-[68px] stroke-[1.8]" />
       </div>
-      <div>
-        <h2 className="text-[24px] font-extrabold uppercase leading-tight tracking-normal text-[#071739]">
+      <div className="max-w-[620px]">
+        <h2 className="whitespace-nowrap text-[20px] font-extrabold uppercase leading-tight tracking-normal text-[#071739]">
           {isEntryLevel ? "Your future. Your mission." : "Your experience. Their future."}
         </h2>
-        <p className="mt-2 max-w-[560px] text-[15px] font-bold leading-6 text-[#182747]">
+        <p className="mt-1.5 max-w-[560px] text-[14px] font-bold leading-5 text-[#182747]">
           {isEntryLevel
             ? "Explore departments. Find the right fit. Apply with confidence."
             : "Departments are looking for proven professionals like you. Explore opportunities. Make your next move."}
         </p>
       </div>
-      <a href="/candidate/jobs" className="inline-flex h-12 items-center justify-center gap-3 rounded-md bg-[color:var(--gold)] px-7 text-sm font-extrabold text-[#071739] shadow-sm xl:w-fit">
+      <a href="/candidate/jobs" className="inline-flex h-12 items-center justify-center gap-3 rounded-md bg-[color:var(--gold)] px-7 text-sm font-extrabold text-[#071739] shadow-sm xl:ml-6 xl:w-fit">
         Browse Departments & Jobs
         <ArrowRight className="h-5 w-5" />
       </a>
@@ -104,19 +105,19 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
   return (
     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {metrics.map((metric) => (
-        <div key={metric.label} className="min-h-[210px] rounded-lg border border-[color:var(--border-muted)] bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
-          <div className="flex items-start justify-between gap-4">
-            <p className="text-[11px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">{metric.label}</p>
+        <div key={metric.label} className="min-h-[136px] rounded-lg border border-[color:var(--border-muted)] bg-white p-3.5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+          <div className="flex min-h-9 items-start justify-between gap-3">
+            <p className="text-[9.5px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">{metric.label}</p>
             {metric.icon ? (
-              <span className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
-                <metric.icon className="h-6 w-6" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[color:var(--blue)]">
+                <metric.icon className="h-5 w-5" />
               </span>
             ) : (
               <ProgressRing />
             )}
           </div>
-          <p className="mt-5 text-[34px] font-extrabold leading-none text-[#071739]">{metric.value}</p>
-          <div className="mt-4 grid gap-3 text-[13px] font-bold leading-5 text-[color:var(--blue)]">
+          <p className="mt-2 text-[26px] font-extrabold leading-none text-[#071739]">{metric.value}</p>
+          <div className="mt-2.5 grid gap-1.5 text-[10.5px] font-bold leading-3 text-[color:var(--blue)]">
             {metric.lines.map((line, index) => (
               <p key={line} className={index === 0 && (line.includes("Passing") || line.includes("Upload")) ? "text-[color:var(--success)]" : ""}>
                 {line}
@@ -124,7 +125,7 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
             ))}
           </div>
           {metric.notice ? (
-            <p className="mt-4 rounded-md bg-green-50 px-3 py-2 text-xs font-bold leading-5 text-[#075e34]">✓ {metric.notice}</p>
+            <p className="mt-2.5 rounded-md bg-green-50 px-2.5 py-1.5 text-[9.5px] font-bold leading-3 text-[#075e34]">✓ {metric.notice}</p>
           ) : null}
         </div>
       ))}
@@ -134,8 +135,8 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
 
 function ProgressRing() {
   return (
-    <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[conic-gradient(#169b54_0_76%,#e5e7eb_76%_100%)]">
-      <span className="h-8 w-8 rounded-full bg-white" />
+    <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[conic-gradient(#169b54_0_76%,#e5e7eb_76%_100%)]">
+      <span className="h-[22px] w-[22px] rounded-full bg-white" />
     </span>
   );
 }
@@ -154,26 +155,26 @@ function ResourceCenter({ isEntryLevel }: { isEntryLevel: boolean }) {
       ];
 
   return (
-    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
-      <h2 className="text-lg font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Resource Center</h2>
-      <div className="mt-6 grid gap-5">
+    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+      <h2 className="text-[14px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Resource Center</h2>
+      <div className="mt-3 grid gap-2.5">
         {items.map((item) => (
-          <a key={item.title} href="/resources" className="grid grid-cols-[56px_1fr_auto] items-center gap-4 rounded-md py-1 text-[#182747]">
-            <item.icon className="h-10 w-10 text-[color:var(--blue)]" />
+          <a key={item.title} href="/resources" className="grid grid-cols-[40px_1fr_auto] items-center gap-3 rounded-md text-[#182747]">
+            <item.icon className="h-8 w-8 text-[color:var(--blue)]" />
             <span>
-              <span className="flex items-center gap-3 text-base font-extrabold text-[color:var(--blue)]">
+              <span className="flex items-center gap-2 text-[13px] font-extrabold leading-4 text-[color:var(--blue)]">
                 {item.title}
-                {item.isNew ? <span className="text-sm font-extrabold text-red-600">NEW</span> : null}
+                {item.isNew ? <span className="text-[11px] font-extrabold text-red-600">NEW</span> : null}
               </span>
-              <span className="mt-1 block text-sm font-bold text-[color:var(--blue)]/80">{item.body}</span>
+              <span className="mt-px block text-[11px] font-bold leading-3 text-[color:var(--blue)]/80">{item.body}</span>
             </span>
-            <ArrowRight className="h-5 w-5 text-[color:var(--blue)]" />
+            <ArrowRight className="h-4 w-4 text-[color:var(--blue)]" />
           </a>
         ))}
       </div>
-      <a href="/resources" className="mt-8 flex items-center justify-center gap-3 text-base font-extrabold text-[color:var(--blue)]">
+      <a href="/resources" className="mt-4 flex items-center justify-center gap-2 text-[13px] font-extrabold leading-4 text-[color:var(--blue)]">
         Explore All Resources
-        <ArrowRight className="h-5 w-5" />
+        <ArrowRight className="h-4 w-4" />
       </a>
     </section>
   );
@@ -188,28 +189,28 @@ function RecentActivityCard() {
   ];
 
   return (
-    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Recent Activity</h2>
-        <a href="/candidate/applications" className="flex items-center gap-2 text-sm font-extrabold text-[color:var(--blue)]">
-          View all <ArrowRight className="h-4 w-4" />
+        <h2 className="text-[15px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Recent Activity</h2>
+        <a href="/candidate/applications" className="flex items-center gap-1.5 text-[11px] font-extrabold text-[color:var(--blue)]">
+          View all <ArrowRight className="h-3.5 w-3.5" />
         </a>
       </div>
-      <div className="mt-6 grid gap-4">
+      <div className="mt-4 grid gap-3">
         {activities.map((activity) => (
-          <div key={activity.title} className="grid grid-cols-[44px_1fr_auto] items-center gap-4">
+          <div key={activity.title} className="grid grid-cols-[36px_1fr_auto] items-center gap-3">
             <DepartmentBadge />
             <div>
-              <p className="text-sm font-extrabold text-[color:var(--blue)]">{activity.title}</p>
-              <p className="mt-1 text-xs font-bold text-[color:var(--blue)]/80">{activity.meta}</p>
+              <p className="text-[11px] font-extrabold leading-4 text-[color:var(--blue)]">{activity.title}</p>
+              <p className="mt-0.5 text-[10px] font-bold leading-3 text-[color:var(--blue)]/80">{activity.meta}</p>
             </div>
-            <span className={`rounded px-3 py-2 text-xs font-extrabold uppercase ${activity.tone}`}>{activity.status}</span>
+            <span className={`rounded px-2.5 py-1.5 text-[10px] font-extrabold uppercase ${activity.tone}`}>{activity.status}</span>
           </div>
         ))}
       </div>
-      <a href="/candidate/applications" className="mt-7 flex items-center gap-3 text-base font-extrabold text-[color:var(--blue)]">
+      <a href="/candidate/applications" className="mt-4 flex items-center gap-2 text-[13px] font-extrabold text-[color:var(--blue)]">
         View All Activity
-        <ArrowRight className="h-5 w-5" />
+        <ArrowRight className="h-4 w-4" />
       </a>
     </section>
   );
@@ -217,31 +218,31 @@ function RecentActivityCard() {
 
 function BadgeRequestsCard() {
   return (
-    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+    <section className="rounded-lg border border-[color:var(--border-muted)] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Badge Requests</h2>
-        <span className="flex h-7 min-w-7 items-center justify-center rounded-full bg-[color:var(--gold)] px-2 text-sm font-extrabold text-[#071739]">3</span>
+        <h2 className="text-[15px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Badge Requests</h2>
+        <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[color:var(--gold)] px-2 text-[11px] font-extrabold text-[#071739]">3</span>
       </div>
-      <div className="mt-6 overflow-hidden rounded-lg border border-[#f5cf7b]">
-        <div className="grid gap-3 border-b border-[#f5cf7b] p-5 md:grid-cols-[44px_1fr_auto] md:items-center">
+      <div className="mt-4 overflow-hidden rounded-lg border border-[#f5cf7b]">
+        <div className="grid gap-3 border-b border-[#f5cf7b] p-4 md:grid-cols-[36px_1fr_auto] md:items-center">
           <DepartmentBadge />
           <div>
-            <p className="text-sm font-extrabold text-[color:var(--blue)]">Ashland Police Department</p>
-            <p className="text-xs font-bold text-[color:var(--blue)]/80">Patrol Officer</p>
-            <p className="text-xs font-bold text-[color:var(--blue)]/80">Requested 2 hours ago</p>
+            <p className="text-[11px] font-extrabold leading-4 text-[color:var(--blue)]">Ashland Police Department</p>
+            <p className="text-[10px] font-bold leading-3 text-[color:var(--blue)]/80">Patrol Officer</p>
+            <p className="text-[10px] font-bold leading-3 text-[color:var(--blue)]/80">Requested 2 hours ago</p>
           </div>
-          <a href="/candidate/badge-requests" className="rounded-md bg-[color:var(--gold)] px-6 py-3 text-center text-sm font-extrabold text-[#071739]">Accept</a>
+          <a href="/candidate/badge-requests" className="rounded-md bg-[color:var(--gold)] px-4 py-2 text-center text-[11px] font-extrabold text-[#071739]">Accept</a>
         </div>
-        <div className="bg-[#fffaf0] p-5 text-sm font-bold leading-6 text-[color:var(--blue)]">
+        <div className="bg-[#fffaf0] p-4 text-[11px] font-bold leading-4 text-[color:var(--blue)]">
           <p className="font-extrabold">Interested? Accept</p>
           <p>& your application package is unlocked & forwarded to the PD.</p>
-          <p className="mt-3 font-extrabold">Not interested?</p>
+          <p className="mt-2 font-extrabold">Not interested?</p>
           <p>Don't do anything & none of your info will be released.</p>
         </div>
       </div>
-      <a href="/candidate/badge-requests" className="mt-5 flex items-center gap-3 text-base font-extrabold text-[color:var(--blue)]">
+      <a href="/candidate/badge-requests" className="mt-4 flex items-center gap-2 text-[13px] font-extrabold text-[color:var(--blue)]">
         View All Badge Requests
-        <ArrowRight className="h-5 w-5" />
+        <ArrowRight className="h-4 w-4" />
       </a>
     </section>
   );
@@ -389,7 +390,7 @@ function AdditionalProducts() {
 
 function DepartmentBadge() {
   return (
-    <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-[#092b66] ring-2 ring-[color:var(--gold)]">
+    <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-[#092b66] ring-2 ring-[color:var(--gold)]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/images/westview-police-badge.png" alt="" className="h-full w-full object-cover" />
     </span>
