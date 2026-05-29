@@ -100,10 +100,15 @@ export function AppShell({ roleLabel, navRole, candidateProfileId, children }: A
       )}
     >
       <header className={cn("col-span-full grid min-h-[54px] grid-cols-[1fr_auto] items-center bg-[color:var(--navy)] text-white", headerGridWidth)}>
-        <a href="/" className="flex h-full min-w-0 items-center gap-2.5 overflow-hidden border-r border-white/20 px-4 lg:px-5" aria-label="GetBadged home">
-          <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-md border-2 border-[color:var(--gold)] text-[11px] font-bold text-[color:var(--gold)]">GB</span>
-          <span className="min-w-0 truncate text-[16px] font-bold leading-none tracking-normal">GetBadged</span>
-        </a>
+        <div className="flex h-full min-w-0 items-center gap-2.5 overflow-hidden px-4 lg:border-r lg:border-white/20 lg:px-5">
+          <div className="shrink-0 lg:hidden [&_button]:border-white/30 [&_button]:text-white">
+            <AppShellNav navRole={navRole} roleLabel={roleLabel} candidateTrack={candidateDashboard?.track} />
+          </div>
+          <a href="/" className="flex min-w-0 items-center gap-2.5 overflow-hidden" aria-label="GetBadged home">
+            <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-md border-2 border-[color:var(--gold)] text-[11px] font-bold text-[color:var(--gold)]">GB</span>
+            <span className="min-w-0 truncate text-[16px] font-bold leading-none tracking-normal">GetBadged</span>
+          </a>
+        </div>
 
         {!isCertifiedCandidateShell ? (
           <div className="hidden min-w-[218px] items-center gap-2.5 px-4 xl:flex">
@@ -116,25 +121,16 @@ export function AppShell({ roleLabel, navRole, candidateProfileId, children }: A
         {navRole === "department" ? <DepartmentTopNav /> : <CandidateTopNav isCertifiedCandidate={isCertifiedCandidateShell} />}
 
         <div className="flex min-w-0 items-center justify-end gap-2.5 px-4 lg:px-5 xl:px-6">
-          <div className="lg:hidden [&_button]:border-white/30 [&_button]:text-white">
-            <AppShellNav navRole={navRole} roleLabel={roleLabel} candidateTrack={candidateDashboard?.track} />
-          </div>
           <a href={`/${navRole}/messages`} className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] font-semibold text-white/95 transition hover:text-white xl:flex" aria-label="Messages">
             <Mail className="h-3.5 w-3.5" />
             <span>Messages</span>
           </a>
           <a
             href={`/${navRole}/notifications`}
-            className={cn(
-              "relative hidden text-white/95 transition hover:text-white",
-              isCertifiedCandidateShell
-                ? "shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] font-semibold lg:flex"
-                : "lg:block"
-            )}
+            className="relative hidden text-white/95 transition hover:text-white lg:block"
             aria-label="Notifications"
           >
             <Bell className="h-4 w-4" />
-            {isCertifiedCandidateShell ? <span>Notifications</span> : null}
             <span className="absolute -right-1.5 -top-1.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-red-600 px-1 text-[9px] font-extrabold leading-none text-white">{navRole === "department" ? "5" : "2"}</span>
           </a>
           <div className="hidden items-center gap-2.5 lg:flex">

@@ -3,23 +3,20 @@ import {
   BadgePercent,
   BookOpen,
   CalendarDays,
-  ChevronRight,
   CheckCircle2,
-  CircleX,
   Dumbbell,
   FilePlus2,
   FileText,
   Headphones,
   HelpCircle,
   Megaphone,
-  PauseCircle,
   Shield,
   ShieldCheck,
-  ShoppingCart,
   Star,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { CandidateMembershipCard } from "@/components/candidate/candidate-membership-card";
 import { getMockCandidateDashboard } from "@/features/candidate/dashboard/get-mock-candidate-dashboard";
 
 type DashboardTrack = "ELR" | "CXO" | "OPS";
@@ -39,18 +36,18 @@ export function CandidateDashboard({ candidateProfileId }: { candidateProfileId?
 
   return (
     <div className="mx-auto grid max-w-[1540px] gap-6">
-      <header>
-        <h1 className="text-[34px] font-extrabold leading-tight tracking-normal text-[#071739]">Welcome back, {dashboard.firstName}.</h1>
-        <p className="mt-2 text-sm font-bold text-[color:var(--blue)]">
-          {isEntryLevel ? "ELR Candidate" : "CXO Candidate"} <span className="mx-2 text-slate-400">•</span> Membership active <span className="mx-2 text-slate-400">•</span> Member since May 14, 2026
+      <header className="grid gap-1">
+        <h1 className="text-base font-extrabold tracking-normal text-[color:var(--navy)] sm:text-lg">Welcome back, {dashboard.firstName}.</h1>
+        <p className="text-xs font-bold text-[color:var(--blue)]">
+          {isEntryLevel ? "ELR Candidate" : "CXO Candidate"} <span className="mx-1 text-slate-400">•</span> Membership active <span className="mx-1 text-slate-400">•</span> Member since May 14, 2026
         </p>
       </header>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto]">
-        <main className="grid gap-6">
+        <main className={isEntryLevel ? "grid gap-6" : "grid content-start gap-4"}>
           <HeroCta isEntryLevel={isEntryLevel} />
           <MetricGrid isEntryLevel={isEntryLevel} />
-          <section className="grid items-start gap-6 lg:grid-cols-2">
+          <section className="grid items-start gap-4 lg:grid-cols-2">
             <RecentActivityCard />
             {isEntryLevel ? <BadgeRequestsCard /> : <EligibilityChecklistCard />}
           </section>
@@ -59,7 +56,7 @@ export function CandidateDashboard({ candidateProfileId }: { candidateProfileId?
 
         <aside className="grid content-start gap-6 xl:mr-[2vw] xl:w-[400px] xl:grid-cols-1 2xl:mr-[3vw] 2xl:w-[344px]">
           <ResourceCenter isEntryLevel={isEntryLevel} />
-          <MembershipCard isEntryLevel={isEntryLevel} />
+          <CandidateMembershipCard isEntryLevel={isEntryLevel} />
         </aside>
       </div>
     </div>
@@ -122,7 +119,7 @@ function MetricGrid({ isEntryLevel }: { isEntryLevel: boolean }) {
   const metricCardHeight = isEntryLevel ? "h-[200px]" : "h-[160px]";
 
   return (
-    <section className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <section className="grid auto-rows-min items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
       {metrics.map((metric) => (
         <div key={metric.label} className={`${metricCardHeight} overflow-hidden rounded-lg border border-[color:var(--border-muted)] bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]`}>
           <div className="flex min-h-7 items-start justify-between gap-3">
@@ -299,9 +296,9 @@ function BadgeRequestsCard() {
 function EligibilityChecklistCard() {
   return (
     <section className="rounded-lg border border-[color:var(--border-muted)] bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
-      <div className="flex items-center justify-between gap-4">
+      <div className="grid grid-cols-[minmax(0,1fr)_230px] items-center gap-4">
         <h2 className="text-[14px] font-extrabold uppercase tracking-normal text-[color:var(--blue)]">Your Eligibility Checklist</h2>
-        <span className="rounded bg-green-100 px-3 py-1 text-[11px] font-bold uppercase text-[#087443]">Active</span>
+        <span className="justify-self-end rounded bg-green-100 px-3 py-1 text-[11px] font-bold uppercase text-[#087443]">Active</span>
       </div>
       <div className="mt-5 grid gap-4">
         <EligibilityRow icon={<CalendarDays className="h-5 w-5" />} title="Membership active" status="Valid through Nov 14, 2026" />
@@ -320,100 +317,11 @@ function EligibilityChecklistCard() {
 
 function EligibilityRow({ icon, title, status }: { icon: ReactNode; title: string; status: string }) {
   return (
-    <div className="grid grid-cols-[16px_1fr_auto] items-center gap-6">
+    <div className="grid grid-cols-[16px_minmax(0,1fr)_230px] items-center gap-6">
       <span className="flex h-6 w-6 items-center justify-center rounded bg-blue-50 text-[color:var(--blue)]">{icon}</span>
       <p className="text-[9px] font-bold text-[color:var(--blue)]">{title}</p>
-      <span className="rounded bg-green-100 py-1 text-[8px] font-bold uppercase text-[#087443]">✓ {status}</span>
+      <span className="justify-self-end rounded bg-green-100 px-2 py-1 text-[8px] font-bold uppercase text-[#087443]">✓ {status}</span>
     </div>
-  );
-}
-
-function MembershipCard({ isEntryLevel }: { isEntryLevel: boolean }) {
-  return (
-    <section className="rounded-lg border border-[color:var(--gold)] bg-[#001b3f] px-6 py-5 text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)]">
-      <div className="flex items-start gap-5">
-        <MembershipBadgeMark />
-        <div className="min-w-0 pt-1">
-          <h2 className="text-[16px] font-semibold uppercase leading-tight tracking-normal">Your Membership</h2>
-          <p className="mt-1.5 text-[14px] font-semibold uppercase text-[color:var(--gold)]">
-            6 Months <span className="mx-2 text-white">•</span> <span className="text-green-400">Active</span>
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-[78px_1fr] items-center gap-0">
-        <p className="text-[56px] font-extrabold leading-none">4</p>
-        <p className="text-[14px] font-semibold leading-6">Application Tokens<br />Remaining</p>
-      </div>
-      <div className="mt-5 h-3 w-[66%] min-w-[240px] max-w-[400px] overflow-hidden rounded-full bg-white/20">
-        <div className="h-full w-[62%] rounded-full bg-[color:var(--gold)]" />
-      </div>
-      <a href="/candidate/tokens" className="mt-6 inline-flex h-12 w-[66%] min-w-[240px] max-w-[400px] items-center justify-center rounded-md border border-white/50 text-[14px] font-semibold text-white transition hover:border-white hover:bg-white/10">
-        View Membership Details
-      </a>
-
-      <div className="mt-5 border-t border-white/25 pt-4">
-        {isEntryLevel ? <EntryLevelMembershipActions /> : <CertifiedMembershipActions />}
-      </div>
-    </section>
-  );
-}
-
-function MembershipBadgeMark() {
-  return (
-    <span className="relative flex h-[58px] w-[52px] shrink-0 items-center justify-center text-[color:var(--gold)]">
-      <Shield className="absolute h-full w-full stroke-[1.4]" />
-      <span className="relative text-[20px] font-bold leading-none">GB</span>
-    </span>
-  );
-}
-
-function EntryLevelMembershipActions() {
-  return (
-    <div>
-      <h3 className="text-[13px] font-medium uppercase">Manage Membership</h3>
-      <div className="mt-4 grid gap-4">
-        <MembershipAction icon={<FileText />} title="Exam Retest Registration" body="Register for an exam retest." />
-        <MembershipAction icon={<CalendarDays />} title="Renew Your Membership" body="Renew before your 6 month expiration date to keep your score valid." />
-      </div>
-      <div className="mt-4 border-t border-white/25 pt-3">
-        <MembershipAction icon={<PauseCircle />} title="Pause or Cancel Membership" body="Pause or cancel your membership. Your applications will be affected." />
-      </div>
-    </div>
-  );
-}
-
-function CertifiedMembershipActions() {
-  return (
-    <div>
-      <h3 className="text-[14px] font-extrabold uppercase text-[color:var(--gold)]">Need More Tokens?</h3>
-      <p className="mt-2 text-[12px] font-semibold leading-5 text-white/90">Apply to additional opportunities.</p>
-      <a href="/candidate/tokens" className="mt-3 inline-flex h-10 items-center gap-3 rounded-md border border-white/50 px-5 text-[13px] font-semiBold text-white transition hover:border-white hover:bg-white/10">
-        <ShoppingCart className="h-4 w-4" />
-        Re-Up Token Pack
-      </a>
-      <div className="mt-5 border-t border-white/25 pt-5">
-        <h3 className="text-[13px] font-semibold">Manage Membership</h3>
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          <button type="button" className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/50 px-3 !text-[13px] font-bold text-white transition hover:border-white hover:bg-white/10"><PauseCircle className="h-4 w-4" /> Pause Membership</button>
-          <button type="button" className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/50 px-3 !text-[13px] font-bold text-white transition hover:border-white hover:bg-white/10"><CircleX className="h-4 w-4" /> Cancel Membership</button>
-        </div>
-        <p className="mt-4 text-[12px] font-semibold leading-5 text-white/90">Pausing or cancelling will not affect applications you've already submitted.</p>
-      </div>
-    </div>
-  );
-}
-
-function MembershipAction({ icon, title, body }: { icon: ReactElement<{ className?: string }>; title: string; body: string }) {
-  return (
-    <a href="/candidate/tokens" className="grid grid-cols-[38px_1fr_auto] items-center gap-4 text-white transition hover:text-white/90">
-      <span className="flex h-9 w-9 items-center justify-center text-white [&_svg]:h-8 [&_svg]:w-8 [&_svg]:stroke-[1.1]">{icon}</span>
-      <span>
-        <span className="block text-[12px] font-bold leading-5">{title}</span>
-        <span className="mt-1 block text-[11px] font-medium leading-5 text-white/90">{body}</span>
-      </span>
-      <ChevronRight className="h-5 w-5" />
-    </a>
   );
 }
 
