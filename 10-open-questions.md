@@ -14,7 +14,7 @@ Current handling:
 
 - Mark as `Needs Client Confirmation`.
 - UI can show placeholder package configuration.
-- Latest checklist still flags conflicting pack references, so keep this unresolved.
+- June 1 checklist still flags conflicting pack references: `$100 / 10`, `$200 / 20`, or both. Keep unresolved.
 
 ### OQ-02 Permanent Deletion Retention Period
 
@@ -26,6 +26,7 @@ Current handling:
 
 - Archive at 30 days.
 - Permanent deletion period remains `Needs Client Confirmation`.
+- June 1 checklist also mentions candidate accounts inactive `365+ days` may be archived at platform level. This conflicts with earlier 30-day archive handling and should be confirmed before backend implementation.
 
 ### OQ-03 Final Design System
 
@@ -37,6 +38,7 @@ Current handling:
 
 - Use provided candidate application screenshot as baseline.
 - Use navy/blue/white/gray professional dashboard style.
+- June 1 confirms brand text is `GetBadged` as one word with capital `G` and `B`.
 
 ### OQ-04 Backend API Contracts
 
@@ -60,7 +62,18 @@ Current handling:
 - Frontend can support typed 300-word cover letter first, with optional file field planned.
 - Latest checklist specifies a 300-word maximum; upload behavior is still not final.
 
-### OQ-06 Geocoding Provider for Distance Filters
+### OQ-06 Session Timeout Duration
+
+Question:
+
+- Should inactivity timeout be 10 minutes or 15 minutes?
+
+Current handling:
+
+- June 1 has conflicting text: one checklist area says 10 minutes, while open-item response says 15 minutes idle warning/logout.
+- Use 15 minutes for planning only if no further clarification arrives, because it appears in the explicit action-response section.
+
+### OQ-07 Geocoding Provider for Distance Filters
 
 Question:
 
@@ -71,7 +84,7 @@ Current handling:
 - Mock distance filtering in frontend.
 - Backend later can use a provider or stored lat/lng.
 
-### OQ-07 Exact Department Tier Rules
+### OQ-08 Exact Department Tier Rules
 
 Question:
 
@@ -82,7 +95,7 @@ Current handling:
 - Follow Master Checklist if conflict exists.
 - Keep pricing/tier configuration data-driven.
 
-### OQ-08 Dept User Message Template Access
+### OQ-09 Dept User Message Template Access
 
 Question:
 
@@ -91,9 +104,9 @@ Question:
 Current handling:
 
 - Keep Department User send-blocked.
-- Show template access only after confirmation.
+- June 1 says Dept User can view templates, but final review still asks to confirm template access. Show view-only template library for now; do not allow send/create/save.
 
-### OQ-09 Job Post To Department Profile Linking Rule
+### OQ-10 Job Post To Department Profile Linking Rule
 
 Question:
 

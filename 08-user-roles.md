@@ -81,6 +81,7 @@ Core capabilities:
 - Appear in Badge Pool when eligible
 - Upgrade to ELR or CXO according to rules
 - Receive and accept Badge Requests
+- Uses the CXO dashboard layout/options unless client later specifies OPS-only differences
 
 ## Candidate Account States
 
@@ -91,6 +92,11 @@ Core capabilities:
 | Active | Meets track requirements | Can apply, receive/accept Badges, appear in Badge Pool |
 | Inactive | Membership lapsed/cancelled/expired | Applications auto-status as required, Badge acceptance blocked |
 | Archived | Inactive long enough for archival rule | Hidden from departments |
+
+Department visibility note:
+
+- For inactive/cancelled/expired candidates, candidate contact information remains visible to active departments only until the 90-day grace period ends, or until the department expires, whichever comes first.
+- After that point, contact information is hidden from department application view, print, download, export, and messaging.
 
 ## Department Roles
 
@@ -112,7 +118,7 @@ Core capabilities:
 - Record department notes
 - Upload department-private files
 - Send messages
-- Create/save message templates where allowed
+- Create/save message templates
 - Export reports/data
 - Renew/manage membership where allowed
 
@@ -124,11 +130,12 @@ Core capabilities:
 - Can edit Department Profile and Job Posts
 - Can browse Badge Pool and send Badge Requests if allowed by Master Checklist
 - Can view applications, update statuses, archive, export, upload private files
-- Messaging permissions are limited by Master Checklist
+- Can view message history and templates
+- Cannot send messages or create/save templates unless client confirms otherwise
 
 Primary difference:
 
-- Department Admin has message sending permission where Department User is restricted.
+- Department Admin has message sending/template creation permission where Department User is restricted.
 
 ## Department Account States
 
@@ -138,6 +145,15 @@ Primary difference:
 | Active | Approved and paid/valid | Full tier-based access |
 | Expired/Inactive | Membership expired/lapsed | Restricted actions, contact info hidden where required |
 | Revisions Needed | Profile/job returned by GB Admin | Show admin notes and resubmit action |
+
+Expired department restrictions:
+
+- Can view/export applications, but contact information is hidden.
+- Cannot receive notifications/messages.
+- Cannot send messages.
+- Cannot update application statuses.
+- Cannot send Badge Requests.
+- Candidates cannot accept Badges from expired departments.
 
 ## GB Admin
 
@@ -158,6 +174,7 @@ Core capabilities:
 - Generate rosters
 - Import and publish scores
 - Manage profile/job templates and dynamic fields
+- Configure job exam requirement Y/N and minimum exam-score requirement
 - Manage application statuses
 - Manage CMS/resources/news/statistics
 - View all reports and exports

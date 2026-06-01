@@ -4,11 +4,12 @@ This folder is the `getbadged-frontend` project workspace. These planning files 
 
 ## Source Priority
 
-1. `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf` is the current product source of truth.
-2. `GetBadged_MRD_LATEST.pdf` is supporting context only.
-3. `MASTER GetBadged Dev Checklist old.pdf` is archived and should only be used for comparison.
-4. If the MRD and Master Checklist conflict, follow the current Master Checklist.
-5. User decisions in this repo override both documents when explicitly recorded.
+1. `MASTER GetBadged Dev Checklist | 1st june.pdf` is the current product source of truth.
+2. `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf` is previous source context only.
+3. `GetBadged_MRD_LATEST.pdf` is supporting context only.
+4. `MASTER GetBadged Dev Checklist old.pdf` is archived and should only be used for comparison.
+5. If the MRD and Master Checklist conflict, follow the current Master Checklist.
+6. User decisions in this repo override both documents when explicitly recorded.
 
 ## Confirmed Stack
 

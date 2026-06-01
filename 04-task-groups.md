@@ -45,9 +45,9 @@ types/
 
 ## Latest PDF Alignment Rule
 
-Current source of truth is `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`.
+Current source of truth is `MASTER GetBadged Dev Checklist | 1st june.pdf`.
 
-Dev A and Dev B completed their first eight task groups before this latest-PDF comparison. Completed groups should not be rewritten as new work. Instead:
+Dev A and Dev B completed their first eight task groups before the May 14 and June 1 latest-PDF comparisons. Completed groups should not be rewritten as new work. Instead:
 
 - Keep TG-A1 through TG-A8 and TG-B1 through TG-B8 marked as completed.
 - Add latest-PDF impact/patch notes to completed groups where needed.
@@ -111,6 +111,7 @@ Latest PDF change impact:
 
 - Patch needed: low.
 - Ensure brand usage follows current logo/name rule: `GetBadged` is one word with capital `G` and capital `B`.
+- June 1: Candidate Resource Center sample includes homepage visitor/member content. Public resources should stay data-driven so visitor-facing resource blocks can be changed without route rewrites.
 
 ### TG-A2 Public Department and Job Browse
 
@@ -144,6 +145,7 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Public department profile and public job detail should continue matching the latest sample layouts.
 - Job detail data should prepare for expanded job-post fields such as state requirements, department-specific requirements, preferred eligibility, salary, benefits, responsibilities, and hiring process.
+- June 1: Job post to Department Profile linking is still a final review item; keep public job detail linked by `departmentId`/`departmentSlug` until the client defines deeper content inheritance.
 
 ### TG-A3 Auth and Candidate Free Signup
 
@@ -170,6 +172,7 @@ Latest PDF change impact:
 - Patch needed: low.
 - Confirm password rules in UI: minimum 8 characters, 1 capital letter, 1 number, and 1 special character.
 - Session timeout behavior is documented for backend/app shell; no full implementation required in this completed auth UI unless scheduled as a patch.
+- June 1: Session timeout has conflicting details: profile section mentions 10 minutes, open-item response says 15 minutes idle warning/logout. Track as confirmation before implementation.
 
 ### TG-A4 Candidate Dashboard
 
@@ -201,6 +204,9 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Candidate dashboard should be ready to show Resource Center items and "New" unread labels.
 - Candidate dashboard should show membership expiry/renewal notifications and exam confirmation/reminder notices when those mock states exist.
+- June 1: Candidate dashboard needs three member layouts/states: ELR, CXO, and OPS. OPS should follow CXO layout/options.
+- June 1: ELR dashboard should include an upgrade option to CXO; OPS dashboard should include an upgrade option to ELR.
+- June 1: Candidate Resource Center sample is explicit and should be wired to member type/content assignment.
 
 ### TG-A5 Candidate Profile Wizard
 
@@ -239,6 +245,7 @@ Latest PDF change impact:
 - Patch needed: high.
 - Replace old `U.S. Citizen` yes/no with `Citizenship / Work Authorization Status` single-select options from `11-object-field-registry.md`.
 - Confirm this field is hidden from Badge Pool and only appears in allowed full application/dashboard/export contexts.
+- June 1: Contact fields, phone, email, address, DOB/age, gender, ethnicity, and SSN visibility must align with the 90-day inactive/department-expired hiding rules in downstream application views.
 
 ### TG-A6 Candidate Documents
 
@@ -263,6 +270,7 @@ Latest PDF change impact:
 
 - Patch needed: low.
 - No major document category change found, but full application view/download/export must include document links according to latest visibility rules.
+- June 1: Supporting documents remain full-application-only links and should not be shown in Applicant Pool column view.
 
 ### TG-A7 Candidate Exam Registration
 
@@ -289,6 +297,7 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Exam confirmation display should support date, time, location, what to bring, and parking.
 - Online exam reminder mock states should support 7-10 day reminders.
+- June 1: Password/session open-item response confirms exam confirmation send time is GB Admin-configurable.
 
 ### TG-A8 Candidate Jobs and Direct Apply
 
@@ -318,6 +327,7 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Cover letter should enforce 300-word maximum.
 - Direct apply should use latest job-post requirement fields once Dev B updates job data.
+- June 1: Direct apply should continue to consume one token, while Badge acceptance consumes zero tokens.
 
 ### TG-A9 Candidate Badge Requests and Submitted Applications
 
@@ -339,6 +349,8 @@ Scope:
 - Badge request notifications on Candidate Dashboard/Notification Center
 - Candidate application status update notifications
 - Inactive/reactivated membership/application state messaging
+- Contact-info expiration warnings from departments should be reflected where candidate-facing status/notifications require it.
+- Badge acceptance remains blocked when candidate membership is inactive/cancelled or department is expired.
 
 ### TG-A10 Candidate Messages, Notifications, Settings
 
@@ -364,6 +376,9 @@ Scope:
   - Help & FAQs
 - "New" unread state for updated resources
 - Membership renewal notification UI for CXO and OPS
+- OPS dashboard/resource behavior aligned to CXO member layout/options
+- ELR to CXO and OPS to ELR upgrade entry points if not handled by TG-A4 patch
+- Resource Center content assigned by member type and "New" state
 
 Shared:
 
@@ -422,6 +437,8 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Dashboard should be ready for low badge-credit warning at 2 credits and hard stop at zero.
 - Department Resource Center entry point should be added when TG-B12 CMS/resource work begins.
+- June 1: Remove bottom-right Quick Actions pattern; all dashboard actions should live in the left menu/top navigation.
+- June 1: Department dashboard should include Resource Center entry points once CMS/resource work is available.
 
 ### TG-B3 Department Profile Builder
 
@@ -453,6 +470,8 @@ Latest PDF change impact:
 - Patch needed: low to medium.
 - Keep latest public department profile sample layout alignment.
 - AI assist controls are deferred unless user later moves them into MVP.
+- June 1: Department Profile builder/schema should remain dynamic: GB Admin controls sections, fields, field types, required states, permissions, order, visibility, version/change log.
+- June 1: Department Admin/User can access profile templates and job templates; AI assist still deferred by project decision.
 
 ### TG-B4 Department Job Post Builder
 
@@ -493,6 +512,9 @@ Latest PDF change impact:
   - salary and benefits
   - responsibilities
   - hiring process
+- June 1: GB Admin can set exam requirement Y/N per job.
+- June 1: GB Admin can set minimum exam score; default is 70%, cannot go below 70%, can go higher.
+- June 1: Position categories expanded for ELR, CXO, OPS, campus/corrections/sheriff/security/court/marine/command variants.
 
 ### TG-B5 Department Badge Pool
 
@@ -519,6 +541,7 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Ensure `Citizenship / Work Authorization Status` never appears in Badge Pool.
 - Low credit warning/hard stop should be reflected before sending Badge Requests.
+- June 1: Department low-credit warning appears at 2 badge credits; zero credits blocks sending until additional badge pack purchase.
 
 ### TG-B6 Department Applicant Pools
 
@@ -549,6 +572,10 @@ Latest PDF change impact:
 - Full application view should include latest visibility rules for application view, print, download, export, and application dashboard.
 - Applicant Pool column `U.S. Citizen` becomes `Citizenship/Work Authorization`.
 - Essays are included in application view, print, download, and export, but not Applicant Pool column view or Badge Pool.
+- June 1: Applicant Pool columns include phone and email when allowed.
+- June 1: Contact information hides after 90 days from inactive/lapse/cancel/expiration or when department expires, whichever comes first.
+- June 1: Full application needs hover/countdown messaging before contact access expires.
+- June 1: Application change log is full-application-only, never candidate-visible, and included in print/download/export.
 
 ### TG-B7 Department Status, Archive, Exports
 
@@ -576,6 +603,8 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Export rules must include latest full application/export visibility.
 - Status pipeline keeps broad client-provided list and should include `Disqualified`.
+- June 1: Expired department can export data, but contact information must be hidden.
+- June 1: Export supports field selection, filtered results, archived candidates, archive status, notes, qualifications, essays, and allowed application package fields.
 
 ### TG-B8 Department Messages and Notifications
 
@@ -604,6 +633,8 @@ Latest PDF change impact:
 - Patch needed: medium.
 - Department Notification Center should include candidate updates, accepted Badge Requests, submitted applications, membership expiry, and inactive/reactivated candidate status.
 - Dept User cannot send messages; template access remains an open confirmation item.
+- June 1: Archived candidates and inactive candidates after the grace period/department expiration must not appear in new-message recipient selection.
+- June 1: Dept User can view templates; creating/saving/sending remains Dept Admin-only unless client confirms otherwise.
 
 ### TG-B9 GB Admin Dashboard and Approvals
 
@@ -623,6 +654,7 @@ Scope:
 - Audit log entries
 - Approval notes for department profiles and job posts
 - Resource/CMS publishing overview if resources are routed through GB Admin
+- June 1 profile/job approval notes and dynamic template controls should be considered in approval queues.
 
 ### TG-B10 GB Admin Users, Roles, Impersonation
 
@@ -687,10 +719,23 @@ Scope:
   - Application Tips & Best Practices
   - Help & FAQs with assignable member types
 - Department Resource Center management
+- Resource content assignment by audience/member type:
+  - Homepage visitor
+  - ELR member
+  - CXO member
+  - OPS member
 - Publish/unpublish resource content
 - Mark resources as new until read
 - Admin exports
 - Audit log viewer
+- Department Profile and Job Post dynamic schema management:
+  - sections
+  - fields
+  - field types
+  - required status
+  - display order
+  - visibility/permission rules
+- Department credit pack configuration should remain data-driven until `$100/10`, `$200/20`, or both are confirmed.
 
 ## Suggested Developer Split
 

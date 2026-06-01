@@ -36,6 +36,7 @@ Fields:
 - track
 - status
 - completionPercent
+- availableUpgradePaths
 - firstName
 - lastName
 - address fields
@@ -175,6 +176,8 @@ Rules:
 - Direct Apply consumes 1 token.
 - Badge Accept consumes 0 tokens.
 - Grants/top-ups follow Master Checklist.
+- Candidate 4-pack top-up is `$80 / 4` tokens per June 1 checklist.
+- OPS upgrade voids remaining OPS tokens.
 
 ### Department
 
@@ -203,6 +206,7 @@ Relations:
 - applications
 - messages
 - creditLedgerEntries
+- resourceCenterItems
 
 ### DepartmentUser
 
@@ -219,6 +223,7 @@ Rules:
 
 - Department Admin and Department User share most permissions.
 - Department Admin has message-send permission where restricted.
+- Department User can view template library but cannot send/create/save templates unless confirmed otherwise.
 
 ### DepartmentProfile
 
@@ -296,6 +301,8 @@ Fields:
 - positionCategory
 - location fields
 - requirementsJson
+- hasExamRequirement
+- minimumPassingExamScorePercent
 - benefitsJson
 - salaryJson
 - scheduleJson
@@ -317,6 +324,12 @@ Relations:
 - badgeRequests
 - template values
 
+Rules:
+
+- GB Admin can configure job post fields and sections.
+- Minimum exam score defaults to 70%, cannot go below 70%, and can be raised.
+- Job posts link to departments by `departmentId`; deeper profile/job content linking remains a client confirmation item.
+
 ### Application
 
 Fields:
@@ -332,6 +345,9 @@ Fields:
 - submittedAt
 - viewedAt
 - archivedAt
+- contactInfoVisibleUntil
+- contactInfoHiddenAt
+- contactInfoHiddenReason
 - coverLetterText
 - coverLetterStoragePath
 - tokenLedgerEntryId
@@ -346,6 +362,8 @@ Rules:
 - One application per candidate, department, and job type.
 - Candidate sees own application history.
 - Departments see only their own applications.
+- Cover letter text max is 300 words.
+- Candidate contact info hides after 90 days from inactive/lapse/cancel/expiration or when the department expires, whichever comes first.
 
 ### ApplicationStatusHistory
 
@@ -411,6 +429,7 @@ Rules:
 
 - Department sees change log only for its application.
 - Candidate does not see department-facing change log.
+- Change log is included in department print/download/export.
 
 ### BadgeRequest
 
@@ -546,8 +565,15 @@ Fields:
 - subject
 - body
 - visibility
+- canDepartmentUserView
+- canDepartmentUserSend
 - createdAt
 - updatedAt
+
+Rules:
+
+- Department User can view templates.
+- Department User send/create/save remains blocked unless client confirms otherwise.
 
 ### Notification
 
@@ -562,6 +588,13 @@ Fields:
 - readAt
 - linkUrl
 - createdAt
+
+Events to support:
+
+- Low badge-credit warning at 2 credits.
+- Candidate inactive/reactivated.
+- Candidate application updates.
+- Membership expiry/renewal.
 
 ### AuditLog
 
@@ -613,10 +646,44 @@ Fields:
 - label
 - fieldType
 - required
+- editableByRoles
 - optionsJson
 - visibilityRulesJson
+- permissionRulesJson
 - order
 - isActive
+
+### ResourceCenterItem
+
+Fields:
+
+- id
+- audience
+- title
+- slug
+- category
+- contentFormat
+- body
+- linksJson
+- assetUrlsJson
+- isPublished
+- isNewUntilRead
+- createdByUserId
+- createdAt
+- updatedAt
+
+Audience values:
+
+- homepage_visitor
+- candidate_elr
+- candidate_cxo
+- candidate_ops
+- department
+
+Rules:
+
+- GB Admin can publish/unpublish resources.
+- Candidate and department dashboards consume audience-specific Resource Center items.
 
 ## Backend Notes
 

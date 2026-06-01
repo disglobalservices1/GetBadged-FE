@@ -84,16 +84,18 @@ Status values:
 | 2026-05-15 | Added proper app error handling and structured API response rules |
 | 2026-05-21 | Latest source of truth updated to `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf` |
 | 2026-05-21 | Dev A and Dev B completed TG-1 through TG-8 each before latest-PDF alignment |
+| 2026-06-01 | Latest source of truth updated to `MASTER GetBadged Dev Checklist | 1st june.pdf` |
+| 2026-06-01 | June 1 checklist changes should be added as patch notes to completed TG-A1 through TG-A8 and TG-B1 through TG-B8, then folded directly into remaining task groups |
 
 ## Latest PDF Alignment Checkpoint
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Source-of-truth docs | Done | Updated docs to May 14 checklist |
-| Completed Dev A TG-A1 to TG-A8 impact review | Done | Added patch notes instead of rewriting completed groups |
-| Completed Dev B TG-B1 to TG-B8 impact review | Done | Added patch notes instead of rewriting completed groups |
-| Remaining task groups | Done | Updated remaining scopes directly to latest checklist |
-| Object/field registry | Done | Replaced citizenship boolean with work authorization status and added resource/notification/job-post fields |
+| Source-of-truth docs | Done | Updated docs to June 1 checklist |
+| Completed Dev A TG-A1 to TG-A8 impact review | Done | Added June 1 patch notes instead of rewriting completed groups |
+| Completed Dev B TG-B1 to TG-B8 impact review | Done | Added June 1 patch notes instead of rewriting completed groups |
+| Remaining task groups | Done | Updated remaining scopes directly to June 1 checklist |
+| Object/field registry | Done | Added/confirmed upgrade paths, contact expiration, resource audience, applicant pool columns, credit warning, job exam requirements, and export visibility fields |
 
 ## Open Blocks
 
@@ -102,4 +104,7 @@ Status values:
 | Final visual design samples | Pending user samples |
 | Department credit pack size | Needs Client Confirmation |
 | Permanent deletion retention period | Needs Client Confirmation |
+| Dept User template access | Needs Client Confirmation |
+| Job post to department profile linking | Needs Client Confirmation |
+| Session timeout duration | Needs Client Confirmation |
 | Exact backend API contracts | Later backend planning |

@@ -6,7 +6,7 @@ This file is the shared contract for frontend mock data, TypeScript types, and l
 
 - Use these field names in mock data and TypeScript types.
 - Do not invent alternate keys like `deptName` if the registry says `departmentName`.
-- Current source of truth is `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`.
+- Current source of truth is `MASTER GetBadged Dev Checklist | 1st june.pdf`.
 - Add new fields here before using them across multiple task groups.
 - Route-specific UI-only state can stay local, but domain data belongs here.
 - Boolean fields should start with `is`, `has`, or `can`.
@@ -79,6 +79,10 @@ type DocumentType =
   | 'training_certificate'
   | 'recommendation_letter'
   | 'other';
+
+type ResourceAudience = 'homepage_visitor' | 'ELR' | 'CXO' | 'OPS';
+
+type UpgradePath = 'ELR_TO_CXO' | 'OPS_TO_ELR' | 'OPS_TO_CXO';
 ```
 
 ## User
@@ -287,6 +291,7 @@ type CandidateMembership = {
   cancelledAt?: string;
   stripeSubscriptionId?: string;
   planLabel: string;
+  availableUpgradePaths?: UpgradePath[];
 };
 ```
 
@@ -336,6 +341,7 @@ type Department = {
   primaryAdminUserId?: string;
   badgeCreditsRemaining: number;
   badgeCreditsSent: number;
+  lowCreditWarningThreshold: 2;
   createdAt: string;
   updatedAt: string;
 };
@@ -493,10 +499,12 @@ type JobRequirement = {
     | 'other';
   value?: string | number | boolean | string[];
   isRequired: boolean;
+  isVisibleToDepartmentUser?: boolean;
 };
 
 type JobPostRequirementFieldGroup = {
   stateRequirements: string[];
+  hasExamRequirement?: boolean;
   minimumPassingExamScorePercent?: number;
   departmentSpecificRequirements: string[];
   minimumAge?: number;
@@ -630,12 +638,20 @@ type Application = {
   viewedAt?: string;
   archivedAt?: string;
   isNewForDepartment: boolean;
+  contactInfoHiddenAt?: string;
+  contactInfoVisibleUntil?: string;
+  contactInfoHiddenReason?: 'candidate_inactive_90_days' | 'department_expired';
   coverLetterText?: string;
   coverLetterFileUrl?: string;
   badgeRequestId?: string;
   tokenLedgerEntryId?: string;
 };
 ```
+
+Rules:
+
+- `coverLetterText` is limited to 300 words.
+- Contact fields hide after the candidate inactivity grace period or department expiration, whichever comes first.
 
 ```ts
 type ApplicationStatusKey =
@@ -670,10 +686,21 @@ type DepartmentApplicationView = {
   privateFiles: DepartmentPrivateFile[];
   changeLog: ApplicationChangeLogEntry[];
   messages: MessageThreadSummary[];
+  contactInfoVisibility: ContactInfoVisibility;
 };
 ```
 
 UI must hide fields according to Master Checklist and account state.
+
+```ts
+type ContactInfoVisibility = {
+  isContactInfoVisible: boolean;
+  visibleUntil?: string;
+  daysRemaining?: number;
+  hiddenReason?: 'candidate_inactive_90_days' | 'department_expired';
+  hoverMessage?: string;
+};
+```
 
 ## ApplicationNote
 
@@ -729,8 +756,15 @@ type ApplicationChangeLogEntry = {
   newValue: string;
   changedAt: string;
   changedBy: 'candidate' | 'department' | 'system' | 'gb_admin';
+  changedByRole?: UserRole;
 };
 ```
+
+Rules:
+
+- Never visible to the candidate.
+- Scoped to the department's own application record.
+- Included in department print/download/export.
 
 ## ExamSitting
 
@@ -841,6 +875,8 @@ type MessageTemplate = {
   title: string;
   subject: string;
   body: string;
+  canDepartmentUserView: boolean;
+  canDepartmentUserSend: false;
   lastUsedAt?: string;
   createdAt: string;
   updatedAt: string;
@@ -888,7 +924,7 @@ type Notification = {
 Owner: Shared CMS/admin. Dev A consumes candidate resources; Dev B consumes department resources and GB Admin CMS.
 
 ```ts
-type ResourceCenterAudience = 'candidate_elr' | 'candidate_cxo' | 'candidate_ops' | 'department';
+type ResourceCenterAudience = 'homepage_visitor' | 'candidate_elr' | 'candidate_cxo' | 'candidate_ops' | 'department';
 
 type ResourceCenterItem = {
   id: string;
@@ -1033,9 +1069,11 @@ type TemplateField = {
   label: string;
   fieldType: TemplateFieldType;
   isRequired: boolean;
+  editableByRoles?: UserRole[];
   options?: string[];
   helpText?: string;
   visibilityRules?: Record<string, unknown>;
+  permissionRules?: Record<string, unknown>;
   order: number;
   isActive: boolean;
 };
