@@ -1,200 +1,174 @@
-# GetBadged Project Sprint Plan
+# Get Badged Sprint Plan
 
-Weekly delivery plan for frontend mocks, backend implementation, integrations, and release readiness.
+June 1st - August 14th
 
-## Sprint Overview
+11 Sprints
+
+## Sprint 1: June 1 - June 5
+
+Focus: Priority frontend UI delivery
+
+Deliverables:
 
-| Sprint | Dates | Primary Focus |
-| --- | --- | --- |
-| Sprint 1 | May 18 - May 25, 2026 | Complete all frontend mock flows and prepare demo readiness. |
-| Holiday Break | May 26 - May 31, 2026 | No planned delivery work. |
-| Sprint 2 | June 1 - June 7, 2026 | Start backend foundation and align API contracts with frontend mocks. |
-| Sprint 3 | June 8 - June 14, 2026 | Build core backend APIs for auth, profiles, jobs, and public data. |
-| Sprint 4 | June 15 - June 21, 2026 | Build application, Badge Request, Badge Pool, file, and audit APIs. |
-| Sprint 5 | June 22 - June 28, 2026 | Complete integrations for payments, communications, admin operations, and exams. |
-| Sprint 6 | June 29 - July 5, 2026 | Client testing, release hardening, deployment prep, and handoff. |
+- Public page: `/`
+- Login: `/auth/login`
+- Department Dashboard: `/department`
+- Candidate Dashboard: `/candidate`
+- Candidate personal information: `/candidate/profile/personal_information`
+- Shared shell polish for priority pages: navigation, header, side menu, cards, buttons, responsive behavior
+- Desktop/tablet/mobile QA for these priority screens
 
-## Planning Assumptions
+## Sprint 2: June 8 - June 12
+
+Focus: Remaining implemented Candidate routes
 
-- Frontend mock flows are planned for completion during the first working week.
-- Holidays are planned from May 26 through May 31, with no delivery work scheduled.
-- Sprint 2 begins on June 1 and starts backend foundation work.
-- Each sprint is planned as a one-week delivery cycle.
-- Client testing and release hardening are included in Sprint 6.
+Deliverables:
 
-## Sprint 1: Frontend Mock Completion
+- Candidate routes:
+  - `/candidate/profile`
+  - `/candidate/profile/[step]`
+  - `/candidate/jobs`
+  - `/candidate/jobs/[jobId]`
+  - `/candidate/apply/[jobId]`
+- Candidate modules:
+  - Documents
+  - Exams
+  - Exam detail
+  - Application flow
+  - Profile sections
+- Responsive QA and mock-data consistency for all currently implemented Candidate screens
 
-**Duration:** May 18 - May 25, 2026  
-**Sprint Goal:** Complete all frontend mock flows and prepare the product for internal/demo review.
+## Sprint 3: June 15 - June 19
 
-### Frontend Mock Flows
+Focus: Remaining implemented Department routes
 
-- Complete remaining frontend mock-data workflows across public, candidate, department, and GB Admin experiences.
-- Complete candidate flows for profile, documents, exams, direct apply, Badge Requests, and submitted applications.
-- Complete department flows for Applicant Pools, status/archive/export, messages, and notifications.
-- Complete GB Admin flows for approvals, users/roles, exams/scores, platform config, CMS, reports, and audit logs.
+Deliverables:
 
-### Frontend QA And Polish
+- Department routes:
+  - `/department/profile`
+  - `/department/profile/edit`
+  - `/department/jobs`
+  - `/department/jobs/new`
+  - `/department/jobs/[jobId]/edit`
+- Department modules:
+  - Pending approval
+  - Profile builder
+  - Job builder
+  - Reports
+  - Notifications
+- Responsive QA and mock-data consistency for all currently implemented Department screens
 
-- Complete responsive QA for desktop, tablet, and mobile layouts.
-- Complete frontend form validation review.
-- Complete privacy QA for Badge Pool and application visibility.
-- Align mock data across public, candidate, department, and admin areas.
-- Prepare frontend demo readiness.
+## Sprint 4: June 22 - June 26
 
-### Holiday Break
+Focus: Remaining Department frontend mocks
 
-**Dates:** May 26 - May 31, 2026
+Deliverables:
 
-- No planned delivery work.
-- Schedule pause documented before Sprint 2 begins.
+- Department modules:
+  - Badge Pool
+  - Applicant Pool
+  - Application detail
+  - Messages
+  - Message thread
+  - Team members
+  - Membership/billing
+- Responsive QA and mock-data consistency for these Department screens
 
-### Sprint 1 Key Deliverables
+## Sprint 5: June 29 - July 3
 
-- Frontend mock version ready for internal/demo review.
-- Responsive, validation, privacy, and mock-data consistency passes completed.
-- Holiday break accounted for before backend kickoff.
+Focus: Public pages, Admin foundation, and frontend finishing
 
-## Sprint 2: Backend Foundation
+Deliverables:
 
-**Duration:** June 1 - June 7, 2026  
-**Sprint Goal:** Establish backend architecture, database planning, and API contract direction.
+- Public routes:
+  - `/jobs`
+  - `/jobs/[jobId]`
+  - `/departments`
+  - `/departments/[departmentId]`
+  - `/resources`
+  - `/about`
+- Admin UI foundation: `/admin`
+- Final frontend mock gaps from latest Master document
+- Shared UI cleanup: cards, nav states, drawers, responsive tables, empty states, validation, status chips
+- Frontend demo-ready build with known gaps documented
 
-### Project And Architecture
+## Sprint 6: July 6 - July 10
 
-- Set up backend repository and project structure.
-- Confirm backend architecture and implementation approach.
-- Define standard API response and error handling patterns.
+Focus: Backend foundation and core architecture
 
-### Data Model Planning
+Deliverables:
 
-- Plan database schema and core entity relationships.
-- Create initial database models for users, departments, candidates, jobs, and applications.
-- Define authentication, session, and role model.
+- Backend repo structure and environment setup
+- Backend architecture and module boundaries
+- Database schema foundation
+- Auth/session/role model
+- Standard API response and error format
+- Core models: users, candidates, departments, jobs, applications
+- Initial API contract alignment against frontend mock data
 
-### API Contract Alignment
+## Sprint 7: July 13 - July 17
 
-- Review frontend mock data and map it to backend API contracts.
-- Prepare mock-to-API integration plan.
+Focus: Core backend APIs
 
-### Sprint 2 Key Deliverables
+Deliverables:
 
-- Backend project structure initialized.
-- Authentication, role, and database model direction confirmed.
-- Mock-to-API integration plan prepared.
+- Candidate signup/login APIs
+- Department registration APIs
+- Department approval status APIs
+- Candidate profile APIs
+- Department profile APIs
+- Public department and public job APIs
+- Job post APIs
 
-## Sprint 3: Core Backend APIs
+## Sprint 8: July 20 - July 24
 
-**Duration:** June 8 - June 14, 2026  
-**Sprint Goal:** Build the core backend APIs needed for auth, profiles, jobs, and public data.
+Focus: Primary workflow wiring
 
-### Authentication And Users
+Deliverables:
 
-- Implement Supabase Auth, session handling, and role-aware access patterns.
-- Build candidate, department, and admin user APIs.
+- Frontend API wiring for priority auth, dashboard, profile, department registration, public job, and public department flows
+- Direct application APIs
+- Badge Request APIs
+- Badge Pool safe-query APIs
+- Department applicant pool APIs
+- Archive/status/export API shells
 
-### Core Product APIs
+## Sprint 9: July 27 - July 31
 
-- Build department registration and approval APIs.
-- Build candidate profile APIs.
-- Build department profile APIs.
-- Build job post APIs.
-- Build public department and job listing/detail APIs.
+Focus: Admin APIs, workflow APIs, and backend hardening
 
-### Frontend Integration Start
+Deliverables:
 
-- Replace high-priority frontend mock data with backend API clients where stable.
-- Perform integration QA for authentication, profile, and job journeys.
+- GB Admin approval, revision, rejection, user, role, exam, score, CMS/config, and report APIs
+- Messaging and notification API foundations
+- Privacy and authorization checks
+- Backend regression QA for core role journeys
 
-### Sprint 3 Key Deliverables
+## Sprint 10: August 3 - August 7
 
-- Core backend APIs available for auth, profile, job, and public workflows.
-- Initial frontend API integration completed for priority flows.
+Focus: Payment, email, and phone integrations
 
-## Sprint 4: Application, Badge, Upload, And Audit APIs
+Deliverables:
 
-**Duration:** June 15 - June 21, 2026  
-**Sprint Goal:** Build application workflows, Badge Request/Badge Pool APIs, file contracts, and audit foundations.
+- Stripe membership, subscription, token, and badge credit contracts
+- Stripe checkout and webhook flows
+- Badge credit top-up handling, pending final pack-size confirmation
+- SendGrid transactional email templates and triggers
+- Twilio phone verification flow
+- Integration logging, retry, and failure handling
+- Environment/secrets setup for staging
 
-### Application And Badge Workflows
+## Sprint 11: August 10 - August 14
 
-- Build direct application APIs.
-- Build Badge Request APIs.
-- Build Badge Pool safe-query APIs with protected candidate data hidden before consent.
+Focus: Remaining integrations, final QA, and release handoff
 
-### Files And Audit
+Deliverables:
 
-- Define file, document, and media upload contracts.
-- Implement basic audit log model.
-
-### Integration QA
-
-- Replace high-priority frontend mock data with backend API clients.
-- Perform integration QA for core user journeys.
-
-### Sprint 4 Key Deliverables
-
-- Direct application, Badge Request, and Badge Pool backend contracts completed.
-- File/media upload and audit log foundations defined.
-- Integration QA completed for core user journeys.
-
-## Sprint 5: Backend Integrations And Admin Operations
-
-**Duration:** June 22 - June 28, 2026  
-**Sprint Goal:** Complete payment, communication, admin, exam, reporting, and platform management integrations.
-
-### Payments And Communications
-
-- Implement Stripe contracts for memberships, application tokens, and department Badge credits.
-- Add SendGrid email notification hooks.
-- Add Twilio phone verification hooks.
-- Build messaging APIs.
-- Build notification APIs.
-
-### Department And Admin Operations
-
-- Build Applicant Pool status, archive, and export APIs.
-- Build exam management APIs.
-- Build score import and publishing APIs.
-- Build admin users, roles, and impersonation APIs.
-
-### Platform Management
-
-- Build CMS, platform configuration, template, report, and audit log APIs.
-- Expand audit logging coverage across key actions.
-- Validate privacy rules and authorization boundaries.
-
-### Sprint 5 Key Deliverables
-
-- Backend feature set completed for MVP scope.
-- Payment, messaging, notification, admin, exam, CMS, and reporting contracts completed.
-- Privacy and authorization checks validated across backend workflows.
-
-## Sprint 6: Client Testing And Release Hardening
-
-**Duration:** June 29 - July 5, 2026  
-**Sprint Goal:** Complete frontend API wiring, support client testing, fix issues, and prepare the release candidate.
-
-### Final Frontend Integration
-
-- Complete remaining frontend API wiring.
-- Validate public, candidate, department, and GB Admin workflows against backend services.
-
-### QA And Client Testing
-
-- Perform end-to-end QA across public, candidate, department, and GB Admin workflows.
-- Support client testing and review sessions.
-- Address client testing feedback and reported issues.
-
-### Release Readiness
-
-- Prepare deployment checklist.
-- Complete regression testing for high-priority journeys.
-- Prepare release candidate handoff.
-
-### Sprint 6 Key Deliverables
-
-- Frontend fully wired to backend where applicable.
-- End-to-end QA completed.
-- Client testing feedback addressed.
-- Release candidate prepared for deployment/handoff.
+- Maps/geocoding provider integration for city/radius filtering, pending provider confirmation
+- File/document/media upload storage integration
+- Secure document/media access rules
+- Final PDF/download/export handling
+- End-to-end integration QA
+- Production environment checklist
+- Final client demo data
+- Release handoff package
