@@ -30,13 +30,14 @@ export const departmentNavItems: NavItem[] = [
   { label: "Dashboard", href: "/department", icon: LayoutDashboard },
   { label: "Department Profile", href: "/department/profile", icon: Building2 },
   { label: "Job Postings", href: "/department/jobs", icon: BriefcaseBusiness },
+  { label: "Applicant Pools", href: "/department/applicant-pools", icon: ClipboardList },
   { label: "Badge Pool", href: "/department/badge-pool", icon: BadgeCheck },
-  { label: "Applicant Pool", href: "/department/applicants", icon: ClipboardList },
   { label: "Messages", href: "/department/messages", icon: MessageSquare },
-  { label: "Reports & Analytics", href: "/department/reports", icon: FileText },
+  { label: "Reports & Exports", href: "/department/reports", icon: FileText },
   { label: "Notifications", href: "/department/notifications", icon: Bell },
-  { label: "Team Members", href: "/department/team-members", icon: Users },
-  { label: "Membership & Billing", href: "/department/membership-billing", icon: CreditCard }
+  { label: "Resources", href: "/department/resources", icon: FileText },
+  { label: "Settings / Users", href: "/department/settings", icon: Users },
+  { label: "Billing", href: "/department/billing", icon: CreditCard }
 ];
 
 export const adminNavItems: NavItem[] = [

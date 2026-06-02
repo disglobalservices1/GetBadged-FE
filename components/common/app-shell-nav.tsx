@@ -34,11 +34,11 @@ const navItemsByRole = {
 const departmentNavGroups = [
   {
     label: "Department",
-    items: ["Dashboard", "Job Postings", "Applicant Pool", "Badge Pool", "Messages", "Reports & Analytics"]
+    items: ["Dashboard", "Job Postings", "Applicant Pools", "Badge Pool", "Messages", "Reports & Exports"]
   },
   {
     label: "Manage",
-    items: ["Team Members", "Department Profile", "Membership & Billing"]
+    items: ["Department Profile", "Resources", "Settings / Users", "Billing"]
   }
 ];
 

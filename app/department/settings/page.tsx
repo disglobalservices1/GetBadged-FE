@@ -1,7 +1,7 @@
 import { Users } from "lucide-react";
 import { DepartmentFeaturePlaceholder } from "@/components/department/department-feature-placeholder";
 
-export default function DepartmentTeamMembersPage() {
+export default function DepartmentSettingsPage() {
   return (
     <DepartmentFeaturePlaceholder
       eyebrow="Manage"

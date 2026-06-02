@@ -147,8 +147,8 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
   return (
     <div className="grid gap-6">
       <PageHeader
-        eyebrow="Applicant pool"
-        title="Applicant Pool"
+        eyebrow="Applicant pools"
+        title="Applicant Pools"
         description="Review direct applications and accepted Badge Requests across Westview job posts."
       />
 
@@ -306,7 +306,7 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
                 <td className="whitespace-nowrap px-4 py-4 align-top text-slate-700">{row.submittedAtLabel}</td>
                 <td className="px-4 py-4 text-right align-top">
                   <div className="flex justify-end gap-2">
-                    <Button href={`/department/applicants/${row.id}`} variant="secondary" className="min-h-10 px-3">
+                    <Button href={`/department/applicant-pools/${row.id}`} variant="secondary" className="min-h-10 px-3">
                       Review
                     </Button>
                     <Button

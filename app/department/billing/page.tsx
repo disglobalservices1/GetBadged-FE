@@ -1,7 +1,7 @@
 import { CreditCard } from "lucide-react";
 import { DepartmentFeaturePlaceholder } from "@/components/department/department-feature-placeholder";
 
-export default function DepartmentMembershipBillingPage() {
+export default function DepartmentBillingPage() {
   return (
     <DepartmentFeaturePlaceholder
       eyebrow="Manage"

@@ -31,8 +31,8 @@ export function ApplicationReviewActions({ model }: { model: DepartmentApplicati
   return (
     <div className="gb-print-hide grid justify-items-start gap-2">
       <div className="flex flex-wrap gap-3">
-        <Button href="/department/applicants" variant="secondary" iconLeft={<ArrowLeft className="h-4 w-4" />}>
-          Back to pool
+        <Button href="/department/applicant-pools" variant="secondary" iconLeft={<ArrowLeft className="h-4 w-4" />}>
+          Back to Applicant Pools
         </Button>
         <Button type="button" variant="secondary" iconLeft={<Printer className="h-4 w-4" />} onClick={handlePrint}>
           Print

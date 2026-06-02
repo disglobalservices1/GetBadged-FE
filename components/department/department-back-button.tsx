@@ -32,10 +32,13 @@ function getBackTarget(pathname: string): BackTarget | null {
     "/department/profile",
     "/department/jobs",
     "/department/badge-pool",
-    "/department/applicants",
+    "/department/applicant-pools",
     "/department/messages",
     "/department/reports",
     "/department/notifications",
+    "/department/resources",
+    "/department/settings",
+    "/department/billing",
     "/department/pending"
   ]);
 
@@ -43,8 +46,8 @@ function getBackTarget(pathname: string): BackTarget | null {
     return null;
   }
 
-  if (/^\/department\/applicants\/[^/]+$/.test(pathname)) {
-    return { href: "/department/applicants", label: "Back to Applicant Pool" };
+  if (/^\/department\/applicant-pools\/[^/]+$/.test(pathname) || /^\/department\/applicants\/[^/]+$/.test(pathname)) {
+    return { href: "/department/applicant-pools", label: "Back to Applicant Pools" };
   }
 
   if (/^\/department\/messages\/[^/]+$/.test(pathname)) {

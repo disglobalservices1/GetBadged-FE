@@ -263,7 +263,7 @@ export function DepartmentSignupWorkflow() {
 
           <div className="grid gap-3 rounded-md border border-[color:var(--border-muted)] p-4">
             <h2 className="text-sm font-bold uppercase text-[color:var(--navy)]">What unlocks after approval</h2>
-            {["Department Profile", "Job Posts", "Badge Pool", "Applicant Pool"].map((item) => (
+            {["Department Profile", "Job Posts", "Badge Pool", "Applicant Pools"].map((item) => (
               <div key={item} className="flex items-center gap-2 text-sm font-semibold text-slate-700">
                 <ShieldCheck className="h-4 w-4 text-[color:var(--success)]" />
                 {item}

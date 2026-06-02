@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn";
 const topNavItems = [
   { label: "Dashboard", href: "/department" },
   { label: "Jobs", href: "/department/jobs" },
-  { label: "Applicants", href: "/department/applicants" },
+  { label: "Applicant Pools", href: "/department/applicant-pools" },
   { label: "Badge Pool", href: "/department/badge-pool" },
   { label: "Reports", href: "/department/reports" }
 ];

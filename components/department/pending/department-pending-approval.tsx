@@ -133,7 +133,7 @@ export function DepartmentPendingApproval() {
               After approval
             </div>
             <p className="text-sm leading-6 text-[color:var(--muted)]">
-              The account status changes to active and this workspace opens Department Profile, Job Posts, Badge Pool, Applicant Pool, messages, and reports.
+              The account status changes to active and this workspace opens Department Profile, Job Posts, Badge Pool, Applicant Pools, messages, and reports.
             </p>
           </div>
 
