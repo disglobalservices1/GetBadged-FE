@@ -81,9 +81,12 @@ As a candidate, I want a dashboard summary so I can see my membership, token bal
 Acceptance criteria:
 
 - Dashboard adapts to ELR, CXO, OPS, and free/inactive states.
+- OPS member dashboard uses CXO dashboard layout/options unless later client-specific OPS differences are provided.
 - Token balance is visible.
 - Point-of-apply token balance is also visible.
 - Dashboard shows profile completion, membership status, open applications, Badge Requests, recent activity, and next actions.
+- Dashboard exposes upgrade entry points when applicable: ELR to CXO and OPS to ELR.
+- Dashboard Resource Center content can vary by visitor/member type and show new/unread state.
 - Ineligible users see clear blockers without exposing backend-only logic.
 
 ### C-02 Profile Wizard With Autosave
@@ -157,6 +160,7 @@ Acceptance criteria:
 - Ineligible jobs show reason or requirements without allowing Apply.
 - Eligible jobs show Apply CTA.
 - Candidate can filter by job type, department, location, and qualification fields using dropdown UI.
+- Job requirement display supports GB Admin-configured exam requirement, minimum score, age, residency, tattoo, education, fitness, certification, academy, and department-specific fields.
 
 ### C-08 Direct Apply
 
@@ -168,7 +172,7 @@ Acceptance criteria:
 - Candidate must check consent before applying.
 - Token balance shown before submit.
 - Submit consumes one mock token.
-- Optional cover letter can be attached or typed according to UI decision.
+- Optional typed cover letter enforces a 300-word maximum; file-upload support remains pending final confirmation.
 - Candidate cannot apply again to the same job type at the same department.
 - Successful application appears in Submitted Applications.
 
@@ -226,6 +230,8 @@ Acceptance criteria:
 
 - Dashboard shows plan/tier status, active jobs, applicant counts, badge credits, profile/job approvals, recent activity, and notifications.
 - Expired department state hides or disables restricted actions per Master Checklist.
+- Dashboard shows low badge-credit warning at 2 credits and hard stop at zero credits.
+- Dashboard does not use the old bottom-right Quick Actions box; actions live in the left menu/top navigation.
 - Role-specific permissions are visible in UI affordances.
 
 ### D-03 Department Profile Builder
@@ -240,6 +246,8 @@ Acceptance criteria:
 - Approved profiles become public.
 - Revisions Needed state shows admin notes.
 - GB Admin controls schema/fields later; frontend mock schema should be data-driven.
+- Dynamic profile schema supports sections, fields, field type, display label, required status, permissions, order, visibility rules, and change/version logs.
+- Department Admin/User can access profile templates.
 
 ### D-04 Job Post Builder
 
@@ -253,6 +261,9 @@ Acceptance criteria:
 - Public visibility requires GB Admin approval.
 - Job post uses structured fields for category, requirements, pay, benefits, responsibilities, and hiring process.
 - Eligibility requirements are represented in data for candidate apply checks.
+- GB Admin can configure job post fields/sections, exam requirement Y/N, and minimum score requirement.
+- Minimum score defaults to 70%, cannot be lower than 70%, and can be higher.
+- Department Admin/User can access job templates.
 
 ### D-05 Badge Pool Browse
 
@@ -265,6 +276,8 @@ Acceptance criteria:
 - Filters are dropdown/sub-dropdown only.
 - Radius/distance filter can be mocked if geocoding is not built yet.
 - Badge count and remaining credits are visible.
+- Low-credit warning appears at 2 credits.
+- Sending is blocked at zero credits until top-up.
 - Candidate rows expose only allowed summary fields.
 
 ### D-06 Send Badge Request
@@ -288,6 +301,7 @@ Acceptance criteria:
 - Per-job Applicant Pool includes direct applications and accepted Badges.
 - Combined pool can filter by job type.
 - Table columns follow Master Checklist.
+- Phone and email appear as columns only when contact information is allowed.
 - Columns are sortable.
 - New flag appears until viewed.
 - Demographic aggregate stats appear at pool level where required.
@@ -303,9 +317,14 @@ Acceptance criteria:
 - Sections match candidate profile structure.
 - Documents appear as clickable links.
 - Essays appear only in full view, print/download, and exports.
+- Social media handles, additional skills, documents, and essays are full-view-only and never Applicant Pool column-summary fields.
 - Department notes are editable and hidden from candidate.
 - Department-private file uploads are visible only to that department.
 - Candidate profile edits after submission appear in change log.
+- Change log includes date/time, field, previous value, new value, and actor/role where applicable.
+- Change log is never visible to candidate and is scoped to the department's own application record.
+- Contact fields hide after 90 days from candidate inactive/lapse/cancel/expiration or when department expires, whichever comes first.
+- Full application view shows hover/countdown messaging before contact access expires.
 
 ### D-09 Application Status Updates
 
@@ -329,6 +348,7 @@ Acceptance criteria:
 - Archived filter supports Archived, Unarchived, All.
 - Archived candidates are excluded from active application counts where required.
 - Archived candidates do not appear in new message recipient selection.
+- Inactive candidates after the 90-day grace period or department expiration do not appear in new message recipient selection.
 - Exports can include archived candidates.
 
 ### D-11 Department Messaging
@@ -338,7 +358,7 @@ As a Department Admin, I want to message one or more applicants so I can communi
 Acceptance criteria:
 
 - Department Admin can compose and send.
-- Department User can view history and templates per Master Checklist permissions.
+- Department User can view history and templates per Master Checklist permissions, but cannot send/create/save templates unless confirmed otherwise.
 - Recipient selection supports one, multiple, all, job type, and application status filters.
 - Recipients are BCC-style and cannot see each other.
 - Message history is tied to the department.
@@ -356,6 +376,8 @@ Acceptance criteria:
 - Select fields before export.
 - Include archive status, notes, qualifications, essays, and allowed application package fields.
 - Expired department exports hide contact info.
+- Export supports field selection and filtered-result-only exports.
+- GB Admin-only exports include contact-info expiration data and exam attendance rosters.
 
 ## GB Admin Stories
 
@@ -433,6 +455,9 @@ Acceptance criteria:
 
 - UI plan supports dynamic section/field schema.
 - Admin can add, edit, reorder, hide, and mark fields required in mock interface.
+- Admin can configure field type, label, permissions, display order, and visibility rules.
+- Admin can configure Department Profile and Job Post schemas.
+- Admin can configure job exam requirement Y/N and minimum score requirements.
 - Changes create audit log entries.
 - Frontend builders consume mock schema arrays rather than hardcoded-only fields where practical.
 
@@ -466,6 +491,8 @@ Acceptance criteria:
 
 - Admin can manage homepage stats, news/announcements, resources, captions, and public text blocks in mock UI.
 - Public pages consume mock CMS content.
+- Admin can assign resource content to audience/member types: homepage visitor, ELR, CXO, and OPS.
+- Admin can publish/unpublish resources and mark items as new/unread.
 
 ## Cross-Cutting Stories
 

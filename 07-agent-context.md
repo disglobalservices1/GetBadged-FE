@@ -20,10 +20,11 @@ Use this file as the working memory for Codex and future agents.
 
 Primary:
 
-- `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`
+- `MASTER GetBadged Dev Checklist | 1st june.pdf`
 
 Secondary:
 
+- `MASTER GetBadged Dev Checklist | Last Update_ 051426.pdf`
 - `GetBadged_MRD_LATEST.pdf`
 
 Archived/old:
@@ -33,7 +34,7 @@ Archived/old:
 Conflict rule:
 
 - Current Master Checklist wins over the MRD and older checklist files.
-- If a task group was completed before the May 14 checklist review, check `04-task-groups.md` for impact/patch notes.
+- If a task group was completed before the May 14 or June 1 checklist review, check `04-task-groups.md` for impact/patch notes.
 
 ## Confirmed Project Decisions
 
@@ -69,13 +70,25 @@ Conflict rule:
 
 ## Latest Checklist Delta Notes
 
-The May 14 checklist adds/clarifies these items:
+The June 1 checklist adds/clarifies these items:
 
 - Candidate `U.S. Citizen` field is now `Citizenship / Work Authorization Status`.
 - Candidate and department Resource Centers are explicit product areas.
 - Candidate full application view, print, download, export, and dashboard visibility rules are more specific.
 - Department job post builder has expanded fields for requirements, eligibility, experience, skills, certifications, schedules, salary, benefits, responsibilities, and hiring process.
 - Notification Center requirements are clearer for candidate and department events.
+- `GetBadged` must be treated as one word, with capital `G` and capital `B`.
+- OPS member dashboard follows the CXO dashboard layout/options unless later differences are specified.
+- ELR dashboard needs an ELR to CXO upgrade option; OPS dashboard needs an OPS to ELR upgrade option.
+- Inactive/cancelled/expired candidate contact info is hidden from department views, print, download, export, and messaging after 90 days or when the department expires, whichever comes first.
+- Department application access needs countdown/hover messaging before contact information expires.
+- Applicant Pool columns now include phone and email, subject to contact-info hiding rules.
+- Dept User can view message templates, but sending/creating/saving templates remains restricted to Dept Admin unless confirmed otherwise.
+- Department dashboard sample removes the bottom-right Quick Actions box; actions belong in the left menu.
+- Candidate Resource Center sample was added; content assignment can vary by visitor/member type.
+- Department low badge-credit warning is at 2 credits; zero credits creates a hard stop until top-up.
+- Cover letter maximum is 300 words.
+- Session timeout: latest open-item response says 15 minutes idle warning/logout, while earlier checklist text also mentions 10 minutes in one area. Treat this as a confirmation item before implementation.
 - Completed Dev A/B task groups 1-8 remain completed, but affected groups need patch notes tracked in `04-task-groups.md`.
 
 ## Important Product Rules

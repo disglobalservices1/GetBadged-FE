@@ -53,9 +53,14 @@ Candidate tracks:
 - CXO: Certified / Experienced Officer
 - OPS: Other Public Safety
 
+Current source of truth:
+
+- `MASTER GetBadged Dev Checklist | 1st june.pdf`
+
 ## Core Dashboards
 
 - Candidate dashboard, with track-specific eligibility and actions
+- OPS dashboard follows the CXO dashboard layout/options unless later client differences are provided
 - Department dashboard, shared by Department Admin and Department User with messaging permission differences
 - GB Admin dashboard
 
@@ -68,3 +73,5 @@ Candidate tracks:
 - Stripe is the financial source of truth.
 - Supabase Auth is the identity source of truth.
 - Supabase RLS and backend authorization must protect all cross-role and cross-department data boundaries.
+- Candidate contact information expires from department access after the latest checklist grace rules.
+- Dynamic profile/job templates should be planned as GB Admin-managed configuration, even when the frontend starts with mock schemas.

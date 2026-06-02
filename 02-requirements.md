@@ -13,6 +13,8 @@
 - Use SendGrid for transactional email.
 - Use Twilio for SMS phone verification.
 - Use Massachusetts-only behavior in MVP, while designing filters so state expansion can be added later.
+- Treat `MASTER GetBadged Dev Checklist | 1st june.pdf` as the current source of truth.
+- Brand text must use `GetBadged` as one word with capital `G` and capital `B`.
 
 ## Public Website
 
@@ -32,6 +34,8 @@
 - Applying, Badge Pool eligibility, Badge acceptance, and track activation remain blocked until relevant membership, exam, profile, document, and verification requirements are satisfied.
 - Candidate phone verification occurs during profile completion, not at initial account creation.
 - Session timeout behavior: use Master Checklist if implemented in detail. If unresolved in UI phase, implement idle warning modal and logout behavior as a frontend state.
+- June 1 conflict note: one checklist area mentions 10-minute inactivity handling, while the open-item response says 15-minute idle warning/logout. Confirm final duration before backend implementation.
+- Password rule baseline: minimum 8 characters, 1 uppercase letter, 1 number, and 1 special character.
 
 ## Candidate Tracks
 
@@ -57,6 +61,7 @@
 - Must complete profile and resume.
 - Can apply to OPS/Dispatcher permitted roles.
 - Can upgrade to ELR or CXO according to Master Checklist.
+- OPS member dashboard should follow the CXO dashboard layout/options unless a later client design specifies differences.
 
 ## Candidate Profile
 
@@ -67,6 +72,8 @@
 - Essay questions support choosing unique prompts, with word limits per Master Checklist.
 - Profile changes after application submission must be logged for department view.
 - Candidate can edit profile, but department-facing records must show change logs where required.
+- ELR dashboard should expose an ELR to CXO upgrade path when eligible.
+- OPS dashboard should expose an OPS to ELR upgrade path when eligible.
 
 ## Candidate Documents
 
@@ -94,6 +101,10 @@
 - Token purchases and grants follow Master Checklist.
 - Department badge credits follow Master Checklist.
 - Department credit pack size is `Needs Client Confirmation`.
+- Candidate 4-pack top-up is `$80 / 4` tokens per June 1 checklist.
+- Department low badge-credit warning appears at 2 credits.
+- Department has a hard stop at zero badge credits until additional badge pack purchase.
+- Department badge-credit pack remains conflicting/unresolved because the latest checklist references `$200 / 20` and final review references both `$100 / 10` and `$200 / 20`.
 
 ## Department Registration
 
@@ -108,6 +119,9 @@
 - GB Admin can approve, reject, return for edits, publish, archive, or deactivate.
 - Department media includes images and short videos where supported.
 - Field/template management should be planned as dynamic, even if frontend starts with mock schemas.
+- GB Admin can create/hide profile sections, add/edit/reorder fields, set field type, display label, required status, permissions, and display order.
+- Department Admin/User can access profile templates and job templates.
+- Profile field edits require version/change log tracking.
 
 ## Job Posts
 
@@ -116,11 +130,14 @@
 - Job post status includes draft, pending approval, approved, active, revisions needed, closed, inactive.
 - Job fields and templates should be planned as dynamic.
 - Job eligibility rules must drive apply eligibility checks.
+- GB Admin can add/remove/rename job post fields and sections without developer support.
+- GB Admin can set exam requirement Y/N per job.
+- GB Admin can set minimum passing exam score per job; default is 70%, cannot be lower than 70%, can be higher.
 
 ## Badge Pool
 
 - Anonymous candidate pool for departments.
-- Candidate name, phone, street address, ethnicity, age/DOB, gender, last 4 SSN, and other protected data are not visible before consent.
+- Candidate name, phone, street address, ethnicity, age/DOB, gender, last 4 SSN, citizenship/work authorization, application history, and other protected data are not visible before consent.
 - Departments can filter using dropdowns/sub-dropdowns only.
 - Department can send Badge Requests tied to a job type.
 - Candidate can accept or ignore; no Decline button.
@@ -143,6 +160,10 @@
 - New applications are flagged until viewed.
 - Full application view includes candidate profile, documents, cover letter, essay responses, notes, private department files, status, source, and change log.
 - Department notes and private files are never visible to candidate or other departments.
+- Applicant Pool column view includes phone and email when allowed by membership/department state.
+- Essay responses, supporting document links, social media handles, and additional skills are full-application-only and not shown in Applicant Pool column summary or Badge Pool.
+- Candidate contact info is hidden from department application view, print, download, export, and messaging after 90 days from inactive/lapse/cancellation/expiration or when the department expires, whichever comes first.
+- Department application view should show countdown/hover messaging before contact access expires.
 
 ## Status Pipeline & Archive
 
@@ -162,6 +183,9 @@
 - Message history belongs to the department, not a single department user.
 - Recipients should not see other recipients.
 - Read/open status and message history are tracked where required.
+- Archived candidates do not appear in new-message recipient selection.
+- Inactive candidates do not appear in new-message recipient selection after the 90-day grace period or department expiration.
+- Department User can view template library; sending and creating/saving templates remain Department Admin-only unless confirmed otherwise.
 
 ## Notifications
 
@@ -182,6 +206,8 @@
 - Archived candidate export.
 - GB Admin exports for users, mailing list, purchases, exam rosters, scores, and admin metric drilldowns.
 - Application print/download can start as browser print/download in frontend phase and be backed by API/PDF generation later if needed.
+- Expired departments may export data, but contact information must be hidden in the export.
+- GB Admin-only exports include contact-info expiration data and exam attendance rosters.
 
 ## GB Admin
 
@@ -193,6 +219,8 @@
 - Exam management.
 - Score import and publishing.
 - Dynamic field/template management.
+- Department profile dynamic sections/fields.
+- Job post dynamic sections/fields and exam-score requirement configuration.
 - Status pipeline management.
 - CMS/content management.
 - Reports, exports, and audit logs.
@@ -204,3 +232,4 @@
 - Log profile edits, application changes, status changes, payment events, admin actions, department actions, messaging events, file uploads, and impersonation.
 - Last 4 SSN and sensitive fields require elevated handling in backend planning.
 - Department data boundaries must be explicit in route structure and mock data.
+- Department application change log is never visible to the candidate and is scoped to the department's own application record.
