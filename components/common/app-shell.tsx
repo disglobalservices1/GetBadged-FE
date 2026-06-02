@@ -106,23 +106,23 @@ export function AppShell({ roleLabel, navRole, candidateProfileId, children }: A
           </div>
           <a href="/" className="flex min-w-0 items-center gap-2.5 overflow-hidden" aria-label="GetBadged home">
             <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-md border-2 border-[color:var(--gold)] text-[11px] font-bold text-[color:var(--gold)]">GB</span>
-            <span className="min-w-0 truncate text-[16px] font-bold leading-none tracking-normal">GetBadged</span>
+            <span className="min-w-0 truncate text-[18px] font-bold leading-none tracking-normal">GetBadged</span>
           </a>
         </div>
 
         {!isCertifiedCandidateShell ? (
           <div className="hidden min-w-[218px] items-center gap-2.5 px-4 xl:flex">
             <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full border-2 border-[color:var(--gold)] text-[10px] font-bold text-[color:var(--gold)]">{identity.avatar}</span>
-            <span className="min-w-0 truncate text-[11px] font-semibold">{identity.orgLabel}</span>
-            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-white/75" />
+            <span className="min-w-0 truncate text-[13px] font-semibold">{identity.orgLabel}</span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-white/75" />
           </div>
         ) : null}
 
         {navRole === "department" ? <DepartmentTopNav /> : <CandidateTopNav isCertifiedCandidate={isCertifiedCandidateShell} />}
 
         <div className="flex min-w-0 items-center justify-end gap-2.5 px-4 lg:px-5 xl:px-6">
-          <a href={`/${navRole}/messages`} className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] font-semibold text-white/95 transition hover:text-white xl:flex" aria-label="Messages">
-            <Mail className="h-3.5 w-3.5" />
+          <a href={`/${navRole}/messages`} className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[13px] font-semibold text-white/95 transition hover:text-white xl:flex" aria-label="Messages">
+            <Mail className="h-4 w-4" />
             <span>Messages</span>
           </a>
           <a
@@ -130,16 +130,16 @@ export function AppShell({ roleLabel, navRole, candidateProfileId, children }: A
             className="relative hidden text-white/95 transition hover:text-white lg:block"
             aria-label="Notifications"
           >
-            <Bell className="h-4 w-4" />
+            <Bell className="h-[18px] w-[18px]" />
             <span className="absolute -right-1.5 -top-1.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-red-600 px-1 text-[9px] font-extrabold leading-none text-white">{navRole === "department" ? "5" : "2"}</span>
           </a>
           <div className="hidden items-center gap-2.5 lg:flex">
             <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full border border-white/35 text-[10px] font-bold">{identity.avatar}</span>
             <span className="leading-tight">
-              <span className="block whitespace-nowrap text-[11px] font-semibold">{identity.userLabel}</span>
-              <span className="block text-[10px] font-medium text-white/75">{identity.roleLabel}</span>
+              <span className="block whitespace-nowrap text-[13px] font-semibold">{identity.userLabel}</span>
+              <span className="block text-[12px] font-medium text-white/75">{identity.roleLabel}</span>
             </span>
-            <ChevronDown className="h-3.5 w-3.5 text-white/75" />
+            <ChevronDown className="h-4 w-4 text-white/75" />
           </div>
         </div>
       </header>
