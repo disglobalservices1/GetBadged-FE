@@ -1,4 +1,5 @@
-import { PublicFooterColumns } from "@/components/public/home-page";
+import { PublicFooterColumns } from "@/components/public/public-navigation";
+import { publicSocialLinks } from "@/features/public/marketing-content";
 
 export function PublicFooter() {
   return (
@@ -21,10 +22,10 @@ export function PublicFooter() {
         <div className="grid content-start gap-4">
           <h4 className="text-[11px] font-black uppercase tracking-[0.08em] text-white">Follow Us</h4>
           <div className="flex items-center gap-3">
-            <a href="/" className="grid h-9 w-9 place-items-center rounded border border-white/20 text-white/80 transition hover:text-white">
+            <a href={publicSocialLinks[0].href} aria-label={publicSocialLinks[0].label} className="grid h-9 w-9 place-items-center rounded border border-white/20 text-white/80 transition hover:text-white">
               <LinkedInMark />
             </a>
-            <a href="/" className="grid h-9 w-9 place-items-center rounded border border-white/20 text-white/80 transition hover:text-white">
+            <a href={publicSocialLinks[1].href} aria-label={publicSocialLinks[1].label} className="grid h-9 w-9 place-items-center rounded border border-white/20 text-white/80 transition hover:text-white">
               <InstagramMark />
             </a>
           </div>
@@ -33,7 +34,7 @@ export function PublicFooter() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-[1180px] flex-col gap-2 px-4 py-4 text-[11px] text-white/55 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <span>© 2025 GetBadged. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} GetBadged. All rights reserved.</span>
           <span>Connecting those who get it, with those who got it.</span>
         </div>
       </div>

@@ -15,8 +15,9 @@ export type JobBrowseFilters = {
 };
 
 export function getPublicDepartments(filters: DepartmentBrowseFilters = {}): PublicDepartmentSummary[] {
-  return mockDepartments
-    .filter((department) => department.approvalStatus === "active")
+  const publicDepartments = mockDepartments.filter((department) => department.approvalStatus === "active");
+
+  return publicDepartments
     .filter((department) => (filters.city ? department.city === filters.city : true))
     .filter((department) => (filters.departmentType ? department.departmentType === filters.departmentType : true))
     .map((department) => ({
@@ -36,12 +37,13 @@ export function getPublicDepartments(filters: DepartmentBrowseFilters = {}): Pub
 }
 
 export function getPublicDepartmentBySlug(slugOrId: string): PublicDepartmentProfile | undefined {
-  return mockDepartments.find((department) => department.slug === slugOrId || department.id === slugOrId);
+  return mockDepartments.find((department) => department.approvalStatus === "active" && (department.slug === slugOrId || department.id === slugOrId));
 }
 
 export function getPublicJobs(filters: JobBrowseFilters = {}): PublicJobSummary[] {
-  return mockJobPosts
-    .filter((job) => job.status === "active")
+  const publicJobs = mockJobPosts.filter((job) => job.status === "active");
+
+  return publicJobs
     .filter((job) => (filters.city ? job.city === filters.city : true))
     .filter((job) => (filters.jobType ? job.jobType === filters.jobType : true))
     .filter((job) => (filters.departmentId ? job.departmentId === filters.departmentId : true))
@@ -64,7 +66,7 @@ export function getPublicJobs(filters: JobBrowseFilters = {}): PublicJobSummary[
 }
 
 export function getPublicJobById(jobId: string): PublicJobDetail | undefined {
-  return mockJobPosts.find((job) => job.id === jobId);
+  return mockJobPosts.find((job) => job.status === "active" && job.id === jobId);
 }
 
 export function getJobsForDepartment(departmentId: string): PublicJobSummary[] {
@@ -72,17 +74,22 @@ export function getJobsForDepartment(departmentId: string): PublicJobSummary[] {
 }
 
 export function getDepartmentFilterOptions() {
+  const publicDepartments = mockDepartments.filter((department) => department.approvalStatus === "active");
+
   return {
-    cities: uniqueValues(mockDepartments.map((department) => department.city)),
-    departmentTypes: uniqueValues(mockDepartments.map((department) => department.departmentType))
+    cities: uniqueValues(publicDepartments.map((department) => department.city)),
+    departmentTypes: uniqueValues(publicDepartments.map((department) => department.departmentType))
   };
 }
 
 export function getJobFilterOptions() {
+  const publicJobs = mockJobPosts.filter((job) => job.status === "active");
+  const publicDepartments = mockDepartments.filter((department) => department.approvalStatus === "active");
+
   return {
-    cities: uniqueValues(mockJobPosts.map((job) => job.city)),
-    jobTypes: uniqueValues(mockJobPosts.map((job) => job.jobType)),
-    departments: mockDepartments.map((department) => ({
+    cities: uniqueValues(publicJobs.map((job) => job.city)),
+    jobTypes: uniqueValues(publicJobs.map((job) => job.jobType)),
+    departments: publicDepartments.map((department) => ({
       label: department.departmentName,
       value: department.id
     }))
