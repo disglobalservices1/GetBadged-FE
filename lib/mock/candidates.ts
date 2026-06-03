@@ -6,7 +6,7 @@ export const mockCandidateProfiles: CandidateProfile[] = [
     userId: "user_candidate_1",
     track: "ELR",
     accountStatus: "free",
-    membershipStatus: "none",
+    membershipStatus: "expired",
     profileCompletionPercent: 22,
     currentStepKey: "personal_information",
     firstName: "Jordan",

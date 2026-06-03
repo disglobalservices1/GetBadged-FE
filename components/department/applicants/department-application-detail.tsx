@@ -37,7 +37,10 @@ export function DepartmentApplicationDetail({ model }: { model: DepartmentApplic
 
   const { application } = model;
   const candidate = application.candidate;
-  const displayStatus = application.isNewForDepartment ? "New application" : application.statusLabel;
+  const shouldShowNewApplicationLabel = application.isNewForDepartment && application.status !== "inactive_membership";
+  const displayStatus = shouldShowNewApplicationLabel ? "New application" : application.statusLabel;
+  const contactAccess = model.contactAccess;
+  const membershipTone = candidate.membershipStatus === "active" ? "success" : "warning";
 
   return (
     <div className="gb-print-package mx-auto max-w-7xl">
@@ -52,6 +55,11 @@ export function DepartmentApplicationDetail({ model }: { model: DepartmentApplic
               <p className="mt-1 text-sm font-bold text-[color:var(--gold)]">
                 {trackLabel(candidate.track)} | {application.jobType === "entry_level" ? "New Recruit" : application.sourceLabel}
               </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <StatusChip label={application.sourceLabel} tone={application.source === "accepted_badge" ? "success" : "navy"} />
+                <StatusChip label={`Received ${formatCompactDate(application.submittedAt)}`} tone="muted" />
+                <StatusChip label={`Membership ${formatValue(candidate.membershipStatus)}`} tone={membershipTone} />
+              </div>
             </div>
           </div>
 
@@ -70,7 +78,7 @@ export function DepartmentApplicationDetail({ model }: { model: DepartmentApplic
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
           <main className="min-w-0">
-            <ContactInformation candidate={candidate} />
+            <ContactInformation candidate={candidate} contactAccess={contactAccess} />
             <ReviewSectionRows model={model} />
           </main>
 
@@ -90,14 +98,20 @@ export function DepartmentApplicationDetail({ model }: { model: DepartmentApplic
   );
 }
 
-function ContactInformation({ candidate }: { candidate: CandidateProfile }) {
+function ContactInformation({
+  candidate,
+  contactAccess
+}: {
+  candidate: CandidateProfile;
+  contactAccess: DepartmentApplicationDetailViewModel["contactAccess"];
+}) {
   const fields = [
     {
       label: "Address",
-      value: `${candidate.streetAddress}\n${candidate.city}, ${candidate.state} ${candidate.zipCode}`
+      value: contactAccess.isContactHidden ? "Hidden by contact visibility rules" : `${candidate.streetAddress}\n${candidate.city}, ${candidate.state} ${candidate.zipCode}`
     },
     { label: "Gender", value: formatValue(candidate.gender) },
-    { label: "Phone", value: candidate.phone },
+    { label: "Phone", value: contactAccess.isContactHidden ? "Hidden by contact visibility rules" : candidate.phone },
     { label: "Ethnicity", value: candidate.ethnicity ?? "Not provided" },
     { label: "Date of Birth", value: formatProfileDate(candidate.dateOfBirth) },
     { label: "Multilingual", value: candidate.isMultilingual ? `Yes - ${candidate.languages.join(", ")}` : "No" },
@@ -105,12 +119,36 @@ function ContactInformation({ candidate }: { candidate: CandidateProfile }) {
     { label: "Willing to Relocate", value: yesNo(candidate.isWillingToRelocate) },
     { label: "U.S. Citizen", value: yesNo(candidate.isUsCitizen) },
     { label: "Education", value: candidate.highestEducation ?? "Not provided" },
-    { label: "Valid Driver's License", value: yesNo(candidate.hasValidDriversLicense) }
+    { label: "Valid Driver's License", value: yesNo(candidate.hasValidDriversLicense) },
+    { label: "Email", value: contactAccess.isContactHidden ? "Hidden by contact visibility rules" : candidate.email }
   ];
 
   return (
     <section>
-      <SectionHeading icon={<UserRound className="h-5 w-5" />} title="Contact information" />
+      <SectionHeading
+        icon={<UserRound className="h-5 w-5" />}
+        title="Contact information"
+        trailing={
+          contactAccess.showExpiryCountdown ? (
+            <div className="group relative">
+              <span className="inline-flex cursor-help items-center rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-800">
+                Contact access expires in {contactAccess.remainingDays} day{contactAccess.remainingDays === 1 ? "" : "s"}
+              </span>
+              <div className="pointer-events-none absolute right-0 top-full z-10 mt-2 hidden w-72 rounded-md border border-amber-200 bg-white p-3 text-left text-[11px] font-semibold leading-5 text-slate-700 shadow-lg group-hover:block">
+                {contactAccess.hoverLabel}
+              </div>
+            </div>
+          ) : null
+        }
+      />
+      {contactAccess.helperLabel ? (
+        <div className={cn(
+          "mt-4 rounded-md border px-3 py-2 text-[12px] font-semibold",
+          contactAccess.isContactHidden ? "border-rose-200 bg-rose-50 text-rose-700" : "border-amber-200 bg-amber-50 text-amber-900"
+        )}>
+          {contactAccess.helperLabel}
+        </div>
+      ) : null}
       <div className="grid gap-x-8 gap-y-5 py-5 sm:grid-cols-2">
         {fields.map((field) => (
           <div key={field.label} className="grid min-w-0 grid-cols-[120px_minmax(0,1fr)] gap-3 text-sm">
@@ -246,13 +284,14 @@ function QuickActions() {
   );
 }
 
-function SectionHeading({ title, icon }: { title: string; icon: React.ReactNode }) {
+function SectionHeading({ title, icon, trailing }: { title: string; icon: React.ReactNode; trailing?: React.ReactNode }) {
   return (
-    <div className="border-y border-[color:var(--blue-deep)] py-3">
+    <div className="flex flex-wrap items-center justify-between gap-3 border-y border-[color:var(--blue-deep)] py-3">
       <h2 className="flex items-center gap-3 text-sm font-extrabold uppercase text-[color:var(--blue-deep)]">
         {icon}
         {title}
       </h2>
+      {trailing}
     </div>
   );
 }

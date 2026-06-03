@@ -6,6 +6,8 @@ import {
 } from "@/lib/mock/applications";
 import { mockCandidateProfiles } from "@/lib/mock/candidates";
 import { mockJobPosts } from "@/lib/mock/jobs";
+import { mockDepartments } from "@/lib/mock/departments";
+import { getDepartmentContactAccessState, type DepartmentContactAccessState } from "@/features/department/applicants/contact-visibility";
 import type { Application, ApplicationChangeLogEntry, DepartmentApplicationNote, DepartmentApplicationPrivateFile } from "@/types/application";
 import type { CandidateProfile } from "@/types/candidate";
 import type { JobPost } from "@/types/job";
@@ -21,6 +23,8 @@ export type DepartmentApplicantPoolRow = Application & {
   jobLabel: string;
   locationLabel: string;
   profileSummary: string;
+  detailHref: string;
+  contactAccess: DepartmentContactAccessState;
 };
 
 export type DepartmentApplicantDocument = {
@@ -44,14 +48,18 @@ export type DepartmentApplicantPoolViewModel = {
 };
 
 export type DepartmentApplicationDetailViewModel = {
+  poolId: string;
   application: DepartmentApplicantPoolRow;
   documents: DepartmentApplicantDocument[];
   notes: DepartmentApplicationNote[];
   privateFiles: DepartmentApplicationPrivateFile[];
   changeLog: ApplicationChangeLogEntry[];
+  contactAccess: DepartmentContactAccessState;
+  departmentAccountStatus: string;
 };
 
 const CURRENT_DEPARTMENT_ID = "department_1";
+const CURRENT_DEPARTMENT = mockDepartments.find((item) => item.id === CURRENT_DEPARTMENT_ID) ?? mockDepartments[0];
 
 export function getMockDepartmentApplicantPool(): DepartmentApplicantPoolViewModel {
   const rows = getRows();
@@ -79,12 +87,19 @@ export function getMockDepartmentApplicationDetail(applicationId: string): Depar
   if (!application) return null;
 
   return {
+    poolId: application.jobPostId,
     application,
     documents: getApplicationDocuments(application),
     notes: mockDepartmentApplicationNotes.filter((note) => note.applicationId === application.id),
     privateFiles: mockDepartmentApplicationPrivateFiles.filter((file) => file.applicationId === application.id),
-    changeLog: mockApplicationChangeLogs.filter((entry) => entry.applicationId === application.id)
+    changeLog: mockApplicationChangeLogs.filter((entry) => entry.applicationId === application.id),
+    contactAccess: application.contactAccess,
+    departmentAccountStatus: CURRENT_DEPARTMENT.accountStatus
   };
+}
+
+export function getDepartmentApplicationHref(poolId: string, applicationId: string) {
+  return `/department/applicant-pools/${poolId}/applications/${applicationId}`;
 }
 
 function getRows(): DepartmentApplicantPoolRow[] {
@@ -103,6 +118,8 @@ function getRows(): DepartmentApplicantPoolRow[] {
 }
 
 function toApplicantRow(application: Application, candidate: CandidateProfile, job?: JobPost): DepartmentApplicantPoolRow {
+  const contactAccess = getDepartmentContactAccessState(candidate.id, CURRENT_DEPARTMENT.accountStatus);
+
   return {
     ...application,
     candidate,
@@ -114,7 +131,9 @@ function toApplicantRow(application: Application, candidate: CandidateProfile, j
     statusTone: getStatusTone(application.status),
     jobLabel: job?.title ?? application.jobTitle,
     locationLabel: `${candidate.city}, ${candidate.state}`,
-    profileSummary: getProfileSummary(candidate)
+    profileSummary: getProfileSummary(candidate),
+    detailHref: getDepartmentApplicationHref(application.jobPostId, application.id),
+    contactAccess
   };
 }
 

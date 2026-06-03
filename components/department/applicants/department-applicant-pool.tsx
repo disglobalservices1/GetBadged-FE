@@ -306,7 +306,7 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
                 <td className="whitespace-nowrap px-4 py-4 align-top text-slate-700">{row.submittedAtLabel}</td>
                 <td className="px-4 py-4 text-right align-top">
                   <div className="flex justify-end gap-2">
-                    <Button href={`/department/applicant-pools/${row.id}`} variant="secondary" className="min-h-10 px-3">
+                    <Button href={row.detailHref} variant="secondary" className="min-h-10 px-3">
                       Review
                     </Button>
                     <Button
@@ -477,7 +477,7 @@ function buildCsv(rows: DepartmentApplicantPoolRow[]) {
     "Profile Summary"
   ];
   const body = rows.map((row) => {
-    const contactHidden = shouldHideContact(row.status);
+    const contactHidden = row.contactAccess.isContactHidden;
 
     return [
       row.id,
@@ -496,10 +496,6 @@ function buildCsv(rows: DepartmentApplicantPoolRow[]) {
   });
 
   return [headings, ...body].map((row) => row.map(escapeCsvValue).join(",")).join("\n");
-}
-
-function shouldHideContact(status: string) {
-  return status === "inactive_membership" || status === "no_longer_meets_requirements";
 }
 
 function escapeCsvValue(value: string) {

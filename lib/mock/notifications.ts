@@ -8,7 +8,7 @@ export const mockNotifications: Notification[] = [
     type: "direct_application_received",
     title: "New direct application",
     body: "A candidate applied to Entry Level Police Officer (New Recruit).",
-    linkHref: "/department/applicant-pools/application_1",
+    linkHref: "/department/applicant-pools/job_1/applications/application_1",
     createdAt: "2026-05-15T10:00:00.000Z"
   },
   {
@@ -28,7 +28,7 @@ export const mockNotifications: Notification[] = [
     type: "badge_accepted",
     title: "Badge Request accepted",
     body: "Avery Cole accepted Westview's Badge Request for Lateral Police Officer.",
-    linkHref: "/department/applicant-pools/application_2",
+    linkHref: "/department/applicant-pools/job_2/applications/application_2",
     readAt: "2026-05-14T17:00:00.000Z",
     createdAt: "2026-05-14T16:20:00.000Z"
   },

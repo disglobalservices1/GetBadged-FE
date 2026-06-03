@@ -26,7 +26,7 @@ export const mockDepartmentDashboard = {
       title: "New direct application received",
       detail: "Jordan Smith applied to Entry Level Police Officer (New Recruit).",
       occurredAtLabel: "May 15, 2026",
-      href: "/department/applicant-pools/application_1"
+      href: "/department/applicant-pools/job_1/applications/application_1"
     },
     {
       id: "department_activity_2",
@@ -34,7 +34,7 @@ export const mockDepartmentDashboard = {
       title: "Badge accepted",
       detail: "Avery Cole accepted a Badge Request for Lateral Police Officer.",
       occurredAtLabel: "May 14, 2026",
-      href: "/department/applicant-pools/application_2"
+      href: "/department/applicant-pools/job_2/applications/application_2"
     },
     {
       id: "department_activity_3",
