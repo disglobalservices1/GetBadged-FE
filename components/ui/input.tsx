@@ -1,6 +1,6 @@
 "use client";
 
-import type { InputEvent, InputHTMLAttributes } from "react";
+import type { ChangeEvent, InputEvent, InputHTMLAttributes } from "react";
 import { cn } from "@/lib/utils/cn";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -33,6 +33,7 @@ export function Input({ label, error, format, className, id, onInput, ...props }
   const inputId = id ?? props.name ?? label?.toLowerCase().replace(/\s+/g, "-");
   const errorId = error ? `${inputId}-error` : undefined;
   const describedBy = [props["aria-describedby"], errorId].filter(Boolean).join(" ") || undefined;
+  const { onChange, type, ...restProps } = props;
 
   function handleInput(event: InputEvent<HTMLInputElement>) {
     if (format === "phone") {
@@ -40,6 +41,17 @@ export function Input({ label, error, format, className, id, onInput, ...props }
     }
 
     onInput?.(event);
+  }
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    onChange?.(event);
+
+    if (type === "date") {
+      const input = event.currentTarget;
+      window.setTimeout(() => {
+        input.blur();
+      }, 0);
+    }
   }
 
   return (
@@ -52,10 +64,12 @@ export function Input({ label, error, format, className, id, onInput, ...props }
           error && "border-[color:var(--danger)] focus:border-[color:var(--danger)]",
           className
         )}
-        {...props}
+        {...restProps}
+        type={type}
         aria-invalid={Boolean(error)}
         aria-describedby={describedBy}
         onInput={handleInput}
+        onChange={handleChange}
       />
       {error ? (
         <span id={errorId} className="text-xs font-medium text-[color:var(--danger)]">

@@ -5,6 +5,7 @@ import {
   mockDepartmentApplicationPrivateFiles
 } from "@/lib/mock/applications";
 import { mockCandidateProfiles } from "@/lib/mock/candidates";
+import { mockCandidateExamRegistrations, mockCandidateExamScores, mockExamSittings } from "@/lib/mock/exams";
 import { mockJobPosts } from "@/lib/mock/jobs";
 import { mockDepartments } from "@/lib/mock/departments";
 import { getDepartmentContactAccessState, type DepartmentContactAccessState } from "@/features/department/applicants/contact-visibility";
@@ -15,16 +16,44 @@ import type { JobPost } from "@/types/job";
 export type DepartmentApplicantPoolRow = Application & {
   candidate: CandidateProfile;
   candidateName: string;
+  candidateLastName: string;
   submittedAtLabel: string;
   viewedAtLabel: string;
   sourceLabel: string;
   statusLabel: string;
   statusTone: "navy" | "success" | "warning" | "danger" | "muted";
+  membershipStatusLabel: string;
+  membershipStatusTone: "navy" | "success" | "warning" | "danger" | "muted";
   jobLabel: string;
   locationLabel: string;
   profileSummary: string;
   detailHref: string;
   contactAccess: DepartmentContactAccessState;
+  departmentNotesCount: number;
+  examScoreLabel: string;
+  examScoreValue: number | null;
+  examDateLabel: string;
+  cityLabel: string;
+  zipCodeLabel: string;
+  phoneLabel: string;
+  emailLabel: string;
+  ageLabel: string;
+  ageValue: number | null;
+  citizenshipLabel: string;
+  driversLicenseLabel: string;
+  educationLabel: string;
+  multilingualLabel: string;
+  veteranLabel: string;
+  priorPoliceLabel: string;
+  priorPublicSafetyLabel: string;
+  fullTimeAcademyLabel: string;
+  academyTypeLabel: string;
+  credentialsLabel: string;
+  postCertifiedLabel: string;
+  volunteerLabel: string;
+  cadetAcademyLabel: string;
+  civilServiceLabel: string;
+  ltcEligibilityLabel: string;
 };
 
 export type DepartmentApplicantDocument = {
@@ -39,6 +68,7 @@ export type DepartmentApplicantPoolViewModel = {
   departmentName: string;
   jobs: { id: string; label: string }[];
   rows: DepartmentApplicantPoolRow[];
+  initialJobFilter: string;
   stats: {
     total: number;
     newApplicants: number;
@@ -60,8 +90,9 @@ export type DepartmentApplicationDetailViewModel = {
 
 const CURRENT_DEPARTMENT_ID = "department_1";
 const CURRENT_DEPARTMENT = mockDepartments.find((item) => item.id === CURRENT_DEPARTMENT_ID) ?? mockDepartments[0];
+const REFERENCE_DATE = new Date("2026-06-03T00:00:00.000Z");
 
-export function getMockDepartmentApplicantPool(): DepartmentApplicantPoolViewModel {
+export function getMockDepartmentApplicantPool({ initialJobFilter = "all" }: { initialJobFilter?: string } = {}): DepartmentApplicantPoolViewModel {
   const rows = getRows();
   const departmentJobs = mockJobPosts
     .filter((job) => job.departmentId === CURRENT_DEPARTMENT_ID)
@@ -72,6 +103,7 @@ export function getMockDepartmentApplicantPool(): DepartmentApplicantPoolViewMod
     departmentName: "Westview Police Department",
     jobs: [{ id: "all", label: "All jobs" }, ...departmentJobs],
     rows,
+    initialJobFilter,
     stats: {
       total: rows.length,
       newApplicants: rows.filter((row) => row.isNewForDepartment).length,
@@ -119,21 +151,54 @@ function getRows(): DepartmentApplicantPoolRow[] {
 
 function toApplicantRow(application: Application, candidate: CandidateProfile, job?: JobPost): DepartmentApplicantPoolRow {
   const contactAccess = getDepartmentContactAccessState(candidate.id, CURRENT_DEPARTMENT.accountStatus);
+  const examScore = mockCandidateExamScores.find((item) => item.candidateProfileId === candidate.id);
+  const examRegistration = mockCandidateExamRegistrations.find((item) => item.candidateProfileId === candidate.id);
+  const examSitting = mockExamSittings.find((item) => item.id === (examScore?.examSittingId ?? examRegistration?.examSittingId));
+  const notesCount = mockDepartmentApplicationNotes.filter((note) => note.applicationId === application.id).length;
+  const ageValue = getAge(candidate.dateOfBirth);
 
   return {
     ...application,
     candidate,
     candidateName: `${candidate.firstName} ${candidate.lastName}`,
+    candidateLastName: candidate.lastName,
     submittedAtLabel: formatDate(application.submittedAt),
     viewedAtLabel: application.viewedAt ? formatDate(application.viewedAt) : "New",
     sourceLabel: application.source === "accepted_badge" ? "Accepted Badge" : "Direct application",
     statusLabel: formatStatus(application.status),
     statusTone: getStatusTone(application.status),
+    membershipStatusLabel: formatStatus(candidate.membershipStatus),
+    membershipStatusTone: getMembershipTone(candidate.membershipStatus),
     jobLabel: job?.title ?? application.jobTitle,
     locationLabel: `${candidate.city}, ${candidate.state}`,
     profileSummary: getProfileSummary(candidate),
     detailHref: getDepartmentApplicationHref(application.jobPostId, application.id),
-    contactAccess
+    contactAccess,
+    departmentNotesCount: notesCount,
+    examScoreLabel: examScore ? `${examScore.scorePercent.toFixed(2)}%` : "—",
+    examScoreValue: examScore?.scorePercent ?? null,
+    examDateLabel: examSitting ? formatDate(examSitting.examDate) : "—",
+    cityLabel: candidate.city,
+    zipCodeLabel: candidate.zipCode,
+    phoneLabel: candidate.phone,
+    emailLabel: candidate.email,
+    ageLabel: ageValue === null ? "—" : `${ageValue}`,
+    ageValue,
+    citizenshipLabel: formatBooleanState(candidate.isUsCitizen, "U.S. Citizen"),
+    driversLicenseLabel: formatBooleanState(candidate.hasValidDriversLicense, "Valid"),
+    educationLabel: candidate.highestEducation ?? "—",
+    multilingualLabel: candidate.isMultilingual ? "Yes" : "No",
+    veteranLabel: candidate.hasMilitaryService ? (candidate.isQualifiedVeteran ? "Qualified veteran" : "Veteran") : "No",
+    priorPoliceLabel: candidate.hasPriorPoliceEmployment ? "Yes" : "No",
+    priorPublicSafetyLabel: candidate.hasPriorPublicSafetyExperience ? "Yes" : "No",
+    fullTimeAcademyLabel: candidate.hasCompletedFullTimeAcademy ? "Yes" : "No",
+    academyTypeLabel: candidate.academyType ?? "—",
+    credentialsLabel: candidate.credentials.length > 0 ? candidate.credentials.map((value) => value.toUpperCase()).join(", ") : "—",
+    postCertifiedLabel: candidate.track === "CXO" ? (candidate.hasActivePostCertification ? "Yes" : "No") : "—",
+    volunteerLabel: candidate.hasVolunteerExperience ? "Yes" : "No",
+    cadetAcademyLabel: candidate.hasCadetOrCitizensAcademy ? "Yes" : "No",
+    civilServiceLabel: candidate.civilServiceExamStatus ?? "—",
+    ltcEligibilityLabel: formatLtcEligibility(candidate.ltcEligibility)
   };
 }
 
@@ -202,10 +267,43 @@ function getStatusTone(status: string): DepartmentApplicantPoolRow["statusTone"]
   return "muted";
 }
 
+function getMembershipTone(status: CandidateProfile["membershipStatus"]): DepartmentApplicantPoolRow["membershipStatusTone"] {
+  if (status === "active") return "success";
+  if (status === "expired" || status === "inactive" || status === "cancelled") return "danger";
+  if (status === "paused") return "warning";
+  return "muted";
+}
+
 function formatDate(value: string) {
   const date = new Date(value);
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getUTCMonth()];
   return `${month} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+}
+
+function getAge(dateOfBirth: string) {
+  if (!dateOfBirth) return null;
+
+  const birthDate = new Date(dateOfBirth);
+  if (Number.isNaN(birthDate.getTime())) return null;
+
+  let age = REFERENCE_DATE.getUTCFullYear() - birthDate.getUTCFullYear();
+  const hasNotHadBirthdayYet =
+    REFERENCE_DATE.getUTCMonth() < birthDate.getUTCMonth() ||
+    (REFERENCE_DATE.getUTCMonth() === birthDate.getUTCMonth() && REFERENCE_DATE.getUTCDate() < birthDate.getUTCDate());
+
+  if (hasNotHadBirthdayYet) age -= 1;
+  return age;
+}
+
+function formatBooleanState(value: boolean | null | undefined, yesLabel = "Yes") {
+  if (value == null) return "—";
+  return value ? yesLabel : "No";
+}
+
+function formatLtcEligibility(value: CandidateProfile["ltcEligibility"]) {
+  if (!value) return "—";
+  if (value === "eligible") return "Eligible";
+  return "Restrictions may apply";
 }
 
 function slugify(value: string) {
