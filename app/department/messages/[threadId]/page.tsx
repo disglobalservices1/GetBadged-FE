@@ -8,5 +8,5 @@ type DepartmentMessageThreadPageProps = {
 export default async function DepartmentMessageThreadPage({ params }: DepartmentMessageThreadPageProps) {
   const { threadId } = await params;
 
-  return <DepartmentMessageThreadView model={getMockDepartmentMessageThread(threadId)} />;
+  return <DepartmentMessageThreadView threadId={threadId} initialModel={getMockDepartmentMessageThread(threadId)} />;
 }
