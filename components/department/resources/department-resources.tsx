@@ -3,13 +3,7 @@
 import { CalendarDays, ChevronRight, CircleHelp, FileText } from "lucide-react";
 import { PageHeader } from "@/components/common/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-type DepartmentResourcesModel = Array<{
-  id: string;
-  label: string;
-  detail: string;
-  href: string;
-}>;
+import type { DepartmentResourceCard } from "@/features/department/resources/get-mock-department-resources";
 
 const iconById = {
   "elr-exam-schedule": CalendarDays,
@@ -17,7 +11,7 @@ const iconById = {
   "department-hiring-guide": FileText
 } as const;
 
-export function DepartmentResources({ resources }: { resources: DepartmentResourcesModel }) {
+export function DepartmentResources({ resources }: { resources: DepartmentResourceCard[] }) {
   return (
     <div className="grid gap-6">
       <PageHeader

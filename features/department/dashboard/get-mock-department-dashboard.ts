@@ -6,6 +6,7 @@ import { mockJobPosts } from "@/lib/mock/jobs";
 import { mockMessageThreads } from "@/lib/mock/messages";
 import { mockNotifications } from "@/lib/mock/notifications";
 import { getMockDepartmentApplicantPool } from "@/features/department/applicants/get-mock-department-applicant-pool";
+import { getMockDepartmentResources } from "@/features/department/resources/get-mock-department-resources";
 import type { UserRole } from "@/types/auth";
 
 const tierLabels = {
@@ -194,7 +195,7 @@ export function getMockDepartmentDashboard(roleOverride: Extract<UserRole, "depa
     })),
     applicantActivity: mockDepartmentDashboard.applicantActivity,
     recentActivity: mockDepartmentDashboard.recentActivity,
-    resourceCenter: mockDepartmentDashboard.resourceCenter,
+    resourceCenter: getMockDepartmentResources(),
     applicantPoolSnapshots: mockDepartmentDashboard.applicantPoolSnapshots,
     badgePoolPreview: mockDepartmentDashboard.badgePoolPreview,
     quickActions: mockDepartmentDashboard.quickActions,
