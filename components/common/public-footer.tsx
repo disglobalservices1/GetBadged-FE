@@ -1,3 +1,4 @@
+import { Shield } from "lucide-react";
 import { PublicFooterColumns } from "@/components/public/public-navigation";
 import { publicSocialLinks } from "@/features/public/marketing-content";
 
@@ -7,7 +8,7 @@ export function PublicFooter() {
       <div className="mx-auto grid max-w-[1180px] gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1.2fr_3fr_auto] lg:px-8">
         <div>
           <a href="/" className="flex items-center gap-3">
-            <img src="/images/getbadged-mark.png" alt="" className="h-9 w-9 object-contain" />
+            <BrandMark />
             <span className="text-[26px] font-black tracking-[-0.04em] text-white">GetBadged</span>
           </a>
           <p className="mt-4 max-w-[220px] text-[13px] leading-6 text-white/70">
@@ -39,6 +40,15 @@ export function PublicFooter() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function BrandMark() {
+  return (
+    <span className="relative flex h-10 w-10 shrink-0 items-center justify-center text-[color:var(--gold)]">
+      <Shield className="absolute h-full w-full stroke-[1.8]" />
+      <span className="relative text-[17px] font-black leading-none">GB</span>
+    </span>
   );
 }
 

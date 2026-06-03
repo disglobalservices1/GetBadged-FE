@@ -226,24 +226,10 @@ export const homeFinalCta = {
   departmentCta: publicActionLinks.departmentSignup
 };
 
-export const homeJobsPreviewSection = {
-  eyebrow: "Browse Jobs",
-  title: "See active public-safety openings before you sign in.",
-  body: "Home-page job previews should only show active public postings with public-safe requirements, department context, and clear routes into job details.",
-  cta: publicActionLinks.browseJobs
-};
-
-export const homeDepartmentsPreviewSection = {
-  eyebrow: "Browse Departments",
-  title: "Compare approved departments that are hiring through GetBadged.",
-  body: "Public department previews should surface approved profile summaries, community fit, hiring timelines, and links to available jobs.",
-  cta: publicActionLinks.browseDepartments
-};
-
 export const homeStatsSection = {
   eyebrow: "Public Snapshot",
-  title: "Configured stats that explain how the platform works.",
-  body: "These are mock public metrics today and can move to GB Admin-managed CMS content later."
+  title: "A quick look at how GetBadged works.",
+  body: "Three candidate pathways, a Massachusetts launch, and a consent-based privacy model shape the public experience."
 };
 
 export const homeAnnouncementsSection = {
@@ -312,18 +298,8 @@ export const publicWorkflowSteps = [
 export const publicTrustCards = [
   {
     title: "Privacy-first Badge Pool",
-    body: "Name, phone, street address, ethnicity, age/date of birth, gender, last 4 SSN, and application history stay hidden before consent.",
+    body: "Before consent, protected candidate details stay private, including name, phone number, address, date of birth, gender, ethnicity, and application history.",
     icon: ShieldCheck
-  },
-  {
-    title: "Structured application records",
-    body: "Full applications include profile, documents, essays, cover letters, notes, status history, and change logs where permitted.",
-    icon: FileText
-  },
-  {
-    title: "Clear communication",
-    body: "Notifications, message history, and status updates keep candidates and departments aligned inside GetBadged.",
-    icon: MessageSquare
   }
 ];
 
