@@ -6,7 +6,7 @@ import { Bell, ChevronDown, CircleHelp, LogOut, Mail, PanelLeftClose, PanelLeftO
 import { AppShellNav, type AppShellNavRole } from "./app-shell-nav";
 import { DepartmentTopNav } from "./department-top-nav";
 import { Logo } from "./logo";
-import { getMockSession } from "@/lib/auth/mock-session";
+import { getCurrentMockRole, getMockSession } from "@/lib/auth/mock-session";
 import { getMockCandidateDashboard } from "@/features/candidate/dashboard/get-mock-candidate-dashboard";
 import { cn } from "@/lib/utils/cn";
 
@@ -24,7 +24,11 @@ const sidebarCollapsedStorageKeyByRole: Record<AppShellNavRole, string> = {
 };
 
 export function AppShell({ roleLabel, navRole, candidateProfileId, children }: AppShellProps) {
-  const session = getMockSession(navRole === "department" ? "department_admin" : navRole === "candidate" ? "candidate" : "gb_admin");
+  const [departmentRole, setDepartmentRole] = useState<"department_admin" | "department_user">("department_admin");
+  const session = getMockSession(
+    navRole === "department" ? departmentRole : navRole === "candidate" ? "candidate" : "gb_admin",
+    navRole === "department" ? ["department_admin", "department_user"] : navRole === "candidate" ? ["candidate"] : ["gb_admin"]
+  );
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const [hasLoadedSidebarPreference, setHasLoadedSidebarPreference] = useState(false);
@@ -46,6 +50,15 @@ export function AppShell({ roleLabel, navRole, candidateProfileId, children }: A
       candidateLastNameParts.join(" ") || session.user.lastName
     );
   }, [candidateDashboard?.fullName, navRole, session.user.firstName, session.user.lastName]);
+
+  useEffect(() => {
+    if (navRole === "department") {
+      const nextRole = getCurrentMockRole(["department_admin", "department_user"]);
+      if (nextRole === "department_admin" || nextRole === "department_user") {
+        setDepartmentRole(nextRole);
+      }
+    }
+  }, [navRole]);
 
   useEffect(() => {
     setIsSidebarCollapsed(localStorage.getItem(sidebarStorageKey) === "true");

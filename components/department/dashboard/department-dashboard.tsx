@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   CalendarDays,
   ChevronRight,
@@ -17,6 +20,7 @@ import { RestrictedState } from "@/components/common/restricted-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMockDepartmentDashboard } from "@/features/department/dashboard/get-mock-department-dashboard";
+import { getCurrentMockRole } from "@/lib/auth/mock-session";
 import { cn } from "@/lib/utils/cn";
 
 type Dashboard = ReturnType<typeof getMockDepartmentDashboard>;
@@ -768,12 +772,20 @@ function RecentActivitySummary({ dashboard }: { dashboard: Dashboard }) {
 }
 
 export function DepartmentDashboard() {
-  const dashboard = getMockDepartmentDashboard();
+  const [departmentRole, setDepartmentRole] = useState<"department_admin" | "department_user">("department_admin");
+  const dashboard = getMockDepartmentDashboard(departmentRole);
   const membershipStatusLabel = toStartCase(dashboard.membershipStatus);
   const accountStatusLabel = toStartCase(dashboard.accountStatusLabel);
   const isMembershipActive = dashboard.membershipStatus.toLowerCase() === "active";
   const isAccountActive = dashboard.accountStatusLabel.toLowerCase() === "active";
   const isAccountPending = dashboard.accountStatusLabel.toLowerCase() === "pending approval";
+
+  useEffect(() => {
+    const nextRole = getCurrentMockRole(["department_admin", "department_user"]);
+    if (nextRole === "department_admin" || nextRole === "department_user") {
+      setDepartmentRole(nextRole);
+    }
+  }, []);
 
   return (
     <div className="grid gap-5">

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { mockRoleCookieName } from "@/lib/auth/mock-session";
 
 const roleOptions = [
   { label: "Candidate (ELR)", value: "candidate" },
@@ -58,6 +59,7 @@ export function LoginForm() {
     }
 
     persistMockCandidateProfile(form.role);
+    persistMockRole(form.role);
     window.location.href = getMockLoginRedirect(form.role);
   }
 
@@ -121,7 +123,7 @@ export function LoginForm() {
   );
 }
 
-function persistMockCandidateProfile(role: LoginFormState["role"]) {
+  function persistMockCandidateProfile(role: LoginFormState["role"]) {
   const candidateProfileId = getMockCandidateProfileIdForLogin(role);
 
   if (!candidateProfileId) {
@@ -130,4 +132,9 @@ function persistMockCandidateProfile(role: LoginFormState["role"]) {
   }
 
   document.cookie = `${mockCandidateProfileCookieName}=${candidateProfileId}; path=/; max-age=2592000; SameSite=Lax`;
+}
+
+function persistMockRole(role: LoginFormState["role"]) {
+  const sessionRole = role === "candidate_cxo" ? "candidate" : role;
+  document.cookie = `${mockRoleCookieName}=${sessionRole}; path=/; max-age=2592000; SameSite=Lax`;
 }

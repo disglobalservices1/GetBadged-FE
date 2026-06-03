@@ -1,13 +1,5 @@
-import { CreditCard } from "lucide-react";
-import { DepartmentFeaturePlaceholder } from "@/components/department/department-feature-placeholder";
+import { DepartmentBilling } from "@/components/department/billing/department-billing";
 
 export default function DepartmentMembershipBillingPage() {
-  return (
-    <DepartmentFeaturePlaceholder
-      eyebrow="Manage"
-      title="Billing"
-      description="Review department membership billing, payment status, and badge credit usage."
-      icon={<CreditCard className="h-10 w-10" />}
-    />
-  );
+  return <DepartmentBilling />;
 }

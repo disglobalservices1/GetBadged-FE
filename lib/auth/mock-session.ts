@@ -11,13 +11,39 @@ export const mockSession: MockSession = {
   isAuthenticated: true
 };
 
-export function getMockSession(role?: UserRole): MockSession {
-  const user = role ? mockUsers.find((item) => item.role === role) : mockSession.user;
+export const mockRoleCookieName = "gb.mockRole";
+
+export function getMockSession(defaultRole?: UserRole, allowedRoles?: UserRole[]): MockSession {
+  const currentRole = getCurrentMockRole(allowedRoles);
+  const resolvedRole = currentRole ?? defaultRole;
+  const user = resolvedRole ? mockUsers.find((item) => item.role === resolvedRole) : mockSession.user;
 
   return {
     user: user ?? mockSession.user,
     isAuthenticated: true
   };
+}
+
+export function getCurrentMockRole(allowedRoles?: UserRole[]) {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  const roleValue = getCookieValue(mockRoleCookieName);
+  if (!roleValue) {
+    return null;
+  }
+
+  const matchingUser = mockUsers.find((item) => item.role === roleValue);
+  if (!matchingUser) {
+    return null;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(matchingUser.role)) {
+    return null;
+  }
+
+  return matchingUser.role;
 }
 
 export function getDashboardHrefForRole(role: UserRole) {
@@ -36,4 +62,12 @@ export function getDashboardHrefForRole(role: UserRole) {
 
 export function canAccessRole(userRole: UserRole, allowedRoles: UserRole[]) {
   return allowedRoles.includes(userRole);
+}
+
+function getCookieValue(name: string) {
+  const match = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith(`${name}=`));
+
+  return match ? decodeURIComponent(match.split("=").slice(1).join("=")) : null;
 }

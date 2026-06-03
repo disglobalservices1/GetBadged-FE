@@ -6,6 +6,7 @@ import { mockJobPosts } from "@/lib/mock/jobs";
 import { mockMessageThreads } from "@/lib/mock/messages";
 import { mockNotifications } from "@/lib/mock/notifications";
 import { getMockDepartmentApplicantPool } from "@/features/department/applicants/get-mock-department-applicant-pool";
+import type { UserRole } from "@/types/auth";
 
 const tierLabels = {
   small: "Small Department",
@@ -37,7 +38,7 @@ function getDaysUntil(value: string) {
   return Math.ceil((target.getTime() - now.getTime()) / millisecondsPerDay);
 }
 
-export function getMockDepartmentDashboard() {
+export function getMockDepartmentDashboard(roleOverride: Extract<UserRole, "department_admin" | "department_user"> = "department_admin") {
   const department = mockDepartments.find((item) => item.id === mockDepartmentDashboard.departmentId) ?? mockDepartments[0];
   const isPendingApproval = department.accountStatus === "pending_approval";
   const departmentJobs = mockJobPosts.filter((job) => job.departmentId === department.id);
@@ -88,8 +89,8 @@ export function getMockDepartmentDashboard() {
 
   return {
     department,
-    adminName: mockDepartmentDashboard.adminName,
-    adminRoleLabel: mockDepartmentDashboard.adminRoleLabel,
+    adminName: roleOverride === "department_admin" ? "Angela Wilson" : "Taylor Kim",
+    adminRoleLabel: roleOverride === "department_admin" ? "Department Admin" : "Department User",
     departmentName: department.departmentName,
     location: `${department.city}, ${department.state}`,
     memberSinceLabel: formatShortDate(mockDepartmentDashboard.memberSince),
