@@ -1,11 +1,11 @@
 import { mockBadgePoolCandidates } from "@/lib/mock/badgePool";
+import { mockDepartmentDashboard } from "@/lib/mock/departmentDashboard";
 import { mockDepartments } from "@/lib/mock/departments";
 import { mockJobPosts } from "@/lib/mock/jobs";
 import type { BadgePoolCandidate } from "@/types/badge";
 import type { CandidateCredential, CandidateTrack } from "@/types/candidate";
+import type { AccountStatus } from "@/types/auth";
 import type { JobPost, JobType } from "@/types/job";
-
-const departmentId = "department_1";
 
 export type DepartmentBadgePoolCandidate = BadgePoolCandidate & {
   anonymousLabel: string;
@@ -16,6 +16,11 @@ export type DepartmentBadgePoolViewModel = {
   department: {
     id: string;
     name: string;
+    accountStatus: AccountStatus;
+    accountStatusLabel: string;
+    tier: "small" | "medium" | "large" | "xl" | "custom";
+    tierLabel: string;
+    isPremiumEligible: boolean;
     badgeCreditsRemaining: number;
     badgeCreditsSent: number;
   };
@@ -31,14 +36,21 @@ export type DepartmentBadgePoolViewModel = {
 };
 
 export function getMockDepartmentBadgePool(): DepartmentBadgePoolViewModel {
+  const departmentId = mockDepartmentDashboard.departmentId;
   const department = mockDepartments.find((item) => item.id === departmentId) ?? mockDepartments[0];
   const activeJobs = mockJobPosts.filter((job) => job.departmentId === department.id && job.status === "active");
   const jobTypes = Array.from(new Set(activeJobs.map((job) => job.jobType)));
+  const isPremiumEligible = department.tier !== "small";
 
   return {
     department: {
       id: department.id,
       name: department.departmentName,
+      accountStatus: department.accountStatus,
+      accountStatusLabel: toStartCase(department.accountStatus),
+      tier: department.tier,
+      tierLabel: tierLabels[department.tier],
+      isPremiumEligible,
       badgeCreditsRemaining: department.badgeCreditsRemaining,
       badgeCreditsSent: department.badgeCreditsSent
     },
@@ -76,6 +88,14 @@ export function getMockDepartmentBadgePool(): DepartmentBadgePoolViewModel {
   };
 }
 
+const tierLabels = {
+  small: "Starter tier",
+  medium: "Professional tier",
+  large: "Professional tier",
+  xl: "Enterprise tier",
+  custom: "Custom tier"
+} as const;
+
 function getQualificationCount(candidate: BadgePoolCandidate) {
   return [
     candidate.isWillingToRelocate,
@@ -90,6 +110,12 @@ function getQualificationCount(candidate: BadgePoolCandidate) {
     candidate.examScorePercent !== undefined,
     candidate.credentials.length > 0
   ].filter(Boolean).length;
+}
+
+function toStartCase(value: string) {
+  return value
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 export function formatJobType(jobType: JobType) {

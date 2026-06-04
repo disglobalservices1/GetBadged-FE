@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BadgeCheck, CheckCircle2, EyeOff, Filter, Send, ShieldCheck, TicketCheck, X } from "lucide-react";
+import { getCurrentMockRole } from "@/lib/auth/mock-session";
 import { PageHeader } from "@/components/common/page-header";
 import { StatCard } from "@/components/common/stat-card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Select } from "@/components/ui/select";
 import { StatusChip } from "@/components/ui/status-chip";
 import { Table } from "@/components/ui/table";
 import { getMockDepartmentBadgePool, formatJobType, type DepartmentBadgePoolCandidate, type DepartmentBadgePoolViewModel } from "@/features/department/badge-pool/get-mock-department-badge-pool";
+import { cn } from "@/lib/utils/cn";
 import type { CandidateCredential, CandidateTrack } from "@/types/candidate";
 import type { JobType } from "@/types/job";
 
@@ -167,10 +169,63 @@ export function DepartmentBadgePool({ model }: { model: DepartmentBadgePoolViewM
   const [sentCandidateIds, setSentCandidateIds] = useState<string[]>([]);
   const [selectedCandidate, setSelectedCandidate] = useState<DepartmentBadgePoolCandidate | null>(null);
   const [feedback, setFeedback] = useState("");
+  const [departmentRole, setDepartmentRole] = useState<"department_admin" | "department_user">("department_admin");
+  const isDepartmentUser = departmentRole === "department_user";
+
+  useEffect(() => {
+    const nextRole = getCurrentMockRole(["department_admin", "department_user"]);
+    if (nextRole === "department_admin" || nextRole === "department_user") {
+      setDepartmentRole(nextRole);
+    }
+  }, []);
 
   const filteredCandidates = useMemo(() => model.candidates.filter((candidate) => candidateMatches(candidate, filters)), [filters, model.candidates]);
   const remainingCredits = Math.max(model.department.badgeCreditsRemaining - sentCandidateIds.length, 0);
   const sentCount = model.department.badgeCreditsSent + sentCandidateIds.length;
+  const isExpired = model.department.accountStatus === "expired";
+  const isPendingApproval = model.department.accountStatus === "pending_approval";
+  const isActive = model.department.accountStatus === "active";
+  const lowCreditWarning = remainingCredits === 2;
+  const zeroCredits = remainingCredits === 0;
+  const hasActiveJobs = model.activeJobs.length > 0;
+  const canSendBadges =
+    !isDepartmentUser &&
+    model.department.isPremiumEligible &&
+    isActive &&
+    remainingCredits > 0 &&
+    hasActiveJobs;
+
+  const accessMessage = isDepartmentUser
+    ? "Department User can review anonymous Badge Pool candidates, but only Department Admin can send Badge Requests."
+    : !model.department.isPremiumEligible
+      ? `${model.department.tierLabel} does not include Badge Request sending. Upgrade to a premium department tier to send Badges.`
+      : isExpired
+        ? "Membership expired. You can still review Badge Pool candidates, but sending stays disabled until membership is renewed."
+        : isPendingApproval
+          ? "Department approval is still pending. Badge Pool preview is available, but Badge Requests stay locked until approval is complete."
+          : zeroCredits
+            ? "No badge credits remain. Add credits to resume Badge Pool outreach."
+            : lowCreditWarning
+              ? "Only 2 badge credits remain. Add credits soon to avoid interrupting Badge Pool outreach."
+              : !hasActiveJobs
+                ? "Create or reactivate at least one job post before sending Badge Requests."
+                : "Active premium departments can send Badge Requests tied to specific job posts.";
+
+  const accessTone = isDepartmentUser || !model.department.isPremiumEligible || isPendingApproval || zeroCredits
+    ? "warning"
+    : isExpired
+      ? "danger"
+      : lowCreditWarning
+        ? "warning"
+        : "success";
+
+  const accessAction = isExpired
+    ? { label: "Renew Membership", href: "/department/billing" }
+    : !model.department.isPremiumEligible || zeroCredits || lowCreditWarning
+      ? { label: "Manage Billing", href: "/department/billing" }
+      : !hasActiveJobs
+        ? { label: "Manage Job Posts", href: "/department/jobs" }
+        : null;
 
   function updateFilter<K extends keyof FilterState>(field: K, value: FilterState[K]) {
     setFilters((current) => ({ ...current, [field]: value }));
@@ -181,7 +236,7 @@ export function DepartmentBadgePool({ model }: { model: DepartmentBadgePoolViewM
   }
 
   function sendBadgeRequest(jobPostId: string) {
-    if (!selectedCandidate || !jobPostId || remainingCredits < 1) return;
+    if (!selectedCandidate || !jobPostId || !canSendBadges) return;
 
     setSentCandidateIds((current) => [...current, selectedCandidate.id]);
     setFeedback(`Badge Request sent to ${selectedCandidate.anonymousLabel}. Candidate details remain private until acceptance.`);
@@ -206,6 +261,39 @@ export function DepartmentBadgePool({ model }: { model: DepartmentBadgePoolViewM
         <StatCard icon={<BadgeCheck className="h-5 w-5" />} label="Visible Candidates" value={filteredCandidates.length} detail={`${model.candidates.length} total safe pool records`} />
         <StatCard icon={<ShieldCheck className="h-5 w-5" />} label="Privacy Guard" value="On" detail="Protected candidate fields are hidden." />
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Badge Pool access</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <div
+            className={cn(
+              "rounded-xl border px-4 py-3",
+              accessTone === "danger" && "border-rose-200 bg-rose-50 text-rose-700",
+              accessTone === "warning" && "border-amber-200 bg-amber-50 text-amber-800",
+              accessTone === "success" && "border-green-200 bg-green-50 text-[color:var(--success)]"
+            )}
+          >
+            <div className="flex flex-wrap items-center gap-3">
+              <StatusChip label={model.department.accountStatusLabel} tone={isExpired ? "danger" : isPendingApproval ? "warning" : "success"} />
+              <StatusChip label={model.department.tierLabel} tone="navy" />
+              <StatusChip label={isDepartmentUser ? "Department User" : "Department Admin"} tone="muted" />
+            </div>
+            <p className="mt-3 text-sm font-bold">{accessMessage}</p>
+            {isExpired ? (
+              <p className="mt-2 text-sm font-semibold">Candidates cannot accept Badge Requests from an expired department, even if their membership is active.</p>
+            ) : null}
+          </div>
+          {accessAction ? (
+            <div className="flex flex-wrap gap-3">
+              <Button href={accessAction.href} variant="secondary">
+                {accessAction.label}
+              </Button>
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
 
       {feedback ? (
         <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-sm font-semibold text-[color:var(--success)]">{feedback}</div>
@@ -272,7 +360,22 @@ export function DepartmentBadgePool({ model }: { model: DepartmentBadgePoolViewM
           <tbody>
             {filteredCandidates.map((candidate) => {
               const alreadySent = candidate.alreadyBadgedByDepartment || sentCandidateIds.includes(candidate.id);
-              const canSend = !alreadySent && remainingCredits > 0;
+              const canSend = !alreadySent && canSendBadges;
+              const actionLabel = alreadySent
+                ? "Sent"
+                : isDepartmentUser
+                  ? "View only"
+                  : !model.department.isPremiumEligible
+                    ? "Upgrade required"
+                    : isExpired
+                      ? "Renew to send"
+                      : isPendingApproval
+                        ? "Pending approval"
+                        : zeroCredits
+                          ? "No credits"
+                          : !hasActiveJobs
+                            ? "No active job"
+                            : "Send";
 
               return (
                 <tr key={candidate.id} className="border-t border-[color:var(--border-muted)]">
@@ -307,7 +410,7 @@ export function DepartmentBadgePool({ model }: { model: DepartmentBadgePoolViewM
                       disabled={!canSend}
                       onClick={() => setSelectedCandidate(candidate)}
                     >
-                      {alreadySent ? "Sent" : "Send"}
+                      {actionLabel}
                     </Button>
                   </td>
                 </tr>
