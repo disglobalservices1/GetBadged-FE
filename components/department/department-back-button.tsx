@@ -47,7 +47,6 @@ function getBackTarget(pathname: string): BackTarget | null {
   }
 
   if (
-    /^\/department\/applicant-pools\/[^/]+\/applications\/[^/]+$/.test(pathname) ||
     /^\/department\/applicant-pools\/[^/]+$/.test(pathname) ||
     /^\/department\/applicants\/[^/]+$/.test(pathname)
   ) {

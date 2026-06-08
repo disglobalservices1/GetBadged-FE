@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Archive, ArrowUpDown, ClipboardList, Download, FileText, RotateCcw, Search, UsersRound, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { EmptyState } from "@/components/common/empty-state";
 import { PageHeader } from "@/components/common/page-header";
 import { StatCard } from "@/components/common/stat-card";
@@ -78,6 +79,7 @@ const statusUpdateOptions = [
 ];
 
 export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantPoolViewModel }) {
+  const router = useRouter();
   const [rows, setRows] = useState(model.rows);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [jobFilter, setJobFilter] = useState(model.initialJobFilter ?? "all");
@@ -317,7 +319,7 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
             value={archiveFilter}
             onChange={(event) => setArchiveFilter(event.target.value as ArchiveFilter)}
             options={[
-              { label: "Active only", value: "active" },
+              { label: "Unarchived only", value: "active" },
               { label: "Archived only", value: "archived" },
               { label: "All records", value: "all" }
             ]}
@@ -409,13 +411,13 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
                 <SortableHeader label="Job / Position" column="jobLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
               </th>
               <th className="w-[150px] px-4 py-3">
-                <SortableHeader label="Source" column="sourceLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
+                <SortableHeader label="Application Source" column="sourceLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
               </th>
               <th className="w-[220px] px-4 py-3">
-                <SortableHeader label="Status" column="statusLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
+                <SortableHeader label="Application Status" column="statusLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
               </th>
               <th className="w-[170px] px-4 py-3">
-                <SortableHeader label="Membership" column="membershipStatusLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
+                <SortableHeader label="Membership Status" column="membershipStatusLabel" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
               </th>
               <th className="w-[130px] px-4 py-3">
                 <SortableHeader label="Exam Score" column="examScore" sortColumn={sortColumn} sortDirection={sortDirection} onSort={toggleSort} />
@@ -494,7 +496,15 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
           </thead>
           <tbody>
             {filteredRows.map((row) => (
-              <tr key={row.id} className="border-t border-[color:var(--border-muted)]">
+              <tr
+                key={row.id}
+                className="cursor-pointer border-t border-[color:var(--border-muted)] transition hover:bg-slate-50/70"
+                onClick={(event) => {
+                  const target = event.target as HTMLElement;
+                  if (target.closest("button, a, input, select, label")) return;
+                  router.push(row.detailHref);
+                }}
+              >
                 <td className="px-4 py-4 align-top">
                   <input
                     type="checkbox"
@@ -523,7 +533,6 @@ export function DepartmentApplicantPool({ model }: { model: DepartmentApplicantP
                       {row.archivedAt ? <StatusChip label="Archived" tone="muted" /> : null}
                     </div>
                     <p className="text-xs font-semibold text-[color:var(--muted)]">{row.locationLabel}</p>
-                    <p className="line-clamp-2 text-xs leading-5 text-[color:var(--muted)]">{row.profileSummary}</p>
                   </div>
                 </td>
                 <td className="px-4 py-4 align-top">

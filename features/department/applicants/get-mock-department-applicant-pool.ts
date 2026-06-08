@@ -60,6 +60,7 @@ export type DepartmentApplicantDocument = {
   id: string;
   label: string;
   fileName: string;
+  fileUrl: string;
   status: "received" | "missing" | "review_needed";
 };
 
@@ -221,12 +222,14 @@ function getApplicationDocuments(application: DepartmentApplicantPoolRow): Depar
       id: `${application.id}_resume`,
       label: "Resume",
       fileName: `${slugify(application.candidateName)}-resume.pdf`,
+      fileUrl: `/mock/application-documents/${slugify(application.candidateName)}-resume.pdf`,
       status: "received"
     },
     {
       id: `${application.id}_profile`,
       label: "Candidate profile package",
       fileName: `${slugify(application.candidateName)}-profile.pdf`,
+      fileUrl: `/mock/application-documents/${slugify(application.candidateName)}-profile.pdf`,
       status: "received"
     }
   ];
@@ -236,6 +239,7 @@ function getApplicationDocuments(application: DepartmentApplicantPoolRow): Depar
       id: `${application.id}_post`,
       label: "POST certificate",
       fileName: `${slugify(application.candidateName)}-post-certificate.pdf`,
+      fileUrl: `/mock/application-documents/${slugify(application.candidateName)}-post-certificate.pdf`,
       status: "received"
     });
   }
@@ -245,6 +249,7 @@ function getApplicationDocuments(application: DepartmentApplicantPoolRow): Depar
       id: `${application.id}_exam`,
       label: "Entry exam score",
       fileName: `${slugify(application.candidateName)}-entry-exam.pdf`,
+      fileUrl: `/mock/application-documents/${slugify(application.candidateName)}-entry-exam.pdf`,
       status: application.status === "inactive_membership" ? "review_needed" : "received"
     });
   }
